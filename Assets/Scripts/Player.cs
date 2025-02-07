@@ -9,6 +9,12 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 horizontalBounds;
     [SerializeField] private Vector2 horizontalWrapBounds;
 
+    [SerializeField] private Transform laserPrefab;
+    [SerializeField] private Transform muzzlePoint;
+
+    [SerializeField] private float fireRate;
+    private float nextAllowedFireTime;
+
     void Start()
     {
         transform.position = Vector3.zero;
@@ -16,11 +22,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        Move();
-        ClampMovement();
+        ProcessMovement();
+        ProcessFiring();
     }
 
-    private void Move()
+    private void ProcessMovement()
     {
         //This method only captures the last axis. It will not capture both left and right at the same time (which creates a stalemate).
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -36,10 +42,7 @@ public class Player : MonoBehaviour
         //    transform.Translate(Vector3.up * Time.deltaTime * speed);
         //if (Input.GetKey(KeyCode.S))
         //    transform.Translate(-Vector3.up * Time.deltaTime * speed);
-    }
 
-    private void ClampMovement()
-    {
         if (!wrapHorizontalMovement)
         {
             transform.position = new Vector3(
@@ -59,5 +62,17 @@ public class Player : MonoBehaviour
             transform.position.x,
             Mathf.Clamp(transform.position.y, verticalBounds.x, verticalBounds.y),
             0.0f);
+    }
+
+    private void ProcessFiring()
+    {
+        if (Time.time < nextAllowedFireTime) return;
+
+        if (!Input.GetButton("Fire1")) return;
+
+        nextAllowedFireTime = Time.time + fireRate;
+
+        if (laserPrefab == null) return;
+        Instantiate(laserPrefab, muzzlePoint.position, Quaternion.identity);
     }
 }
