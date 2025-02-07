@@ -39,6 +39,7 @@ public class SpawnManager : MonoBehaviour
             Instantiate(prefab, new Vector3(randomX, randomY, 0f), Quaternion.identity, enemyContainer);
         }
     }
+
     public void StartSpawning()
     {
         StartCoroutine(Spawn());

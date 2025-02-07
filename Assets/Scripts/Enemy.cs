@@ -5,7 +5,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
-    [SerializeField] private float lowerBounds;
+    [SerializeField] private float lowerOutOfBounds;
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(-Vector3.up * Time.deltaTime * speed);
 
-        if(transform.position.y < lowerBounds)
+        if(transform.position.y < lowerOutOfBounds)
             Spawn();
     }
 
@@ -27,12 +27,12 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector3(randomX, randomY, transform.position.z);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
             var player = other.GetComponent<Player>();
-            if(player != null)
+            if (player != null)
                 player.Damage();
 
             Destroy(gameObject);
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
         else if (other.CompareTag("Laser"))
         {
             var laser = other.GetComponent<Laser>();
-            if(laser != null)
+            if (laser != null)
                 laser.Damage();
 
             Destroy(gameObject);
