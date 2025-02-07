@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
         if (lives <= 0)
         {
             Debug.Log("Game Over!");
+            SpawnManager.Instance.StopSpawning();
             Destroy(gameObject);
         }
     }
