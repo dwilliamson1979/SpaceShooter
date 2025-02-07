@@ -25,4 +25,9 @@ public class Laser : MonoBehaviour
         //if(timeAlive >= lifetime)
         //    Destroy(gameObject);
     }
+
+    public void Damage()
+    {
+        Destroy(gameObject);
+    }
 }

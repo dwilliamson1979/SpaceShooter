@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int speed;
+    [SerializeField] private int lives;
+    [SerializeField] private float speed;
 
     [SerializeField] private bool wrapHorizontalMovement;
     [SerializeField] private Vector2 verticalBounds;
@@ -74,5 +75,16 @@ public class Player : MonoBehaviour
 
         if (laserPrefab == null) return;
         Instantiate(laserPrefab, muzzlePoint.position, Quaternion.identity);
+    }
+
+    public void Damage()
+    {
+        lives--;
+
+        if (lives <= 0)
+        {
+            Debug.Log("Game Over!");
+            Destroy(gameObject);
+        }
     }
 }
