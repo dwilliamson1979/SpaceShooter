@@ -356,6 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 702f83b640ac35243a823b05d8c12b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyPool:
+    collectionChecks: 1
+    <DefaultCapacity>k__BackingField: 10
+    maxCapacity: 1000
+    poolType: 0
+    prefab: {fileID: -3285484151445173464, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
+    parent: {fileID: 1206496761}
   prefab: {fileID: 8302613959317381086, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
   enemyContainer: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
@@ -642,7 +649,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1206496761}
   m_Layer: 0
-  m_Name: EnemyContainer
+  m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

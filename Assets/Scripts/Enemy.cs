@@ -1,11 +1,14 @@
+using com.dhcc.pool;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IPoolObject
 {
     [SerializeField] private float speed;
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
+
+    private IPool pool;
 
     void Start()
     {
@@ -35,7 +38,7 @@ public class Enemy : MonoBehaviour
             if (player != null)
                 player.Damage();
 
-            Destroy(gameObject);
+            Die();
         }
         else if (other.CompareTag("Laser"))
         {
@@ -43,7 +46,33 @@ public class Enemy : MonoBehaviour
             if (laser != null)
                 laser.Damage();
 
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        //TODO Death effects.
+        pool.Release(this);
+    }
+
+    public void PoolCreate(IPool pool)
+    {
+        this.pool = pool;
+    }
+
+    public void CheckOut()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void CheckIn()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void PoolDestroy()
+    {
+        
     }
 }
