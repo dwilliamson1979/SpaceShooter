@@ -16,7 +16,7 @@ public class Laser : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.up * (Time.deltaTime * speed));
+        transform.Translate(Time.deltaTime * speed * Vector3.up);
 
         if(transform.position.y > upperOutOfBounds)
             Destroy(gameObject);

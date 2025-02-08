@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(direction * (Time.deltaTime * speed));
+        transform.Translate(Time.deltaTime * speed * direction);
 
         //if (Input.GetKey(KeyCode.D))
         //    transform.Translate(Vector3.right * Time.deltaTime * speed);
@@ -71,11 +71,7 @@ public class Player : MonoBehaviour
 
     private void ProcessFiring()
     {
-        //TODO Consider moving the if statements outside of the method. Research method call time consumption.
-        //TODO Consider combining the if statements with the button check first.
-        if (Time.time < nextAllowedFireTime) return;
-
-        if (!Input.GetButton("Fire1")) return;
+        if (Time.time < nextAllowedFireTime || !Input.GetButton("Fire1")) return;
 
         nextAllowedFireTime = Time.time + fireRate;
 

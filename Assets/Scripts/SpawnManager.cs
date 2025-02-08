@@ -29,8 +29,7 @@ public class SpawnManager : MonoBehaviour
 
     private IEnumerator Spawn()
     {
-        //TODO Research how Unity handles var. Possibly unnecessary overhead?
-        var wfs = new WaitForSeconds(spawnInterval);
+        WaitForSeconds wfs = new WaitForSeconds(spawnInterval);
         while(true)
         {
             yield return wfs;
