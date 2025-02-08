@@ -13,7 +13,8 @@ namespace com.dhcc.pool
         protected override T OnCreateObject()
         {
             var obj = new T();
-            obj.PoolCreate(this);
+            obj.PoolCreate();
+            obj.OnReleaseToPool += Release;
             return obj;
         }
     }

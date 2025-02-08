@@ -4,11 +4,11 @@ using UnityEngine.Pool;
 namespace com.dhcc.pool
 {
     [System.Serializable]
-    public abstract class BasePool<T> : IPool where T : class, IPoolObject
+    public abstract class BasePool<T> where T : class, IPoolObject
     {
         [Header("Settings")]
         [SerializeField] private bool collectionChecks = true;
-        [field: SerializeField] public int DefaultCapacity { get; private set; } = 10;
+        [SerializeField] private int DefaultCapacity = 10;
         [SerializeField] private int maxCapacity = 1000;
         [SerializeField] private EPoolType poolType;
 
@@ -47,12 +47,12 @@ namespace com.dhcc.pool
 
         protected virtual void OnGetObject(T obj)
         {
-            obj.CheckOut();
+            obj.PoolGet();
         }
 
         protected virtual void OnReleaseObject(T obj)
         {
-            obj.CheckIn();
+            obj.PoolRelease();
         }
 
         protected virtual void OnDestroyObject(T obj)

@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
 
-    private IPool pool;
+    public event System.Action<IPoolObject> OnReleaseToPool;
 
     void Start()
     {
@@ -53,20 +53,21 @@ public class Enemy : MonoBehaviour, IPoolObject
     private void Die()
     {
         //TODO Death effects.
-        pool.Release(this);
+        //pool.Release(this);
+        OnReleaseToPool?.Invoke(this);
     }
 
-    public void PoolCreate(IPool pool)
+    public void PoolCreate()
     {
-        this.pool = pool;
+
     }
 
-    public void CheckOut()
+    public void PoolGet()
     {
         gameObject.SetActive(true);
     }
 
-    public void CheckIn()
+    public void PoolRelease()
     {
         gameObject.SetActive(false);
     }

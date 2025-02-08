@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,11 @@ namespace com.dhcc.pool
 {
     public interface IPoolObject
     {
-        void PoolCreate(IPool pool);
-        void CheckOut();
-        void CheckIn();
+        event Action<IPoolObject> OnReleaseToPool;
+
+        void PoolCreate();
+        void PoolGet();
+        void PoolRelease();
         void PoolDestroy();
     }
 }

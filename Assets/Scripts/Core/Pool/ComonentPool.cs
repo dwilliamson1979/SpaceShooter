@@ -16,7 +16,8 @@ namespace com.dhcc.pool
         protected override T OnCreateObject()
         {
             T obj = GameObject.Instantiate(prefab, parent);
-            obj.PoolCreate(this);
+            obj.PoolCreate();
+            obj.OnReleaseToPool += Release;
             return obj;
         }
 
