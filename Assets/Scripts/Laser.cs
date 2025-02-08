@@ -6,8 +6,8 @@ public class Laser : MonoBehaviour
 
     [SerializeField] private float upperOutOfBounds;
 
-    [SerializeField] private float lifetime;
-    private float timeAlive;
+    //[SerializeField] private float lifetime;
+    //private float timeAlive;
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class Laser : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(Vector3.up * Time.deltaTime * speed);
+        transform.Translate(Vector3.up * (Time.deltaTime * speed));
 
         if(transform.position.y > upperOutOfBounds)
             Destroy(gameObject);

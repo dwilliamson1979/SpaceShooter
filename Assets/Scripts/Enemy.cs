@@ -9,18 +9,18 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        Spawn();
+        MoveToRandomStartPos();
     }
 
     void Update()
     {
-        transform.Translate(-Vector3.up * Time.deltaTime * speed);
+        transform.Translate(-Vector3.up * (Time.deltaTime * speed));
 
         if(transform.position.y < lowerOutOfBounds)
-            Spawn();
+            MoveToRandomStartPos();
     }
 
-    private void Spawn()
+    private void MoveToRandomStartPos()
     {
         float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
         float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);

@@ -695,7 +695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lives: 2
   speed: 10
-  wrapHorizontalMovement: 1
+  wrapHorizontalMovement: 0
   verticalBounds: {x: -3.5, y: 0}
   horizontalBounds: {x: -9, y: 9}
   horizontalWrapBounds: {x: -11.5, y: 11.5}

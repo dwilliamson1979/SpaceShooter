@@ -14,7 +14,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform muzzlePoint;
 
     [SerializeField] private float fireRate;
+
     private float nextAllowedFireTime;
+    private float horizontalInput;
+    private float verticalInput;
+    private Vector3 direction;
 
     void Start()
     {
@@ -30,10 +34,10 @@ public class Player : MonoBehaviour
     private void ProcessMovement()
     {
         //This method only captures the last axis. It will not capture both left and right at the same time (which creates a stalemate).
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(direction * Time.deltaTime * speed);
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        direction = new Vector3(horizontalInput, verticalInput, 0);
+        transform.Translate(direction * (Time.deltaTime * speed));
 
         //if (Input.GetKey(KeyCode.D))
         //    transform.Translate(Vector3.right * Time.deltaTime * speed);
@@ -67,6 +71,8 @@ public class Player : MonoBehaviour
 
     private void ProcessFiring()
     {
+        //TODO Consider moving the if statements outside of the method. Research method call time consumption.
+        //TODO Consider combining the if statements with the button check first.
         if (Time.time < nextAllowedFireTime) return;
 
         if (!Input.GetButton("Fire1")) return;
