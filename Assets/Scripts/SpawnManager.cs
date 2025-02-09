@@ -5,6 +5,8 @@ using com.dhcc.pool;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private ComponentPool<Enemy> enemyPool;
+    [SerializeField] private Transform tripleShotPickupPrefab;
+    [SerializeField] private Transform container;
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float spawnInterval;
@@ -27,7 +29,7 @@ public class SpawnManager : MonoBehaviour
         StartSpawning();
     }
 
-    private IEnumerator Spawn()
+    private IEnumerator SpawnEnemyRoutine()
     {
         WaitForSeconds wfs = new WaitForSeconds(spawnInterval);
         while(true)
@@ -42,9 +44,22 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    private IEnumerator SpawnPowerupRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(3f, 8f));
+
+            float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
+            float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
+            Instantiate(tripleShotPickupPrefab, new Vector3(randomX, randomY, 0f), Quaternion.identity, container);
+        }
+    }
+
     public void StartSpawning()
     {
-        StartCoroutine(Spawn());
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerupRoutine());
     }
 
     public void StopSpawning()

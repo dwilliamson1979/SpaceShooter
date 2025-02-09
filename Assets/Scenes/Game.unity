@@ -250,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 682742603}
   - component: {fileID: 682742604}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,13 +358,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPool:
     collectionChecks: 1
-    <DefaultCapacity>k__BackingField: 10
+    DefaultCapacity: 10
     maxCapacity: 1000
     poolType: 0
     prefab: {fileID: -3285484151445173464, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
     parent: {fileID: 1206496761}
-  prefab: {fileID: 8302613959317381086, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
-  enemyContainer: {fileID: 1206496761}
+  tripleShotPickupPrefab: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+  container: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
   spawnInterval: 2
@@ -617,7 +617,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1168458226}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -681,7 +681,7 @@ GameObject:
   - component: {fileID: 2009745644}
   - component: {fileID: 2009745643}
   - component: {fileID: 2009745645}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -707,8 +707,10 @@ MonoBehaviour:
   horizontalBounds: {x: -9, y: 9}
   horizontalWrapBounds: {x: -11.5, y: 11.5}
   laserPrefab: {fileID: 8876681821322855171, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
+  tripleLaserPrefab: {fileID: 8025879950158281362, guid: 68eb92f1bd3a4a140a6fce8d39b2f241, type: 3}
   muzzlePoint: {fileID: 1168458226}
   fireRate: 0.4
+  hasTripleShot: 0
 --- !u!4 &2009745644
 Transform:
   m_ObjectHideFlags: 0
@@ -772,6 +774,71 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.79555327, y: 1.8995655}
   m_EdgeRadius: 0
+--- !u!1001 &8054756232884887300
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2047148413163732039, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2047148413163732039, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1447051737
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225950389338190027, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+      propertyPath: m_Name
+      value: TripleShotPickup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -781,3 +848,4 @@ SceneRoots:
   - {fileID: 203844589}
   - {fileID: 762310954}
   - {fileID: 2009745644}
+  - {fileID: 8054756232884887300}

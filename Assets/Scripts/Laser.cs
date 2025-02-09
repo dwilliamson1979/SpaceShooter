@@ -18,8 +18,8 @@ public class Laser : MonoBehaviour
     {
         transform.Translate(Time.deltaTime * speed * Vector3.up);
 
-        if(transform.position.y > upperOutOfBounds)
-            Destroy(gameObject);
+        if (transform.position.y > upperOutOfBounds)
+            Kill();
 
         //timeAlive += Time.deltaTime;
         //if(timeAlive >= lifetime)
@@ -28,6 +28,14 @@ public class Laser : MonoBehaviour
 
     public void Damage()
     {
+        Kill();
+    }
+
+    private void Kill()
+    {
+        //if(transform.parent != null)
+        //    Destroy(transform.parent.gameObject);
+
         Destroy(gameObject);
     }
 }

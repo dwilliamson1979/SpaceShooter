@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 horizontalWrapBounds;
 
     [SerializeField] private Transform laserPrefab;
+    [SerializeField] private Transform tripleLaserPrefab;
     [SerializeField] private Transform muzzlePoint;
 
     [SerializeField] private float fireRate;
@@ -19,6 +21,9 @@ public class Player : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private Vector3 direction;
+
+    private bool hasTripleShot;
+    Coroutine tripleShotRoutine;
 
     void Start()
     {
@@ -75,8 +80,16 @@ public class Player : MonoBehaviour
 
         nextAllowedFireTime = Time.time + fireRate;
 
-        if (laserPrefab == null) return;
-        Instantiate(laserPrefab, muzzlePoint.position, Quaternion.identity);
+        if(hasTripleShot)
+        {
+            if (tripleLaserPrefab != null)
+                Instantiate(tripleLaserPrefab, muzzlePoint.position, Quaternion.identity);
+        }
+        else
+        {
+            if (laserPrefab != null)
+                Instantiate(laserPrefab, muzzlePoint.position, Quaternion.identity);
+        }       
     }
 
     public void Damage()
@@ -89,5 +102,21 @@ public class Player : MonoBehaviour
             SpawnManager.Instance.StopSpawning();
             Destroy(gameObject);
         }
+    }
+
+    public void ActivateTripleShot()
+    {
+        hasTripleShot = true;
+
+        if(tripleShotRoutine != null)
+            StopCoroutine(tripleShotRoutine);
+
+        tripleShotRoutine = StartCoroutine(TripleShotStopRoutine());
+    }
+
+    private IEnumerator TripleShotStopRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        hasTripleShot = false;
     }
 }
