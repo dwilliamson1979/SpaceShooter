@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 
     private float currentSpeed;
 
+    [SerializeField] private GameObject shieldSprite;
     private bool hasShield;
 
     void Start()
@@ -105,7 +106,6 @@ public class Player : MonoBehaviour
     {
         if(hasShield)
         {
-            Debug.Log("Attack deflected!");
             DeactivateShield();
             return;
         }
@@ -157,18 +157,12 @@ public class Player : MonoBehaviour
     public void ActivateShield()
     {
         hasShield = true;
-
-        //hasSpeedBoost = true;
-        //currentSpeed = speedBoostModifier * speed + speed;
-
-        //if (speedBoostRoutine != null)
-        //    StopCoroutine(speedBoostRoutine);
-
-        //speedBoostRoutine = StartCoroutine(SpeedBoostRoutine());
+        shieldSprite.SetActive(true);
     }
 
     private void DeactivateShield()
     {
         hasShield = false;
+        shieldSprite.SetActive(false);
     }
 }
