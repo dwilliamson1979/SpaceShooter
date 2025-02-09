@@ -34,10 +34,13 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject shieldSprite;
     private bool hasShield;
 
+    private int score;
+
     void Start()
     {
         transform.position = Vector3.zero;
         currentSpeed = speed;
+        UIManager.Instance.UpdateLives(lives);
     }
 
     void Update()
@@ -111,11 +114,13 @@ public class Player : MonoBehaviour
         }
 
         lives--;
+        UIManager.Instance.UpdateLives(lives);
 
         if (lives <= 0)
         {
-            Debug.Log("Game Over!");
+            UIManager.Instance.GameOver();
             SpawnManager.Instance.StopSpawning();
+            GameManager.Instance.GameOver();
             Destroy(gameObject);
         }
     }
@@ -164,5 +169,11 @@ public class Player : MonoBehaviour
     {
         hasShield = false;
         shieldSprite.SetActive(false);
+    }
+
+    public void AddPoints(int amount)
+    {
+        score += amount;
+        UIManager.Instance.UpdateScore(score);
     }
 }

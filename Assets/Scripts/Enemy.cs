@@ -10,8 +10,11 @@ public class Enemy : MonoBehaviour, IPoolObject
 
     public event System.Action<IPoolObject> OnReleaseToPool;
 
+    private Player player;
+
     void Start()
     {
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
         MoveToRandomStartPos();
     }
 
@@ -45,6 +48,9 @@ public class Enemy : MonoBehaviour, IPoolObject
             var laser = other.GetComponent<Laser>();
             if (laser != null)
                 laser.Damage();
+
+            if (player != null)
+                player.AddPoints(10);
 
             Die();
         }
