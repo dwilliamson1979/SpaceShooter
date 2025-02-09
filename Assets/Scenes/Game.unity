@@ -364,8 +364,9 @@ MonoBehaviour:
     prefab: {fileID: -3285484151445173464, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
     parent: {fileID: 1206496761}
   powerupPrefabs:
-  - {fileID: 8494655246050883912, guid: 693bc3b5f8463ee42a6fc8848eddd77c, type: 3}
-  - {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
   container: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}

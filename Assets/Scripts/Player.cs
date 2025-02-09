@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
     private float currentSpeed;
 
+    private bool hasShield;
+
     void Start()
     {
         transform.position = Vector3.zero;
@@ -101,6 +103,13 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if(hasShield)
+        {
+            Debug.Log("Attack deflected!");
+            DeactivateShield();
+            return;
+        }
+
         lives--;
 
         if (lives <= 0)
@@ -143,5 +152,23 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
         hasSpeedBoost = false;
         currentSpeed = speed;
+    }
+
+    public void ActivateShield()
+    {
+        hasShield = true;
+
+        //hasSpeedBoost = true;
+        //currentSpeed = speedBoostModifier * speed + speed;
+
+        //if (speedBoostRoutine != null)
+        //    StopCoroutine(speedBoostRoutine);
+
+        //speedBoostRoutine = StartCoroutine(SpeedBoostRoutine());
+    }
+
+    private void DeactivateShield()
+    {
+        hasShield = false;
     }
 }
