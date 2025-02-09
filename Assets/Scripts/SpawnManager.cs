@@ -5,7 +5,7 @@ using com.dhcc.pool;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private ComponentPool<Enemy> enemyPool;
-    [SerializeField] private Transform tripleShotPickupPrefab;
+    [SerializeField] private Transform[] powerupPrefabs;
     [SerializeField] private Transform container;
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
 
             float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
             float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
-            Instantiate(tripleShotPickupPrefab, new Vector3(randomX, randomY, 0f), Quaternion.identity, container);
+            Instantiate(powerupPrefabs[Random.Range(0, powerupPrefabs.Length)], new Vector3(randomX, randomY, 0f), Quaternion.identity, container);
         }
     }
 

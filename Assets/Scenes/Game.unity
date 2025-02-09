@@ -363,7 +363,9 @@ MonoBehaviour:
     poolType: 0
     prefab: {fileID: -3285484151445173464, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
     parent: {fileID: 1206496761}
-  tripleShotPickupPrefab: {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
+  powerupPrefabs:
+  - {fileID: 8494655246050883912, guid: 693bc3b5f8463ee42a6fc8848eddd77c, type: 3}
+  - {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
   container: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
@@ -710,7 +712,7 @@ MonoBehaviour:
   tripleLaserPrefab: {fileID: 8025879950158281362, guid: 68eb92f1bd3a4a140a6fce8d39b2f241, type: 3}
   muzzlePoint: {fileID: 1168458226}
   fireRate: 0.4
-  speedBoostModifier: 0
+  speedBoostModifier: 0.5
 --- !u!4 &2009745644
 Transform:
   m_ObjectHideFlags: 0
