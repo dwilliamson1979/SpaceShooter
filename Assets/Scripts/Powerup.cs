@@ -1,7 +1,7 @@
 using com.dhcc.pool;
 using UnityEngine;
 
-public class TripleShotPickup : MonoBehaviour
+public abstract class Powerup : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private Vector2 spawnRangeX;
@@ -34,9 +34,11 @@ public class TripleShotPickup : MonoBehaviour
         {
             var player = other.GetComponent<Player>();
             if (player != null)
-                player.ActivateTripleShot();
+                Pickup(player);
 
             Destroy(gameObject);
         }
     }
+
+    protected abstract void Pickup(Player player);
 }

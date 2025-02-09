@@ -25,9 +25,16 @@ public class Player : MonoBehaviour
     private bool hasTripleShot;
     Coroutine tripleShotRoutine;
 
+    [SerializeField] private float speedBoostModifier;
+    private bool hasSpeedBoost;
+    Coroutine speedBoostRoutine;
+
+    private float currentSpeed;
+
     void Start()
     {
         transform.position = Vector3.zero;
+        currentSpeed = speed;
     }
 
     void Update()
@@ -42,7 +49,7 @@ public class Player : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(Time.deltaTime * speed * direction);
+        transform.Translate(Time.deltaTime * currentSpeed * direction);
 
         //if (Input.GetKey(KeyCode.D))
         //    transform.Translate(Vector3.right * Time.deltaTime * speed);
@@ -118,5 +125,23 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         hasTripleShot = false;
+    }
+
+    public void ActivateSpeedBoost()
+    {
+        hasSpeedBoost = true;
+        currentSpeed = speedBoostModifier * speed + speed;
+
+        if (speedBoostRoutine != null)
+            StopCoroutine(speedBoostRoutine);
+
+        speedBoostRoutine = StartCoroutine(SpeedBoostRoutine());
+    }
+
+    private IEnumerator SpeedBoostRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        hasSpeedBoost = false;
+        currentSpeed = speed;
     }
 }
