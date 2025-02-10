@@ -112,8 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  upperOutOfBounds: 7
-  lifetime: 3
+  outOfBounds: 7
 --- !u!1 &4024377199907636328
 GameObject:
   m_ObjectHideFlags: 0

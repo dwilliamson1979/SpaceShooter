@@ -1,4 +1,5 @@
 using com.dhcc.pool;
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour, IPoolObject
@@ -9,6 +10,13 @@ public class Enemy : MonoBehaviour, IPoolObject
     [SerializeField] private float lowerOutOfBounds;
     [SerializeField] private Animator animator;
     [SerializeField] private Collider2D myCollider;
+    [SerializeField] private Vector2 fireRateRange;
+    [SerializeField] private AudioClip laserAudio;
+    [SerializeField] private Transform laserPrefab;
+    [SerializeField] private Transform leftMuzzlePoint;
+    [SerializeField] private Transform rightMuzzlePoint;
+
+    private float nextFireTime;
 
     public event System.Action<IPoolObject> OnReleaseToPool;
 
@@ -29,14 +37,7 @@ public class Enemy : MonoBehaviour, IPoolObject
         myCollider.enabled = true;
         isDead = false;
         MoveToRandomStartPos();
-    }
-
-    void Update()
-    {
-        transform.Translate(Time.deltaTime * speed * -Vector3.up);
-
-        if(!isDead && transform.position.y < lowerOutOfBounds)
-            MoveToRandomStartPos();
+        StartCoroutine(FireRoutine());
     }
 
     private void MoveToRandomStartPos()
@@ -44,6 +45,32 @@ public class Enemy : MonoBehaviour, IPoolObject
         float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
         float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
         transform.position = new Vector3(randomX, randomY, transform.position.z);
+    }
+
+    void Update()
+    {
+        ProcessMovement();
+    }
+
+    private void ProcessMovement()
+    {
+        transform.Translate(Time.deltaTime * speed * -Vector3.up);
+
+        if(!isDead && transform.position.y < lowerOutOfBounds)
+            MoveToRandomStartPos();
+    }
+
+    private IEnumerator FireRoutine()
+    {
+        float nextFire = 0;
+        while (true)
+        {
+            nextFire = Random.Range(fireRateRange.x, fireRateRange.y);
+            yield return new WaitForSeconds(nextFire);
+            Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+            Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            AudioManager.Instance.PlaySoundFx(laserAudio);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -75,6 +102,7 @@ public class Enemy : MonoBehaviour, IPoolObject
         myCollider.enabled = false;
         animator.SetTrigger("OnDeath");
         AudioManager.Instance.PlaySoundFx(explosionAudio);
+        StopAllCoroutines();
     }
 
     public void DeathAnimationComplete()

@@ -101,12 +101,12 @@ public class Player : MonoBehaviour
         if(hasTripleShot)
         {
             if (tripleLaserPrefab != null)
-                Instantiate(tripleLaserPrefab, muzzlePoint.position, Quaternion.identity);
+                Instantiate(tripleLaserPrefab, muzzlePoint.position, muzzlePoint.rotation);
         }
         else
         {
             if (laserPrefab != null)
-                Instantiate(laserPrefab, muzzlePoint.position, Quaternion.identity);
+                Instantiate(laserPrefab, muzzlePoint.position, muzzlePoint.rotation);
         }
 
         AudioManager.Instance.PlaySoundFx(laserAudio);
