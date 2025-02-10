@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 326574339}
   - component: {fileID: 326574341}
   - component: {fileID: 326574340}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShieldSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 607869452}
   - component: {fileID: 607869453}
   - component: {fileID: 607869454}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightFireSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -723,6 +723,55 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1206496761}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &846263528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 846263530}
+  - component: {fileID: 846263529}
+  m_Layer: 0
+  m_Name: PostProcessing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &846263529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846263528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 585bab64cae3a7a45be9e4b2853fa0ed, type: 2}
+--- !u!4 &846263530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846263528}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &859799651
@@ -989,7 +1038,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1262,7 +1311,7 @@ GameObject:
   - component: {fileID: 1187037313}
   - component: {fileID: 1187037315}
   - component: {fileID: 1187037314}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ThrusterSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1769,7 +1818,7 @@ GameObject:
   - component: {fileID: 1822651889}
   - component: {fileID: 1822651890}
   - component: {fileID: 1822651891}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftFireSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2290,3 +2339,4 @@ SceneRoots:
   - {fileID: 1759760154}
   - {fileID: 412738446}
   - {fileID: 859799653}
+  - {fileID: 846263530}
