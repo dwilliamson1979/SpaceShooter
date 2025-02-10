@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     public event System.Action<IPoolObject> OnReleaseToPool;
 
     private Player player;
+    private bool isDead;
 
     void Start()
     {
@@ -24,7 +25,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     {
         transform.Translate(Time.deltaTime * speed * -Vector3.up);
 
-        if(transform.position.y < lowerOutOfBounds)
+        if(!isDead && transform.position.y < lowerOutOfBounds)
             MoveToRandomStartPos();
     }
 
@@ -60,8 +61,13 @@ public class Enemy : MonoBehaviour, IPoolObject
 
     private void Die()
     {
-        animator.SetTrigger("OnEnemyDeath");
+        isDead = true;
         myCollider.enabled = false;
+        animator.SetTrigger("OnDeath");
+    }
+
+    public void DeathAnimationComplete()
+    {
         OnReleaseToPool?.Invoke(this);
     }
 
@@ -73,8 +79,10 @@ public class Enemy : MonoBehaviour, IPoolObject
     public void PoolGet()
     {
         gameObject.SetActive(true);
-        animator.Play("ANIM_EnemyFly");
+        animator.SetTrigger("OnRespawn");
         myCollider.enabled = true;
+        isDead = false;
+        MoveToRandomStartPos();
     }
 
     public void PoolRelease()
