@@ -7,6 +7,7 @@ public abstract class Powerup : MonoBehaviour
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
+    [SerializeField] private AudioClip powerupAudio;
 
     void Start()
     {
@@ -36,7 +37,9 @@ public abstract class Powerup : MonoBehaviour
             if (player != null)
                 Pickup(player);
 
-            Destroy(gameObject);
+            AudioManager.Instance.PlaySoundFx(powerupAudio);
+            gameObject.SetActive(false);
+            Destroy(gameObject, 1f);
         }
     }
 

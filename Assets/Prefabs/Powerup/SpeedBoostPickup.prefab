@@ -114,6 +114,7 @@ MonoBehaviour:
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
   lowerOutOfBounds: -5.25
+  powerupAudio: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
 --- !u!1 &9165813815122306739
 GameObject:
   m_ObjectHideFlags: 0
