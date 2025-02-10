@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour, IPoolObject
     private Player player;
     private bool isDead;
 
+    [SerializeField] private AudioClip explosionAudio;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -72,6 +74,7 @@ public class Enemy : MonoBehaviour, IPoolObject
         isDead = true;
         myCollider.enabled = false;
         animator.SetTrigger("OnDeath");
+        AudioManager.Instance.PlaySoundFx(explosionAudio);
     }
 
     public void DeathAnimationComplete()

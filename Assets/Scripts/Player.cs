@@ -39,6 +39,8 @@ public class Player : MonoBehaviour
 
     private int score;
 
+    [SerializeField] private AudioClip laserAudio;
+
     void Start()
     {
         transform.position = Vector3.zero;
@@ -105,7 +107,9 @@ public class Player : MonoBehaviour
         {
             if (laserPrefab != null)
                 Instantiate(laserPrefab, muzzlePoint.position, Quaternion.identity);
-        }       
+        }
+
+        AudioManager.Instance.PlaySoundFx(laserAudio);
     }
 
     public void Damage()
