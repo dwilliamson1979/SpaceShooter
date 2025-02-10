@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour, IPoolObject
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
+    [SerializeField] private Animator animator;
+    [SerializeField] private Collider2D myCollider;
 
     public event System.Action<IPoolObject> OnReleaseToPool;
 
@@ -58,8 +60,8 @@ public class Enemy : MonoBehaviour, IPoolObject
 
     private void Die()
     {
-        //TODO Death effects.
-        //pool.Release(this);
+        animator.SetTrigger("OnEnemyDeath");
+        myCollider.enabled = false;
         OnReleaseToPool?.Invoke(this);
     }
 
@@ -71,6 +73,8 @@ public class Enemy : MonoBehaviour, IPoolObject
     public void PoolGet()
     {
         gameObject.SetActive(true);
+        animator.Play("ANIM_EnemyFly");
+        myCollider.enabled = true;
     }
 
     public void PoolRelease()
