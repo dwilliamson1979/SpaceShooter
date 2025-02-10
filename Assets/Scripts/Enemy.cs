@@ -18,6 +18,14 @@ public class Enemy : MonoBehaviour, IPoolObject
     void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        Reset();
+    }
+
+    private void Reset()
+    {
+        animator.SetTrigger("OnReset");
+        myCollider.enabled = true;
+        isDead = false;
         MoveToRandomStartPos();
     }
 
@@ -79,10 +87,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     public void PoolGet()
     {
         gameObject.SetActive(true);
-        animator.SetTrigger("OnRespawn");
-        myCollider.enabled = true;
-        isDead = false;
-        MoveToRandomStartPos();
+        Reset();
     }
 
     public void PoolRelease()

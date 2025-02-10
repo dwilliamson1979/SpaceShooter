@@ -26,7 +26,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
-        StartSpawning();
+        
     }
 
     private IEnumerator SpawnEnemyRoutine()
