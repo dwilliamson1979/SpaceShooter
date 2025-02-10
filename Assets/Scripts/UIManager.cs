@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private Sprite[] livesSprites;
     [SerializeField] private Image livesImage;
+
+    [SerializeField] private GameObject gameOverMenu;
     [SerializeField] private TMP_Text gameOverText;
     [SerializeField] private TMP_Text restartText;
 
@@ -41,7 +43,6 @@ public class UIManager : MonoBehaviour
 
     public void GameOver()
     {
-        gameOverText.gameObject.SetActive(true);
-        restartText.gameObject.SetActive(true);
+        gameOverMenu.SetActive(true);
     }
 }
