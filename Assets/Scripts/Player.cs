@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform tripleLaserPrefab;
     [SerializeField] private Transform muzzlePoint;
 
+    [SerializeField] private GameObject rightEngineFire;
+    [SerializeField] private GameObject leftEngineFire;
+
     [SerializeField] private float fireRate;
 
     private float nextAllowedFireTime;
@@ -114,6 +117,12 @@ public class Player : MonoBehaviour
         }
 
         lives--;
+
+        if (lives == 2)
+            rightEngineFire.SetActive(true);
+        else if (lives == 1)
+            leftEngineFire.SetActive(true);
+
         UIManager.Instance.UpdateLives(lives);
 
         if (lives <= 0)
