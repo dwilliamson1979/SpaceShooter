@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -17,10 +18,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform laserPrefab;
     [SerializeField] private Transform tripleLaserPrefab;
     [SerializeField] private Transform muzzlePoint;
-    [SerializeField] private GameObject rightEngineFire;
-    [SerializeField] private GameObject leftEngineFire;
+    [SerializeField] private GameObject damageEffect;
     [SerializeField] private GameObject shieldSprite;
     [SerializeField] private AudioClip laserAudio;
+    [SerializeField] private GameObject[] damagePoints;
 
     private float nextAllowedFireTime;
     private int score;
@@ -119,20 +120,30 @@ public class Player : MonoBehaviour
 
         lives--;
 
-        if (lives == 2)
-            rightEngineFire.SetActive(true);
-        else if (lives == 1)
-            leftEngineFire.SetActive(true);
+        if (lives > 0)
+            AddDamageVisual(); 
 
         UIManager.Instance.UpdateLives(lives);
 
         if (lives <= 0)
-        {
-            UIManager.Instance.GameOver();
-            SpawnManager.Instance.StopSpawning();
-            GameManager.Instance.GameOver();
-            Destroy(gameObject);
-        }
+            Die();
+    }
+
+    private void AddDamageVisual()
+    {
+        var pointsArray = damagePoints.Where(go => !go.activeSelf).ToArray();
+        var damagePoint = pointsArray[Random.Range(0, pointsArray.Length)];
+        damagePoint.SetActive(true);
+
+        Instantiate(damageEffect, damagePoint.transform.position, damagePoint.transform.rotation, transform);
+    }
+
+    private void Die()
+    {
+        UIManager.Instance.GameOver();
+        SpawnManager.Instance.StopSpawning();
+        GameManager.Instance.GameOver();
+        Destroy(gameObject);
     }
 
     public void ActivateTripleShot()
