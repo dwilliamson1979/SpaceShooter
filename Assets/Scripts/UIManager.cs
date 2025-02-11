@@ -6,13 +6,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [Header("References")]
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private Sprite[] livesSprites;
     [SerializeField] private Image livesImage;
-
     [SerializeField] private GameObject gameOverMenu;
-    [SerializeField] private TMP_Text gameOverText;
-    [SerializeField] private TMP_Text restartText;
 
     private void Awake()
     {

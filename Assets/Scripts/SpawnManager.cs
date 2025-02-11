@@ -4,14 +4,17 @@ using com.dhcc.pool;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] private ComponentPool<Enemy> enemyPool;
+    public static SpawnManager Instance;
+
+    [Header("References")]    
     [SerializeField] private Transform[] powerupPrefabs;
     [SerializeField] private Transform container;
+
+    [Header("Settings")]    
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float spawnInterval;
-
-    public static SpawnManager Instance;
+    [SerializeField] private ComponentPool<Enemy> enemyPool;
 
     private void Awake()
     {
@@ -22,11 +25,6 @@ public class SpawnManager : MonoBehaviour
         }
 
         Instance = this;
-    }
-
-    void Start()
-    {
-        
     }
 
     private IEnumerator SpawnEnemyRoutine()

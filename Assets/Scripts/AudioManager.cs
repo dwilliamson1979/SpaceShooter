@@ -4,6 +4,7 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
+    [Header("References")]
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioSource fxAudioSource;
 
@@ -18,9 +19,19 @@ public class AudioManager : MonoBehaviour
         Instance = this;
     }
 
+    public void PlayMusic(AudioClip clip, float volume = 1f, bool loop = true, ulong delay = 0)
+    {
+        if(musicAudioSource.isPlaying)
+            musicAudioSource.Stop();
+
+        musicAudioSource.clip = clip;
+        musicAudioSource.volume = volume;
+        musicAudioSource.loop = loop;
+        musicAudioSource.Play(delay);
+    }
+
     public void PlaySoundFx(AudioClip clip, float volume = 1f)
     {
-        //fxAudioSource.clip = clip;
         fxAudioSource.PlayOneShot(clip, volume);
     }
 }

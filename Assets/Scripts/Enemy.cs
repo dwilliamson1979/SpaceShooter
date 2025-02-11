@@ -4,26 +4,27 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IPoolObject
 {
+    [Header("Settings")]
     [SerializeField] private float speed;
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
-    [SerializeField] private Animator animator;
-    [SerializeField] private Collider2D myCollider;
     [SerializeField] private Vector2 fireRateRange;
+
+    [Header("References")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private Collider2D myCollider;    
     [SerializeField] private AudioClip laserAudio;
     [SerializeField] private Transform laserPrefab;
     [SerializeField] private Transform leftMuzzlePoint;
     [SerializeField] private Transform rightMuzzlePoint;
+    [SerializeField] private AudioClip explosionAudio;
 
     private float nextFireTime;
-
-    public event System.Action<IPoolObject> OnReleaseToPool;
-
     private Player player;
     private bool isDead;
 
-    [SerializeField] private AudioClip explosionAudio;
+    public event System.Action<IPoolObject> OnReleaseToPool;
 
     void Start()
     {
@@ -110,10 +111,7 @@ public class Enemy : MonoBehaviour, IPoolObject
         OnReleaseToPool?.Invoke(this);
     }
 
-    public void PoolCreate()
-    {
-
-    }
+    public void PoolCreate() { }
 
     public void PoolGet()
     {
@@ -126,8 +124,5 @@ public class Enemy : MonoBehaviour, IPoolObject
         gameObject.SetActive(false);
     }
 
-    public void PoolDestroy()
-    {
-        
-    }
+    public void PoolDestroy() { }
 }

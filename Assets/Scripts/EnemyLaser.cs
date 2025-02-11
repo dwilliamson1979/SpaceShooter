@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyLaser : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float speed;
-
     [SerializeField] private float outOfBounds;
 
     void Update()

@@ -3,10 +3,13 @@ using UnityEngine;
 
 public abstract class Powerup : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float speed;
     [SerializeField] private Vector2 spawnRangeX;
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
+
+    [Header("References")]
     [SerializeField] private AudioClip powerupAudio;
     [SerializeField] private Collider2D myCollider;
 

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private AudioClip explosionAudio;
 
     void Start()

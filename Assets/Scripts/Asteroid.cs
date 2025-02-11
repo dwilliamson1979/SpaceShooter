@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float rotationSpeed;
+
+    [Header("References")]
     [SerializeField] private GameObject explosionPrefab;
 
     void Update()
@@ -19,16 +22,9 @@ public class Asteroid : MonoBehaviour
             if (laser != null)
                 laser.Damage();
 
-            //animator.SetTrigger("OnExplode");
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             SpawnManager.Instance.StartSpawning();
             Destroy(gameObject);
         }
     }
-
-    //public void ExplodeAnimationComplete()
-    //{
-    //    SpawnManager.Instance.StartSpawning();
-    //    Destroy(gameObject);
-    //}
 }

@@ -3,43 +3,40 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private int lives;
     [SerializeField] private float speed;
-
     [SerializeField] private bool wrapHorizontalMovement;
     [SerializeField] private Vector2 verticalBounds;
     [SerializeField] private Vector2 horizontalBounds;
     [SerializeField] private Vector2 horizontalWrapBounds;
+    [SerializeField] private float fireRate;
+    [SerializeField] private float speedBoostModifier;
 
+    [Header("References")]
     [SerializeField] private Transform laserPrefab;
     [SerializeField] private Transform tripleLaserPrefab;
     [SerializeField] private Transform muzzlePoint;
-
     [SerializeField] private GameObject rightEngineFire;
     [SerializeField] private GameObject leftEngineFire;
-
-    [SerializeField] private float fireRate;
+    [SerializeField] private GameObject shieldSprite;
+    [SerializeField] private AudioClip laserAudio;
 
     private float nextAllowedFireTime;
+    private int score;
+
     private float horizontalInput;
     private float verticalInput;
     private Vector3 direction;
 
     private bool hasTripleShot;
     Coroutine tripleShotRoutine;
-
-    [SerializeField] private float speedBoostModifier;
+    
     private bool hasSpeedBoost;
     Coroutine speedBoostRoutine;
-
     private float currentSpeed;
-
-    [SerializeField] private GameObject shieldSprite;
+    
     private bool hasShield;
-
-    private int score;
-
-    [SerializeField] private AudioClip laserAudio;
 
     void Start()
     {

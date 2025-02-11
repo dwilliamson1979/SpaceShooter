@@ -2,14 +2,9 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private float speed;
-
     [SerializeField] private float outOfBounds;
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
