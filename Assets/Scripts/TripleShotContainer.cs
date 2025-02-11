@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TripleShotParent : MonoBehaviour
+public class TripleShotContainer : MonoBehaviour
 {
     void Start()
     {
