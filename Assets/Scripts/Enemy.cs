@@ -69,10 +69,12 @@ public class Enemy : MonoBehaviour, IPoolObject
         {
             nextFire = Random.Range(fireRateRange.x, fireRateRange.y);
             yield return new WaitForSeconds(nextFire);
-            var laser1 = Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+            var laser1 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+            laser1.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
             laser1.SetLayerMask(projectileLayer);
-            var laser2 = Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
-            laser2.SetLayerMask(projectileLayer);
+            var laser2 = LaserPool.Get();// Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            laser1.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            laser1.SetLayerMask(projectileLayer);
             AudioManager.Instance.PlaySoundFx(laserAudio);
         }
     }
@@ -87,17 +89,6 @@ public class Enemy : MonoBehaviour, IPoolObject
 
             Die();
         }
-        //else if (other.CompareTag("Laser"))
-        //{
-        //    var laser = other.GetComponent<Laser>();
-        //    if (laser != null)
-        //        laser.Damage();
-
-        //    if (player != null)
-        //        player.AddPoints(10);
-
-        //    Die();
-        //}
     }
 
     public void Damage()

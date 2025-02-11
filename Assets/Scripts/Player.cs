@@ -102,11 +102,14 @@ public class Player : MonoBehaviour
         {
             if (laserPrefab != null)
             {
-                var laser1 = Instantiate<Laser>(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                var laser1 = LaserPool.Get();// Instantiate<Laser>(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
                 laser1.SetLayerMask(projectileLayer);
-                var laser2 = Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                var laser2 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                laser2.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
                 laser2.SetLayerMask(projectileLayer);
-                var laser3 = Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+                var laser3 = LaserPool.Get();// Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+                laser3.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
                 laser3.SetLayerMask(projectileLayer);
             }
         }
@@ -114,7 +117,8 @@ public class Player : MonoBehaviour
         {
             if (laserPrefab != null)
             {
-                var laser = Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                var laser = LaserPool.Get();// Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                laser.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
                 laser.SetLayerMask(projectileLayer);
             }
         }

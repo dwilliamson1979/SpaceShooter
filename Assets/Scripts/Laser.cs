@@ -1,6 +1,8 @@
+using com.dhcc.pool;
+using System;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class Laser : MonoBehaviour, IPoolObject
 {
     [Header("Settings")]
     [SerializeField] private float speed;
@@ -8,6 +10,8 @@ public class Laser : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
 
     private Player player;
+
+    public event Action OnReleaseToPool;
 
     private void Start()
     {
@@ -54,7 +58,8 @@ public class Laser : MonoBehaviour
 
     private void Kill()
     {
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        OnReleaseToPool?.Invoke();
     }
 
     public void SetLayerMask(LayerMask layerMask)
@@ -74,4 +79,18 @@ public class Laser : MonoBehaviour
             }
         }
     }
+
+    public void PoolCreate() { }
+
+    public void PoolGet()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void PoolRelease()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void PoolDestroy() { }
 }
