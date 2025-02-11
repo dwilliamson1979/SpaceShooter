@@ -113,6 +113,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   outOfBounds: 7
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &4024377199907636328
 GameObject:
   m_ObjectHideFlags: 0

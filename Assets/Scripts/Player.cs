@@ -13,9 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 horizontalWrapBounds;
     [SerializeField] private float fireRate;
     [SerializeField] private float speedBoostModifier;
+    [SerializeField] private LayerMask projectileLayer;
 
     [Header("References")]
-    [SerializeField] private Transform laserPrefab;
+    [SerializeField] private Laser laserPrefab;
     [SerializeField] private Transform primaryMuzzlePoint;
     [SerializeField] private Transform leftMuzzlePoint;
     [SerializeField] private Transform rightMuzzlePoint;
@@ -101,15 +102,21 @@ public class Player : MonoBehaviour
         {
             if (laserPrefab != null)
             {
-                Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
-                Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
-                Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+                var laser1 = Instantiate<Laser>(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                laser1.SetLayerMask(projectileLayer);
+                var laser2 = Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                laser2.SetLayerMask(projectileLayer);
+                var laser3 = Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+                laser3.SetLayerMask(projectileLayer);
             }
         }
         else
         {
             if (laserPrefab != null)
-                Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+            {
+                var laser = Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                laser.SetLayerMask(projectileLayer);
+            }
         }
 
         AudioManager.Instance.PlaySoundFx(laserAudio);

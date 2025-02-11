@@ -10,12 +10,13 @@ public class Enemy : MonoBehaviour, IPoolObject
     [SerializeField] private Vector2 spawnRangeY;
     [SerializeField] private float lowerOutOfBounds;
     [SerializeField] private Vector2 fireRateRange;
+    [SerializeField] private LayerMask projectileLayer;
 
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private Collider2D myCollider;    
     [SerializeField] private AudioClip laserAudio;
-    [SerializeField] private Transform laserPrefab;
+    [SerializeField] private Laser laserPrefab;
     [SerializeField] private Transform leftMuzzlePoint;
     [SerializeField] private Transform rightMuzzlePoint;
     [SerializeField] private AudioClip explosionAudio;
@@ -68,8 +69,10 @@ public class Enemy : MonoBehaviour, IPoolObject
         {
             nextFire = Random.Range(fireRateRange.x, fireRateRange.y);
             yield return new WaitForSeconds(nextFire);
-            Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
-            Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            var laser1 = Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+            laser1.SetLayerMask(projectileLayer);
+            var laser2 = Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            laser2.SetLayerMask(projectileLayer);
             AudioManager.Instance.PlaySoundFx(laserAudio);
         }
     }
@@ -84,17 +87,22 @@ public class Enemy : MonoBehaviour, IPoolObject
 
             Die();
         }
-        else if (other.CompareTag("Laser"))
-        {
-            var laser = other.GetComponent<Laser>();
-            if (laser != null)
-                laser.Damage();
+        //else if (other.CompareTag("Laser"))
+        //{
+        //    var laser = other.GetComponent<Laser>();
+        //    if (laser != null)
+        //        laser.Damage();
 
-            if (player != null)
-                player.AddPoints(10);
+        //    if (player != null)
+        //        player.AddPoints(10);
 
-            Die();
-        }
+        //    Die();
+        //}
+    }
+
+    public void Damage()
+    {
+        Die();
     }
 
     private void Die()

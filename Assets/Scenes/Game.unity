@@ -2542,8 +2542,10 @@ MonoBehaviour:
   horizontalWrapBounds: {x: -11.5, y: 11.5}
   fireRate: 0.4
   speedBoostModifier: 0.5
-  laserPrefab: {fileID: 8876681821322855171, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
-  tripleLaserPrefab: {fileID: 8025879950158281362, guid: 68eb92f1bd3a4a140a6fce8d39b2f241, type: 3}
+  projectileLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  laserPrefab: {fileID: 331806993962868234, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
   primaryMuzzlePoint: {fileID: 1168458226}
   leftMuzzlePoint: {fileID: 1030919771}
   rightMuzzlePoint: {fileID: 590493154}
