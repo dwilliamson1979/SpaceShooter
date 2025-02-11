@@ -8,7 +8,7 @@ namespace com.dhcc.pool
 {
     public interface IPoolObject
     {
-        event Action<IPoolObject> OnReleaseToPool;
+        event Action OnReleaseToPool;
 
         void PoolCreate();
         void PoolGet();

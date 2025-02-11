@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace com.dhcc.pool
 {
@@ -17,14 +18,14 @@ namespace com.dhcc.pool
         {
             T obj = GameObject.Instantiate(prefab, parent);
             obj.PoolCreate();
-            obj.OnReleaseToPool += Release;
+            obj.OnReleaseToPool += () => Pool.Release(obj);
             return obj;
         }
 
         protected override void OnDestroyObject(T obj)
         {
             obj.PoolDestroy();
-            GameObject.Destroy(obj);
+            //GameObject.Destroy(obj.gameObject);
         }
     }
 }

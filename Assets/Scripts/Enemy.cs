@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     private Player player;
     private bool isDead;
 
-    public event System.Action<IPoolObject> OnReleaseToPool;
+    public event System.Action OnReleaseToPool;
 
     void Start()
     {
@@ -108,7 +108,7 @@ public class Enemy : MonoBehaviour, IPoolObject
 
     public void DeathAnimationComplete()
     {
-        OnReleaseToPool?.Invoke(this);
+        OnReleaseToPool?.Invoke();
     }
 
     public void PoolCreate() { }

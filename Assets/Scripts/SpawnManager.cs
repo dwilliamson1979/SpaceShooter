@@ -36,7 +36,6 @@ public class SpawnManager : MonoBehaviour
 
             float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
             float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
-            //Instantiate(prefab, new Vector3(randomX, randomY, 0f), Quaternion.identity, enemyContainer);
             var enemy = enemyPool.Get();
             enemy.transform.SetPositionAndRotation(new Vector3(randomX, randomY, 0f), Quaternion.identity);
         }

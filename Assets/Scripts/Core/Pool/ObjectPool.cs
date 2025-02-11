@@ -14,7 +14,7 @@ namespace com.dhcc.pool
         {
             var obj = new T();
             obj.PoolCreate();
-            obj.OnReleaseToPool += Release;
+            obj.OnReleaseToPool += () => Pool.Release(obj);
             return obj;
         }
     }
