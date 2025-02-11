@@ -531,6 +531,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1139958472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &590493153
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 590493154}
+  m_Layer: 6
+  m_Name: RightLaserMuzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &590493154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590493153}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.78, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2009745644}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &676473336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1094,6 +1125,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1030919770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1030919771}
+  m_Layer: 6
+  m_Name: LeftLaserMuzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1030919771
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030919770}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.78, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2009745644}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1138554816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,7 +1338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1168458226}
   m_Layer: 6
-  m_Name: MuzzlePoint
+  m_Name: PrimaryMuzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2482,7 +2544,9 @@ MonoBehaviour:
   speedBoostModifier: 0.5
   laserPrefab: {fileID: 8876681821322855171, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
   tripleLaserPrefab: {fileID: 8025879950158281362, guid: 68eb92f1bd3a4a140a6fce8d39b2f241, type: 3}
-  muzzlePoint: {fileID: 1168458226}
+  primaryMuzzlePoint: {fileID: 1168458226}
+  leftMuzzlePoint: {fileID: 1030919771}
+  rightMuzzlePoint: {fileID: 590493154}
   damageEffect: {fileID: 8027716832331644013, guid: 892d11495f7d46041b1d0d614a59fa9b, type: 3}
   shieldSprite: {fileID: 326574338}
   laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
@@ -2507,6 +2571,8 @@ Transform:
   m_Children:
   - {fileID: 682742603}
   - {fileID: 1168458226}
+  - {fileID: 1030919771}
+  - {fileID: 590493154}
   - {fileID: 326574339}
   - {fileID: 1187037313}
   - {fileID: 1139958472}

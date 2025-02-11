@@ -16,8 +16,9 @@ public class Player : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform laserPrefab;
-    [SerializeField] private Transform tripleLaserPrefab;
-    [SerializeField] private Transform muzzlePoint;
+    [SerializeField] private Transform primaryMuzzlePoint;
+    [SerializeField] private Transform leftMuzzlePoint;
+    [SerializeField] private Transform rightMuzzlePoint;
     [SerializeField] private GameObject damageEffect;
     [SerializeField] private GameObject shieldSprite;
     [SerializeField] private AudioClip laserAudio;
@@ -98,13 +99,17 @@ public class Player : MonoBehaviour
 
         if(hasTripleShot)
         {
-            if (tripleLaserPrefab != null)
-                Instantiate(tripleLaserPrefab, muzzlePoint.position, muzzlePoint.rotation);
+            if (laserPrefab != null)
+            {
+                Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            }
         }
         else
         {
             if (laserPrefab != null)
-                Instantiate(laserPrefab, muzzlePoint.position, muzzlePoint.rotation);
+                Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
         }
 
         AudioManager.Instance.PlaySoundFx(laserAudio);
