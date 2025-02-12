@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private float speedBoostModifier;
     [SerializeField] private LayerMask projectileLayer;
+    [SerializeField] private int defaultShieldHealth;
 
     [Header("References")]
     [SerializeField] private Projectile laserPrefab;
@@ -203,7 +204,7 @@ public class Player : MonoBehaviour
 
     public void ActivateShield()
     {
-        DamageShield(-3);
+        DamageShield(-defaultShieldHealth);
         shieldSprite.SetActive(true);
     }
 
@@ -215,7 +216,7 @@ public class Player : MonoBehaviour
 
         var sr = shieldSprite.GetComponent<SpriteRenderer>();
         Color color = sr.color;
-        color.a = shieldHealth / 3f;
+        color.a = shieldHealth / (float)defaultShieldHealth;
         sr.color = color;
     }
 
