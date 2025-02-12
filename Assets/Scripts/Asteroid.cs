@@ -15,20 +15,30 @@ public class Asteroid : MonoBehaviour
         transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.forward);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    //private void OnTriggerEnter2D(Collider2D other)
+    //{
+    //    if (other.CompareTag("Laser"))
+    //    {
+    //        var laser = other.GetComponent<Projectile>();
+    //        if (laser != null)
+    //            laser.Damage();
+
+            
+    //    }
+    //}
+
+    public void Damage()
     {
-        if (other.CompareTag("Laser"))
-        {
-            var laser = other.GetComponent<Projectile>();
-            if (laser != null)
-                laser.Damage();
+        Kill();
+    }
 
-            var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            explosion.SetColor(explosionColor);
-            explosion.Explode();
+    public void Kill()
+    {
+        var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        explosion.SetColor(explosionColor);
+        explosion.Explode();
 
-            SpawnManager.Instance.StartSpawning();
-            Destroy(gameObject);
-        }
+        SpawnManager.Instance.StartSpawning();
+        Destroy(gameObject);
     }
 }

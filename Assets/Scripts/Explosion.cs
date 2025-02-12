@@ -7,11 +7,6 @@ public class Explosion : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
 
-    void Start()
-    {
-        AudioManager.Instance.PlaySoundFx(explosionAudio);
-    }
-
     public void AnimationComplete()
     {
         Destroy(gameObject);
@@ -20,6 +15,7 @@ public class Explosion : MonoBehaviour
     public void Explode()
     {
         animator.SetTrigger("OnExplode");
+        AudioManager.Instance.PlaySoundFx(explosionAudio);
     }
 
     public void SetColor(Color color)

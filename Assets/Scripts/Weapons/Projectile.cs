@@ -42,6 +42,12 @@ public class Projectile: MonoBehaviour, IPoolObject
             if (enemy != null)
                 EnemyHit(enemy);
         }
+        else if (other.CompareTag("Asteroid"))
+        {
+            var asteroid = other.GetComponent<Asteroid>();
+            if (asteroid != null)
+                AsteroidHit(asteroid);
+        }
     }
 
     protected virtual void PlayerHit(Player player)
@@ -56,6 +62,16 @@ public class Projectile: MonoBehaviour, IPoolObject
 
         if (player != null)
             player.AddPoints(10);
+
+        Kill();
+    }
+
+    protected virtual void AsteroidHit(Asteroid asteroid)
+    {
+        asteroid.Damage();
+
+        if (player != null)
+            player.AddPoints(5);
 
         Kill();
     }
