@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  outOfBounds: 7
+  outOfBounds: {x: -5.25, y: 6.75}
   layerMask:
     serializedVersion: 2
     m_Bits: 0

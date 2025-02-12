@@ -6,7 +6,7 @@ public class Laser : MonoBehaviour, IPoolObject
 {
     [Header("Settings")]
     [SerializeField] private float speed;
-    [SerializeField] private float outOfBounds;
+    [SerializeField] private Vector2 outOfBounds;
     [SerializeField] private LayerMask layerMask;
 
     private Player player;
@@ -24,7 +24,7 @@ public class Laser : MonoBehaviour, IPoolObject
     {
         transform.Translate(Time.deltaTime * speed * Vector3.up);
 
-        if (transform.position.y > outOfBounds)
+        if (transform.position.y > outOfBounds.y || transform.position.y < outOfBounds.x)
             Kill();
     }
 
