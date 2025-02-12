@@ -85,7 +85,7 @@ public class Enemy : MonoBehaviour, IPoolObject
         {
             var player = other.GetComponent<Player>();
             if (player != null)
-                player.Damage();
+                player.Damage(1);
 
             Die();
         }

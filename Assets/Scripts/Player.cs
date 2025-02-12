@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,8 +6,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Settings")]
-    [SerializeField] private int lives;
+    [Serializable]
+    struct DamageLocation
+    {
+        public GameObject Location;
+        public GameObject DamageVisual;
+    }
+
+    [Header("Settings")]    
     [SerializeField] private float speed;
     [SerializeField] private bool wrapHorizontalMovement;
     [SerializeField] private Vector2 verticalBounds;
@@ -16,6 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float speedBoostModifier;
     [SerializeField] private LayerMask projectileLayer;
     [SerializeField] private int defaultShieldHealth;
+    [SerializeField] private int startingAmmo;
+    [SerializeField] private int startingLives;
 
     [Header("References")]
     [SerializeField] private Projectile laserPrefab;
@@ -25,7 +34,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject damageEffect;
     [SerializeField] private GameObject shieldSprite;
     [SerializeField] private AudioClip laserAudio;
-    [SerializeField] private GameObject[] damagePoints;
+    [SerializeField] private DamageLocation[] damagePoints;
 
     private float nextAllowedFireTime;
     private int score;
@@ -44,13 +53,17 @@ public class Player : MonoBehaviour
     private bool hasShield;
     private int shieldHealth;
 
+    private int currentAmmo;
+    private int currentLives;
+
     private List<GameObject> damageInstances = new();
 
     void Start()
     {
         transform.position = Vector3.zero;
         currentSpeed = speed;
-        UIManager.Instance.UpdateLives(lives);
+        AddAmmo(startingAmmo);
+        Heal(startingLives);
     }
 
     void Update()
@@ -131,33 +144,74 @@ public class Player : MonoBehaviour
         AudioManager.Instance.PlaySoundFx(laserAudio);
     }
 
-    public void Damage()
+    public void Heal(int amount)
     {
-        if(hasShield)
+        int tempLives = currentLives;
+        currentLives = Mathf.Clamp(currentLives + amount, 0, startingLives);
+
+        if (tempLives == currentLives) return;
+
+        UIManager.Instance.UpdateLives(currentLives);
+
+        //Fix a random damage visual.
+        List<int> usableIndexes = new();
+        for (int i = 0; i < damagePoints.Length; i++)
         {
-            DamageShield(1);
+            if (damagePoints[i].Location.activeSelf)
+                usableIndexes.Add(i);
+        }
+
+        if (usableIndexes.Count > 0)
+        {
+            int selectedIndex = usableIndexes[UnityEngine.Random.Range(0, usableIndexes.Count)];
+            damagePoints[selectedIndex].Location.SetActive(false);
+            GameObject temp = damagePoints[selectedIndex].DamageVisual;
+            damagePoints[selectedIndex].DamageVisual = null;
+            Destroy(temp);
+        }
+    }
+
+    public void Damage(int amount)
+    {
+        if (amount < 0)
+        {
+            Heal(-amount);
             return;
         }
 
-        lives--;
+        if(hasShield)
+        {
+            DamageShield(amount);
+            return;
+        }
 
-        if (lives > 0)
-            AddDamageVisual(); 
+        int tempLives = currentLives;
+        currentLives = Mathf.Clamp(currentLives - amount, 0, startingLives);
 
-        UIManager.Instance.UpdateLives(lives);
+        if (tempLives == currentLives) return; //No change.
 
-        if (lives <= 0)
+        if(tempLives > currentLives) 
+        {
+            //Damage
+            //Pick a random damage transform and instantiate a damage prefab. Setting to active lets us know it is in use.
+            List<int> usableIndexes = new();
+            for (int i = 0; i < damagePoints.Length; i++)
+            {
+                if(!damagePoints[i].Location.activeSelf)
+                    usableIndexes.Add(i);
+            }
+
+            int selectedIndex = usableIndexes[UnityEngine.Random.Range(0, usableIndexes.Count)];
+            damagePoints[selectedIndex].Location.SetActive(true);
+
+            GameObject damageInstance = Instantiate(damageEffect, damagePoints[selectedIndex].Location.transform.position, damagePoints[selectedIndex].Location.transform.rotation, transform);
+            damagePoints[selectedIndex].DamageVisual = damageInstance;
+        }
+
+        UIManager.Instance.UpdateLives(currentLives);
+
+        if (currentLives <= 0)
             Die();
-    }
-
-    private void AddDamageVisual()
-    {
-        var pointsArray = damagePoints.Where(go => !go.activeSelf).ToArray();
-        var damagePoint = pointsArray[Random.Range(0, pointsArray.Length)];
-        damagePoint.SetActive(true);
-
-        var damageInstance = Instantiate(damageEffect, damagePoint.transform.position, damagePoint.transform.rotation, transform);
-        damageInstances.Add(damageInstance);
     }
 
     private void Die()
@@ -226,21 +280,9 @@ public class Player : MonoBehaviour
         UIManager.Instance.UpdateScore(score);
     }
 
-    public void AddLife()
+    public void AddAmmo(int amount)
     {
-        if (lives >= 3) return;
-
-        lives++;
-        UIManager.Instance.UpdateLives(lives);
-
-        damagePoints.First(go => go.activeSelf).SetActive(false);
-
-        if (damageInstances.Count > 0)
-        {
-            int index = Random.Range(0, damageInstances.Count);
-            var damageInstance = damageInstances[index];
-            damageInstances.RemoveAt(index);
-            Destroy(damageInstance);
-        }
+        currentAmmo = Mathf.Clamp(currentAmmo + amount, 0, startingAmmo);
+        UIManager.Instance.UpdateAmmo(currentAmmo);
     }
 }

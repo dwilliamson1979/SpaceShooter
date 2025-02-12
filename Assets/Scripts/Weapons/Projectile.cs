@@ -52,7 +52,7 @@ public class Projectile: MonoBehaviour, IPoolObject
 
     protected virtual void PlayerHit(Player player)
     {
-        player.Damage();
+        player.Damage(1);
         Kill();
     }
 
