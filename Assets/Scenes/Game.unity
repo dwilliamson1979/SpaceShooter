@@ -906,7 +906,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 20
-  explosionPrefab: {fileID: 3852569138783074881, guid: a5ab07070b164884da695393f11428d5, type: 3}
+  explosionColor: {r: 1, g: 1, b: 1, a: 1}
+  explosionPrefab: {fileID: 4456766774617385527, guid: a5ab07070b164884da695393f11428d5, type: 3}
 --- !u!50 &859799655
 Rigidbody2D:
   serializedVersion: 5
@@ -2661,6 +2662,7 @@ MonoBehaviour:
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1024
+  defaultShieldHealth: 3
   laserPrefab: {fileID: -617643715837456479, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
   primaryMuzzlePoint: {fileID: 1168458226}
   leftMuzzlePoint: {fileID: 1030919771}

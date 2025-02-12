@@ -210,7 +210,7 @@ public class Player : MonoBehaviour
 
     private void DamageShield(int damage)
     {
-        shieldHealth -= damage;
+        shieldHealth = Mathf.Clamp(shieldHealth - damage, 0, defaultShieldHealth);
         hasShield = shieldHealth > 0;
         shieldSprite.SetActive(hasShield);
 

@@ -5,9 +5,10 @@ public class Asteroid : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private Color explosionColor;
 
     [Header("References")]
-    [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private Explosion explosionPrefab;
 
     void Update()
     {
@@ -22,7 +23,10 @@ public class Asteroid : MonoBehaviour
             if (laser != null)
                 laser.Damage();
 
-            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            explosion.SetColor(explosionColor);
+            explosion.Explode();
+
             SpawnManager.Instance.StartSpawning();
             Destroy(gameObject);
         }

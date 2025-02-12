@@ -125,3 +125,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
   spriteRenderer: {fileID: 4871411359933832914}
+  animator: {fileID: 2958683763438653128}
