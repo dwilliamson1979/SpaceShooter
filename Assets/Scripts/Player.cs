@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -40,6 +41,8 @@ public class Player : MonoBehaviour
     private float currentSpeed;
     
     private bool hasShield;
+
+    private List<GameObject> damageInstances = new();
 
     void Start()
     {
@@ -151,7 +154,8 @@ public class Player : MonoBehaviour
         var damagePoint = pointsArray[Random.Range(0, pointsArray.Length)];
         damagePoint.SetActive(true);
 
-        Instantiate(damageEffect, damagePoint.transform.position, damagePoint.transform.rotation, transform);
+        var damageInstance = Instantiate(damageEffect, damagePoint.transform.position, damagePoint.transform.rotation, transform);
+        damageInstances.Add(damageInstance);
     }
 
     private void Die()
@@ -212,5 +216,21 @@ public class Player : MonoBehaviour
     {
         score += amount;
         UIManager.Instance.UpdateScore(score);
+    }
+
+    public void AddLife()
+    {
+        if (lives >= 3) return;
+
+        lives++;
+        UIManager.Instance.UpdateLives(lives);
+
+        if (damageInstances.Count > 0)
+        {
+            int index = Random.Range(0, damageInstances.Count);
+            var damageInstance = damageInstances[index];
+            damageInstances.RemoveAt(index);
+            Destroy(damageInstance);
+        }
     }
 }

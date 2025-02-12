@@ -1,4 +1,3 @@
-using com.dhcc.pool;
 using UnityEngine;
 
 public abstract class Powerup : MonoBehaviour
