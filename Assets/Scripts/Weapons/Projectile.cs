@@ -2,14 +2,14 @@ using com.dhcc.pool;
 using System;
 using UnityEngine;
 
-public class Laser : MonoBehaviour, IPoolObject
+public class Projectile: MonoBehaviour, IPoolObject
 {
     [Header("Settings")]
     [SerializeField] private float speed;
     [SerializeField] private Vector2 outOfBounds;
     [SerializeField] private LayerMask layerMask;
 
-    private Player player;
+    protected Player player;
 
     public event Action OnReleaseToPool;
 
@@ -34,21 +34,30 @@ public class Laser : MonoBehaviour, IPoolObject
         {
             var player = other.GetComponent<Player>();
             if (player != null)
-                player.Damage();
-
-            Kill();
+                PlayerHit(player);
         }
         else if (other.CompareTag("Enemy"))
         {
             var enemy = other.GetComponent<Enemy>();
             if (enemy != null)
-                enemy.Damage();
-
-            if (player != null)
-                player.AddPoints(10);
-
-            Kill();
+                EnemyHit(enemy);
         }
+    }
+
+    protected virtual void PlayerHit(Player player)
+    {
+        player.Damage();
+        Kill();
+    }
+
+    protected virtual void EnemyHit(Enemy enemy)
+    {
+        enemy.Damage();
+
+        if (player != null)
+            player.AddPoints(10);
+
+        Kill();
     }
 
     public void Damage()
@@ -56,15 +65,14 @@ public class Laser : MonoBehaviour, IPoolObject
         Kill();
     }
 
-    private void Kill()
+    protected void Kill()
     {
-        //Destroy(gameObject);
         OnReleaseToPool?.Invoke();
     }
 
     public void SetLayerMask(LayerMask layerMask)
     {
-        if(layerMask.value == 0)
+        if (layerMask.value == 0)
         {
             gameObject.layer = 0;
             return;

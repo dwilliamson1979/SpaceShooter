@@ -18,7 +18,7 @@ public class Asteroid : MonoBehaviour
     {
         if (other.CompareTag("Laser"))
         {
-            var laser = other.GetComponent<Laser>();
+            var laser = other.GetComponent<Projectile>();
             if (laser != null)
                 laser.Damage();
 

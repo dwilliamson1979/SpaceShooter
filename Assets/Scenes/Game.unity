@@ -742,9 +742,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupPrefabs:
-  - {fileID: 7415036181985603584, guid: 039075edcb8becb43aabb84632f08e10, type: 3}
-  - {fileID: 7415036181985603584, guid: 039075edcb8becb43aabb84632f08e10, type: 3}
-  - {fileID: 7415036181985603584, guid: 039075edcb8becb43aabb84632f08e10, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
+  - {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
   container: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
@@ -1207,7 +1208,7 @@ MonoBehaviour:
     DefaultCapacity: 10
     maxCapacity: 1000
     poolType: 0
-    prefab: {fileID: 331806993962868234, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
+    prefab: {fileID: -617643715837456479, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
     parent: {fileID: 1581367983}
 --- !u!1 &1030919770
 GameObject:
@@ -2660,7 +2661,7 @@ MonoBehaviour:
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1024
-  laserPrefab: {fileID: 331806993962868234, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
+  laserPrefab: {fileID: -617643715837456479, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
   primaryMuzzlePoint: {fileID: 1168458226}
   leftMuzzlePoint: {fileID: 1030919771}
   rightMuzzlePoint: {fileID: 590493154}

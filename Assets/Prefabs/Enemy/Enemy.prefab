@@ -221,7 +221,7 @@ MonoBehaviour:
   animator: {fileID: 3254649446435567448}
   myCollider: {fileID: 2596223090765272266}
   laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
-  laserPrefab: {fileID: 331806993962868234, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
+  laserPrefab: {fileID: -617643715837456479, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
   leftMuzzlePoint: {fileID: 5598042857170864893}
   rightMuzzlePoint: {fileID: 6405483934455362594}
   explosionAudio: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}

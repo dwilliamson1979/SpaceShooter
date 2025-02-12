@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask projectileLayer;
 
     [Header("References")]
-    [SerializeField] private Laser laserPrefab;
+    [SerializeField] private Projectile laserPrefab;
     [SerializeField] private Transform primaryMuzzlePoint;
     [SerializeField] private Transform leftMuzzlePoint;
     [SerializeField] private Transform rightMuzzlePoint;
@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     private float currentSpeed;
     
     private bool hasShield;
+    private int shieldHealth;
 
     private List<GameObject> damageInstances = new();
 
@@ -133,7 +134,7 @@ public class Player : MonoBehaviour
     {
         if(hasShield)
         {
-            DeactivateShield();
+            DamageShield(1);
             return;
         }
 
@@ -202,14 +203,20 @@ public class Player : MonoBehaviour
 
     public void ActivateShield()
     {
-        hasShield = true;
+        DamageShield(-3);
         shieldSprite.SetActive(true);
     }
 
-    private void DeactivateShield()
+    private void DamageShield(int damage)
     {
-        hasShield = false;
-        shieldSprite.SetActive(false);
+        shieldHealth -= damage;
+        hasShield = shieldHealth > 0;
+        shieldSprite.SetActive(hasShield);
+
+        var sr = shieldSprite.GetComponent<SpriteRenderer>();
+        Color color = sr.color;
+        color.a = shieldHealth / 3f;
+        sr.color = color;
     }
 
     public void AddPoints(int amount)
@@ -224,6 +231,8 @@ public class Player : MonoBehaviour
 
         lives++;
         UIManager.Instance.UpdateLives(lives);
+
+        damagePoints.First(go => go.activeSelf).SetActive(false);
 
         if (damageInstances.Count > 0)
         {

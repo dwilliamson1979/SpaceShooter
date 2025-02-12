@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8876681821322855171}
   - component: {fileID: 3974606598846855213}
   - component: {fileID: 5925322113007831556}
-  - component: {fileID: 331806993962868234}
+  - component: {fileID: -617643715837456479}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Laser
@@ -99,7 +99,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &331806993962868234
+--- !u!114 &-617643715837456479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1213977296161221856}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8aa5b1d5110a5340b88d3e55c8f6e31, type: 3}
+  m_Script: {fileID: 11500000, guid: 67e414df5b5fa354c982561e901a837f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10

@@ -6,7 +6,7 @@ public class LaserPool : MonoBehaviour
     public static LaserPool Instance;
 
     [Header("Settings")]
-    [SerializeField] private ComponentPool<Laser> pool;
+    [SerializeField] private ComponentPool<Projectile> pool;
 
     private void Awake()
     {
@@ -19,5 +19,5 @@ public class LaserPool : MonoBehaviour
         Instance = this;
     }
 
-    public static Laser Get() => Instance.pool.Get();
+    public static Projectile Get() => Instance.pool.Get();
 }

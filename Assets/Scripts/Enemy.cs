@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     [SerializeField] private Animator animator;
     [SerializeField] private Collider2D myCollider;    
     [SerializeField] private AudioClip laserAudio;
-    [SerializeField] private Laser laserPrefab;
+    [SerializeField] private Projectile laserPrefab;
     [SerializeField] private Transform leftMuzzlePoint;
     [SerializeField] private Transform rightMuzzlePoint;
     [SerializeField] private AudioClip explosionAudio;
@@ -107,6 +107,7 @@ public class Enemy : MonoBehaviour, IPoolObject
 
     public void DeathAnimationComplete()
     {
+        MoveToRandomStartPos();
         OnReleaseToPool?.Invoke();
     }
 
