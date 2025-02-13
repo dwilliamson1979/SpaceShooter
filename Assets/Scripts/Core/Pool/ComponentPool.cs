@@ -12,13 +12,14 @@ namespace com.dhcc.pool
     {
         [Header("References")]
         [SerializeField] private T prefab;
-        [SerializeField] private Transform parent;
+        [SerializeField] private Transform container;
 
         protected override T OnCreateObject()
         {
-            T obj = GameObject.Instantiate(prefab, parent);
+            T obj = GameObject.Instantiate(prefab, container);
             obj.PoolCreate();
             obj.OnReleaseToPool += () => Pool.Release(obj);
+
             return obj;
         }
 
@@ -27,5 +28,7 @@ namespace com.dhcc.pool
             obj.PoolDestroy();
             //GameObject.Destroy(obj.gameObject);
         }
+
+        public void SetContainer(Transform container) => this.container = container;
     }
 }

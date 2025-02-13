@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int startingLives;
 
     [Header("References")]
-    [SerializeField] private Projectile laserPrefab;
     [SerializeField] private Transform primaryMuzzlePoint;
     [SerializeField] private Transform leftMuzzlePoint;
     [SerializeField] private Transform rightMuzzlePoint;
@@ -118,27 +117,21 @@ public class Player : MonoBehaviour
 
         if(hasTripleShot)
         {
-            if (laserPrefab != null)
-            {
-                var laser1 = LaserPool.Get();// Instantiate<Laser>(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
-                laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
-                laser1.SetLayerMask(projectileLayer);
-                var laser2 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
-                laser2.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
-                laser2.SetLayerMask(projectileLayer);
-                var laser3 = LaserPool.Get();// Instantiate(laserPrefab, rightMuzzlePoint.position, rightMuzzlePoint.rotation);
-                laser3.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
-                laser3.SetLayerMask(projectileLayer);
-            }
+            var laser1 = LaserPool.Get();
+            laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+            laser1.SetLayerMask(projectileLayer);
+            var laser2 = LaserPool.Get();
+            laser2.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+            laser2.SetLayerMask(projectileLayer);
+            var laser3 = LaserPool.Get();
+            laser3.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+            laser3.SetLayerMask(projectileLayer);
         }
         else
         {
-            if (laserPrefab != null)
-            {
-                var laser = LaserPool.Get();// Instantiate(laserPrefab, primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
-                laser.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
-                laser.SetLayerMask(projectileLayer);
-            }
+            var laser = LaserPool.Get();
+            laser.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+            laser.SetLayerMask(projectileLayer);
         }
 
         AudioManager.Instance.PlaySoundFx(laserAudio);
