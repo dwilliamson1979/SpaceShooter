@@ -8,6 +8,7 @@ namespace com.dhcc.pool
 
         [Header("Settings")]
         [SerializeField] private ComponentPool<T> pool;
+        [SerializeField] private bool autoCreateContainer = true;
 
         private void Awake()
         {
@@ -18,6 +19,13 @@ namespace com.dhcc.pool
             }
 
             Instance = this;
+
+            if(autoCreateContainer)
+            {
+                GameObject container = new GameObject("Container");
+                container.transform.SetParent(transform);
+                pool.SetContainer(container.transform);
+            }
         }
 
         public static T Get() => Instance.pool.Get();
