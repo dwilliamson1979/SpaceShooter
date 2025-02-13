@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
         currentSpeed = speed;
         AddAmmo(startingAmmo);
-        Heal(startingLives);
+        AddLives(startingLives);
     }
 
     void Update()
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
 
     private void ProcessFiring()
     {
-        if (Time.time < nextAllowedFireTime || !Input.GetButton("Fire1")) return;
+        if (currentAmmo <= 0 || Time.time < nextAllowedFireTime || !Input.GetButton("Fire1")) return;
 
         nextAllowedFireTime = Time.time + fireRate;
 
@@ -134,10 +134,12 @@ public class Player : MonoBehaviour
             laser.SetLayerMask(projectileLayer);
         }
 
+        AddAmmo(-1);
+
         AudioManager.Instance.PlaySoundFx(laserAudio);
     }
 
-    public void Heal(int amount)
+    public void AddLives(int amount)
     {
         int tempLives = currentLives;
         currentLives = Mathf.Clamp(currentLives + amount, 0, startingLives);
@@ -166,11 +168,11 @@ public class Player : MonoBehaviour
 
     public void Damage(int amount)
     {
-        if (amount < 0)
-        {
-            Heal(-amount);
-            return;
-        }
+        //if (amount < 0)
+        //{
+        //    AddLives(-amount);
+        //    return;
+        //}
 
         if(hasShield)
         {
@@ -178,12 +180,12 @@ public class Player : MonoBehaviour
             return;
         }
 
-        int tempLives = currentLives;
+        int previousLives = currentLives;
         currentLives = Mathf.Clamp(currentLives - amount, 0, startingLives);
 
-        if (tempLives == currentLives) return; //No change.
+        if (previousLives == currentLives) return; //No change.
 
-        if(tempLives > currentLives) 
+        if(previousLives > currentLives) 
         {
             //Damage
             //Pick a random damage transform and instantiate a damage prefab. Setting to active lets us know it is in use.

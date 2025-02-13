@@ -6,6 +6,6 @@ public class Life : Powerup
 
     protected override void Pickup(Player player)
     {
-        player.Heal(livesToGive);
+        player.AddLives(livesToGive);
     }
 }

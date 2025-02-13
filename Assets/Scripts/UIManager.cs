@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite[] livesSprites;
     [SerializeField] private Image livesImage;
     [SerializeField] private GameObject gameOverMenu;
+
+    private Coroutine flashAmmoRoutine;
 
     private void Awake()
     {
@@ -43,6 +46,31 @@ public class UIManager : MonoBehaviour
     public void UpdateAmmo(int ammo)
     {
         ammoText.text = $"Ammo: {ammo}";
+
+        if (ammo <= 0)
+        {
+            if(flashAmmoRoutine != null)
+                StopCoroutine(flashAmmoRoutine);
+
+            flashAmmoRoutine = StartCoroutine(FlashAmmoRoutine());
+        }
+        else
+        {
+            if (flashAmmoRoutine != null)
+                StopCoroutine(flashAmmoRoutine);
+
+            ammoText.gameObject.SetActive(true);
+        }
+    }
+
+    private IEnumerator FlashAmmoRoutine()
+    {
+        WaitForSeconds wfs = new(0.5f);
+        while(true)
+        {
+            yield return wfs;
+            ammoText.gameObject.SetActive(!ammoText.gameObject.activeInHierarchy);
+        }
     }
 
     public void GameOver()
