@@ -1,19 +1,12 @@
 using UnityEngine;
+using com.dhcc.utility;
 
 namespace com.dhcc.pool
 {
     public abstract class SingletonPool<T> : MonoBehaviour where T : Component, IPoolObject
     {
         private static SingletonPool<T> instance;
-        public static SingletonPool<T> Instance => SingletonEnforcer.OnDemand(instance);
-        //{
-        //    get
-        //    {
-        //        if(instance != null) return instance;
-        //        instance = SingletonEnforcer.OnDemand<SingletonPool<T>>(Instance);
-        //    }
-
-        //}
+        public static SingletonPool<T> Instance => SingletonEmulator.Get(instance);
 
         [Header("Settings")]
         [SerializeField] private ComponentPool<T> pool;
@@ -21,15 +14,7 @@ namespace com.dhcc.pool
 
         private void Awake()
         {
-            if (SingletonEnforcer.Enforce(this, instance, out instance)) return;
-
-            //if (Instance != null)
-            //{
-            //    Destroy(gameObject);
-            //    return;
-            //}
-
-            //Instance = this;
+            if (SingletonEmulator.Enforce(this, instance, out instance)) return;
 
             if(autoCreateContainer)
             {
