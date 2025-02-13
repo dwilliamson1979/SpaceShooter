@@ -63,4 +63,9 @@ public class SpawnManager : MonoBehaviour
     {
         StopAllCoroutines();
     }
+
+    private void OnDestroy()
+    {
+        StopSpawning();
+    }
 }

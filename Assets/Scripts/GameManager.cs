@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public static bool ApplicationIsQuitting { get; private set; }
 
     private bool isGameOver;
 
@@ -40,5 +41,10 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         isGameOver = true;
+    }
+
+    private void OnApplicationQuit()
+    {
+        ApplicationIsQuitting = true;
     }
 }

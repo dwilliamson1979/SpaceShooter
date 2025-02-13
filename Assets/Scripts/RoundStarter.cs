@@ -4,6 +4,7 @@ public class RoundStarter : MonoBehaviour
 {
     private void OnDestroy()
     {
-        SpawnManager.Instance.StartSpawning();
+        if(!GameManager.ApplicationIsQuitting)
+            SpawnManager.Instance.StartSpawning();
     }
 }
