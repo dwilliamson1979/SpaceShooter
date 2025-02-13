@@ -38,7 +38,6 @@ public class Asteroid : MonoBehaviour
         explosion.SetColor(explosionColor);
         explosion.Explode();
 
-        SpawnManager.Instance.StartSpawning();
         Destroy(gameObject);
     }
 }
