@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7603509850797136575}
   - component: {fileID: 537565981887888756}
   - component: {fileID: 5780830642419412429}
-  - component: {fileID: 9028944014814096190}
+  - component: {fileID: 3983961106773715716}
   m_Layer: 3
   m_Name: LifeDrainPickup
   m_TagString: Untagged
@@ -98,7 +98,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &9028944014814096190
+--- !u!114 &3983961106773715716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4947968934856818174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26cb6623a3fc2d048a069c903ecf7240, type: 3}
+  m_Script: {fileID: 11500000, guid: 72ff56adf618ed94e9efec1174f18d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
@@ -116,7 +116,7 @@ MonoBehaviour:
   lowerOutOfBounds: -5.25
   powerupAudio: {fileID: 8300000, guid: 26e5d1f642166734a80192ad455330c5, type: 3}
   myCollider: {fileID: 537565981887888756}
-  livesToGive: -1
+  livesToTake: 1
 --- !u!1 &7372411897555008717
 GameObject:
   m_ObjectHideFlags: 0

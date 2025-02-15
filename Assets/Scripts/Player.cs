@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerInput))]
 public class Player : MonoBehaviour
 {
     [Serializable]
@@ -38,10 +39,6 @@ public class Player : MonoBehaviour
     private float nextAllowedFireTime;
     private int score;
 
-    private float horizontalInput;
-    private float verticalInput;
-    private Vector3 direction;
-
     private bool hasTripleShot;
     Coroutine tripleShotRoutine;
     
@@ -57,6 +54,14 @@ public class Player : MonoBehaviour
 
     private List<GameObject> damageInstances = new();
 
+    private PlayerInput playerInput;
+
+
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
+
     void Start()
     {
         transform.position = Vector3.zero;
@@ -71,22 +76,29 @@ public class Player : MonoBehaviour
         ProcessFiring();
     }
 
+    private void LateUpdate()
+    {
+        //transform.Translate(Time.deltaTime * currentSpeed * playerInput.MoveVector);
+    }
+
     private void ProcessMovement()
     {
-        //This method only captures the last axis. It will not capture both left and right at the same time (which creates a stalemate).
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        direction = new Vector3(horizontalInput, verticalInput, 0);
-        transform.Translate(Time.deltaTime * currentSpeed * direction);
+        ////This method only captures the last axis. It will not capture both left and right at the same time (which creates a stalemate).
+        //horizontalInput = Input.GetAxis("Horizontal");
+        //verticalInput = Input.GetAxis("Vertical");
+        //direction = new Vector3(horizontalInput, verticalInput, 0);
+        //transform.Translate(Time.deltaTime * currentSpeed * direction);
 
-        //if (Input.GetKey(KeyCode.D))
-        //    transform.Translate(Vector3.right * Time.deltaTime * speed);
-        //if (Input.GetKey(KeyCode.A))
-        //    transform.Translate(-Vector3.right * Time.deltaTime * speed);
-        //if (Input.GetKey(KeyCode.W))
-        //    transform.Translate(Vector3.up * Time.deltaTime * speed);
-        //if (Input.GetKey(KeyCode.S))
-        //    transform.Translate(-Vector3.up * Time.deltaTime * speed);
+        ////if (Input.GetKey(KeyCode.D))
+        ////    transform.Translate(Vector3.right * Time.deltaTime * speed);
+        ////if (Input.GetKey(KeyCode.A))
+        ////    transform.Translate(-Vector3.right * Time.deltaTime * speed);
+        ////if (Input.GetKey(KeyCode.W))
+        ////    transform.Translate(Vector3.up * Time.deltaTime * speed);
+        ////if (Input.GetKey(KeyCode.S))
+        ////    transform.Translate(-Vector3.up * Time.deltaTime * speed);
+
+        transform.Translate(Time.deltaTime * currentSpeed * playerInput.MoveVector);
 
         if (!wrapHorizontalMovement)
         {
