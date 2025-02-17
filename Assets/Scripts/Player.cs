@@ -24,9 +24,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private float speedBoostModifier;
     [SerializeField] private LayerMask projectileLayer;
-    [SerializeField] private int defaultShieldHealth;
+    
     [SerializeField] private int startingAmmo;
     [SerializeField] private int startinghealth;
+    [SerializeField] private int startingShield;
 
     [Header("References")]
     [SerializeField] private Transform primaryMuzzlePoint;
@@ -46,21 +47,22 @@ public class Player : MonoBehaviour
     private bool hasSpeedBoost;
     Coroutine speedBoostRoutine;
     private float currentSpeed;
-    
-    private bool hasShield;
-    private int shieldHealth;
 
     private int currentAmmo;
 
     private List<GameObject> damageInstances = new();
 
     private PlayerInput playerInput;
+    private DamageComp damageComp;
     private HealthComp healthComp;
+    private ShieldComp shieldComp;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        healthComp = GetComponent<HealthComp>();        
+        damageComp = GetComponent<DamageComp>();
+        healthComp = GetComponent<HealthComp>();
+        shieldComp = GetComponent<ShieldComp>();
     }
 
     void Start()
@@ -70,7 +72,10 @@ public class Player : MonoBehaviour
         AddAmmo(startingAmmo);
 
         healthComp.OnHealthChanged += OnHealthChanged;
-        healthComp.TakeDamage(EDamageType.Damage, -startinghealth);
+        healthComp.TakeDamage(EDamageType.Health, startinghealth);
+
+        shieldComp.OnShieldChanged += OnShieldChanged;
+        shieldComp.TakeDamage(EDamageType.Shield, startingShield);
     }
 
     void Update()
@@ -157,7 +162,7 @@ public class Player : MonoBehaviour
 
     public int TakeDamage(EDamageType damageType, int amount)
     {
-        return healthComp.TakeDamage(damageType, amount);
+        return damageComp.TakeDamage(damageType, amount);
     }
 
     private void OnHealthChanged(int delta, HealthComp healthComp)
@@ -204,55 +209,27 @@ public class Player : MonoBehaviour
             Die();
     }
 
-    //public void Damage(int amount)
-    //{
-    //    ////if (amount < 0)
-    //    ////{
-    //    ////    AddLives(-amount);
-    //    ////    return;
-    //    ////}
-
-    //    //if(hasShield)
-    //    //{
-    //    //    DamageShield(amount);
-    //    //    return;
-    //    //}
-
-    //    //int previousLives = currentLives;
-    //    //currentLives = Mathf.Clamp(currentLives - amount, 0, startingLives);
-
-    //    //if (previousLives == currentLives) return; //No change.
-
-    //    //if(previousLives > currentLives) 
-    //    //{
-    //    //    //Damage
-    //    //    //Pick a random damage transform and instantiate a damage prefab. Setting to active lets us know it is in use.
-    //    //    List<int> usableIndexes = new();
-    //    //    for (int i = 0; i < damagePoints.Length; i++)
-    //    //    {
-    //    //        if(!damagePoints[i].Location.activeSelf)
-    //    //            usableIndexes.Add(i);
-    //    //    }
-
-    //    //    int selectedIndex = usableIndexes[UnityEngine.Random.Range(0, usableIndexes.Count)];
-    //    //    damagePoints[selectedIndex].Location.SetActive(true);
-
-    //    //    GameObject damageInstance = Instantiate(damageEffect, damagePoints[selectedIndex].Location.transform.position, damagePoints[selectedIndex].Location.transform.rotation, transform);
-    //    //    damagePoints[selectedIndex].DamageVisual = damageInstance;
-    //    //}
-
-    //    //UIManager.Instance.UpdateLives(currentLives);
-
-    //    //if (currentLives <= 0)
-    //    //    Die();
-    //}
-
     private void Die()
     {
         UIManager.Instance.GameOver();
         SpawnManager.Instance.StopSpawning();
         GameManager.Instance.GameOver();
         Destroy(gameObject);
+    }
+
+    private void OnShieldChanged(int delta, ShieldComp shieldComp)
+    {
+        if (shieldComp.Shield.CurrentValue > 0)
+        {
+            shieldSprite.SetActive(true);
+
+            var sr = shieldSprite.GetComponent<SpriteRenderer>();
+            Color color = sr.color;
+            color.a = shieldComp.Shield.Percentage;
+            sr.color = color;
+        }
+        else
+            shieldSprite.SetActive(false);
     }
 
     public void ActivateTripleShot()
@@ -287,24 +264,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5f);
         hasSpeedBoost = false;
         currentSpeed = speed;
-    }
-
-    public void ActivateShield()
-    {
-        DamageShield(-defaultShieldHealth);
-        shieldSprite.SetActive(true);
-    }
-
-    private void DamageShield(int damage)
-    {
-        shieldHealth = Mathf.Clamp(shieldHealth - damage, 0, defaultShieldHealth);
-        hasShield = shieldHealth > 0;
-        shieldSprite.SetActive(hasShield);
-
-        var sr = shieldSprite.GetComponent<SpriteRenderer>();
-        Color color = sr.color;
-        color.a = shieldHealth / (float)defaultShieldHealth;
-        sr.color = color;
     }
 
     public void AddPoints(int amount)

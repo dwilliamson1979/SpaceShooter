@@ -6,6 +6,7 @@ namespace com.dhcc.core
     {
         Damage,
         Health,
+        Shield,
         Mana,
         Stamina,
         Fire,

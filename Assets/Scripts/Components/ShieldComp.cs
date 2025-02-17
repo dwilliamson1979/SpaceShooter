@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace com.dhcc.components
 {
-    public class HealthComp : MonoBehaviour, IDamageReceiver
+    public class ShieldComp : MonoBehaviour, IDamageReceiver
     {
         [Header("Settings")]
-        [field: SerializeField] public IntResource Health { get; private set; }
+        [field: SerializeField] public IntResource Shield { get; private set; }
         [field: SerializeField] public int DamagePriority { get; private set; } = 0;
         [SerializeField] protected List<EDamageType> AcceptableDamage = new();
 
-        public event Action<int, HealthComp> OnHealthChanged = delegate { };
+        public event Action<int, ShieldComp> OnShieldChanged = delegate { };
 
         private void Awake()
         {
@@ -22,24 +22,19 @@ namespace com.dhcc.components
                 damageComp.Register(this);
         }
 
-        protected virtual void Start()
-        {
-
-        }
-
         public virtual int TakeDamage(EDamageType damageType, int amount)
         {
             if (!AcceptsDamage(damageType)) return 0;
 
-            if (damageType == EDamageType.Health)
+            if (damageType == EDamageType.Shield)
                 amount *= -1;
 
-            int previousValue = Health.CurrentValue;
-            Health.SetValue(Health.CurrentValue - amount);
+            int previousValue = Shield.CurrentValue;
+            Shield.SetValue(Shield.CurrentValue - amount);
 
-            int delta = previousValue - Health.CurrentValue;
+            int delta = previousValue - Shield.CurrentValue;
             if (Math.Abs(delta) > 0)
-                OnHealthChanged(delta, this);
+                OnShieldChanged(delta, this);
 
             //A float example:
             //if (Math.Abs(previousValue - CurrentValue) > changeTolerance)

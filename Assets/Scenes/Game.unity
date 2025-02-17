@@ -743,9 +743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupPrefabs:
-  - {fileID: 7603509850797136575, guid: bf7ca76963e9d48429e788f402c02262, type: 3}
-  - {fileID: 7603509850797136575, guid: bf7ca76963e9d48429e788f402c02262, type: 3}
-  - {fileID: 7415036181985603584, guid: 039075edcb8becb43aabb84632f08e10, type: 3}
+  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
   container: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
@@ -2889,10 +2887,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2009745644}
-  - component: {fileID: 2009745643}
   - component: {fileID: 2009745645}
+  - component: {fileID: 2009745643}
   - component: {fileID: 2009745646}
+  - component: {fileID: 2009745649}
   - component: {fileID: 2009745647}
+  - component: {fileID: 2009745648}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2922,9 +2922,9 @@ MonoBehaviour:
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1024
-  defaultShieldHealth: 3
   startingAmmo: 15
   startinghealth: 3
+  startingShield: 4
   primaryMuzzlePoint: {fileID: 1168458226}
   leftMuzzlePoint: {fileID: 1030919771}
   rightMuzzlePoint: {fileID: 590493154}
@@ -3042,6 +3042,37 @@ MonoBehaviour:
     <CurrentValue>k__BackingField: 0
   <DamagePriority>k__BackingField: 0
   AcceptableDamage: 0000000001000000
+--- !u!114 &2009745648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009745642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f95ba883fa904184789079fc7e41099c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Shield>k__BackingField:
+    changeTolerance: 1
+    <MinValue>k__BackingField: 0
+    <MaxValue>k__BackingField: 4
+    <CurrentValue>k__BackingField: 0
+  <DamagePriority>k__BackingField: 0
+  AcceptableDamage: 0000000002000000
+--- !u!114 &2009745649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009745642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb6a20cfb9f3fc84caffd12810741a0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2039639097
 GameObject:
   m_ObjectHideFlags: 0

@@ -116,6 +116,8 @@ MonoBehaviour:
   lowerOutOfBounds: -5.25
   powerupAudio: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
   myCollider: {fileID: 2035260893942581660}
+  shieldToGive: 1
+  damageType: 2
 --- !u!1 &7156856994674461595
 GameObject:
   m_ObjectHideFlags: 0
