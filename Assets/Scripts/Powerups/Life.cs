@@ -1,11 +1,13 @@
+using com.dhcc.core;
 using UnityEngine;
 
 public class Life : Powerup
 {
-    [SerializeField] private int livesToGive;
+    [SerializeField] private int lifeToGive;
+    [SerializeField] private EDamageType damageType;
 
     protected override void Pickup(Player player)
     {
-        player.AddLives(livesToGive);
+        player.TakeDamage(damageType, lifeToGive);
     }
 }

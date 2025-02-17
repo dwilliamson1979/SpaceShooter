@@ -2891,6 +2891,8 @@ GameObject:
   - component: {fileID: 2009745644}
   - component: {fileID: 2009745643}
   - component: {fileID: 2009745645}
+  - component: {fileID: 2009745646}
+  - component: {fileID: 2009745647}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -2922,7 +2924,7 @@ MonoBehaviour:
     m_Bits: 1024
   defaultShieldHealth: 3
   startingAmmo: 15
-  startingLives: 3
+  startinghealth: 3
   primaryMuzzlePoint: {fileID: 1168458226}
   leftMuzzlePoint: {fileID: 1030919771}
   rightMuzzlePoint: {fileID: 590493154}
@@ -3008,6 +3010,38 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.79555327, y: 1.8995655}
   m_EdgeRadius: 0
+--- !u!114 &2009745646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009745642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d015b4a8436c3ea4e9a5d39de2f7f503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSmoothTime: 0.1
+--- !u!114 &2009745647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009745642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b7da35b15ed2d4eaa7d7d6d61d89a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField:
+    changeTolerance: 1
+    <MinValue>k__BackingField: 0
+    <MaxValue>k__BackingField: 3
+    <CurrentValue>k__BackingField: 0
+  <DamagePriority>k__BackingField: 0
+  AcceptableDamage: 0000000001000000
 --- !u!1 &2039639097
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using com.dhcc.pool;
+using com.dhcc.core;
 using System.Collections;
 using UnityEngine;
 
@@ -85,7 +86,7 @@ public class Enemy : MonoBehaviour, IPoolObject
         {
             var player = other.GetComponent<Player>();
             if (player != null)
-                player.Damage(1);
+                player.TakeDamage(EDamageType.Damage, 1);
 
             Die();
         }

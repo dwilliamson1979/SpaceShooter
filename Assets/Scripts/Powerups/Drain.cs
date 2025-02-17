@@ -1,11 +1,13 @@
+using com.dhcc.core;
 using UnityEngine;
 
 public class Drain : Powerup
 {
-    [SerializeField] private int livesToTake;
+    [SerializeField] private int lifeToTake;
+    [SerializeField] private EDamageType damageType;
 
     protected override void Pickup(Player player)
     {
-        player.Damage(livesToTake);
+        player.TakeDamage(damageType, lifeToTake);
     }
 }

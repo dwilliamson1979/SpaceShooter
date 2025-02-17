@@ -1,4 +1,5 @@
 using com.dhcc.pool;
+using com.dhcc.core;
 using System;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ public class Projectile: MonoBehaviour, IPoolObject
 
     protected virtual void PlayerHit(Player player)
     {
-        player.Damage(1);
+        player.TakeDamage(EDamageType.Damage, 1);
         Kill();
     }
 
