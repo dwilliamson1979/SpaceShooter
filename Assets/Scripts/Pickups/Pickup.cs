@@ -40,7 +40,6 @@ public class Pickup : MonoBehaviour
         }
     }
 
-    protected virtual void TryToPickup(GameObject obj) { }
     public virtual void PickupComplete()
     {
         Destroy(gameObject);

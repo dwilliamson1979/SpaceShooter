@@ -743,7 +743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerupPrefabs:
-  - {fileID: 6308881137333044157, guid: aee09d7600e28824d8ebd78045a9bf89, type: 3}
+  - {fileID: 3432822830800958306, guid: 173c0afeb7e15cd4193cf3b308453b5e, type: 3}
   container: {fileID: 1206496761}
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
@@ -2922,7 +2922,7 @@ MonoBehaviour:
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1024
-  startingAmmo: 15
+  startingAmmo: 50
   startinghealth: 3
   startingShield: 4
   primaryMuzzlePoint: {fileID: 1168458226}
@@ -3035,7 +3035,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Health>k__BackingField:
-    changeTolerance: 1
     <MinValue>k__BackingField: 0
     <MaxValue>k__BackingField: 3
     <CurrentValue>k__BackingField: 0
@@ -3054,7 +3053,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Shield>k__BackingField:
-    changeTolerance: 1
     <MinValue>k__BackingField: 0
     <MaxValue>k__BackingField: 2
     <CurrentValue>k__BackingField: 0

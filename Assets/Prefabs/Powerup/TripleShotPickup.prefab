@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3432822830800958306}
   - component: {fileID: 5770114383938638292}
   - component: {fileID: 5308444641129705202}
-  - component: {fileID: 6088890560833714305}
+  - component: {fileID: -7005367766672418908}
   m_Layer: 3
   m_Name: TripleShotPickup
   m_TagString: Untagged
@@ -98,7 +98,7 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!114 &6088890560833714305
+--- !u!114 &-7005367766672418908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,15 +107,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 6225950389338190027}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e51e4e16c643994e84ff9e0c61b13d2, type: 3}
+  m_Script: {fileID: 11500000, guid: 5373fa1f36ceebd47ad1ebf8e43a7eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
   lowerOutOfBounds: -5.25
-  powerupAudio: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  myCollider: {fileID: 5308444641129705202}
+  pickupSO: {fileID: 11400000, guid: 04f61cd47eb50ea4fbf6df9a96324304, type: 2}
 --- !u!1 &8652293127769752588
 GameObject:
   m_ObjectHideFlags: 0

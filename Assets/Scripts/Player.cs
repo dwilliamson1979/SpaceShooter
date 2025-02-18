@@ -223,10 +223,15 @@ public class Player : MonoBehaviour
     {
         hasTripleShot = true;
 
-        if(tripleShotRoutine != null)
-            StopCoroutine(tripleShotRoutine);
+        //if(tripleShotRoutine != null)
+        //    StopCoroutine(tripleShotRoutine);
 
-        tripleShotRoutine = StartCoroutine(TripleShotStopRoutine());
+        //tripleShotRoutine = StartCoroutine(TripleShotStopRoutine());
+    }
+
+    public void DeactivateTripleShot()
+    {
+        hasTripleShot = false;
     }
 
     private IEnumerator TripleShotStopRoutine()

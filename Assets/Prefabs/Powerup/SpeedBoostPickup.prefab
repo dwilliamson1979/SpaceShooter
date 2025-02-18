@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8494655246050883912}
   - component: {fileID: 1076768078637977229}
   - component: {fileID: 4405571536875489837}
-  - component: {fileID: 2120047959015890788}
+  - component: {fileID: 7811154552588971577}
   m_Layer: 0
   m_Name: SpeedBoostPickup
   m_TagString: Untagged
@@ -98,7 +98,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2120047959015890788
+--- !u!114 &7811154552588971577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,15 +107,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1820367886046775487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d24fe8b9ac4c63444a64e764d58c1c33, type: 3}
+  m_Script: {fileID: 11500000, guid: 5373fa1f36ceebd47ad1ebf8e43a7eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
   lowerOutOfBounds: -5.25
-  powerupAudio: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  myCollider: {fileID: 1076768078637977229}
+  pickupSO: {fileID: 11400000, guid: 9e06428ac0a907648a6fac48df3fbaa3, type: 2}
 --- !u!1 &9165813815122306739
 GameObject:
   m_ObjectHideFlags: 0
