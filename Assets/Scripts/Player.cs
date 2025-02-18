@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Vector2 horizontalBounds;
     [SerializeField] private Vector2 horizontalWrapBounds;
     [SerializeField] private float fireRate;
-    [SerializeField] private float speedBoostModifier;
     [SerializeField] private LayerMask projectileLayer;
     
     [SerializeField] private int startingAmmo;
@@ -42,9 +41,6 @@ public class Player : MonoBehaviour
 
     private bool hasTripleShot;
     Coroutine tripleShotRoutine;
-    
-    private bool hasSpeedBoost;
-    Coroutine speedBoostRoutine;
 
     private int currentAmmo;
 
@@ -238,24 +234,6 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         hasTripleShot = false;
-    }
-
-    public void ActivateSpeedBoost()
-    {
-        //hasSpeedBoost = true;
-        //currentSpeed = speedBoostModifier * speed + speed;
-
-        //if (speedBoostRoutine != null)
-        //    StopCoroutine(speedBoostRoutine);
-
-        //speedBoostRoutine = StartCoroutine(SpeedBoostRoutine());
-    }
-
-    private IEnumerator SpeedBoostRoutine()
-    {
-        yield return new WaitForSeconds(5f);
-        //hasSpeedBoost = false;
-        //currentSpeed = speed;
     }
 
     public void AddPoints(int amount)
