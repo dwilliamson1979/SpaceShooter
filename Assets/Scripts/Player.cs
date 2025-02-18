@@ -5,7 +5,6 @@ using com.dhcc.core;
 using com.dhcc.components;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInput))]
 public class Player : MonoBehaviour
 {
     [Serializable]
@@ -46,7 +45,7 @@ public class Player : MonoBehaviour
 
     private List<GameObject> damageInstances = new();
 
-    private PlayerInput playerInput;
+    private InputComp inputComp;
     private DamageComp damageComp;
     private HealthComp healthComp;
     private ShieldComp shieldComp;
@@ -54,7 +53,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
+        inputComp = GetComponent<InputComp>();
         damageComp = GetComponent<DamageComp>();
         healthComp = GetComponent<HealthComp>();
         shieldComp = GetComponent<ShieldComp>();
@@ -89,7 +88,7 @@ public class Player : MonoBehaviour
 
     private void ProcessMovement()
     {
-        moveComp.Move(playerInput.MoveInput);
+        moveComp.Move(inputComp.MoveInput);
 
         if (!wrapHorizontalMovement)
         {
