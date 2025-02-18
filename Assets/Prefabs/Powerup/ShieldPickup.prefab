@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6308881137333044157}
   - component: {fileID: 2035260893942581660}
   - component: {fileID: 5343987563291124083}
-  - component: {fileID: 7311853199794870493}
+  - component: {fileID: 2602216491318322686}
   m_Layer: 3
   m_Name: ShieldPickup
   m_TagString: Untagged
@@ -98,7 +98,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7311853199794870493
+--- !u!114 &2602216491318322686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,17 +107,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4155331265924047679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cf79dfd046dbde4ab68e9b6f81c4944, type: 3}
+  m_Script: {fileID: 11500000, guid: 5373fa1f36ceebd47ad1ebf8e43a7eac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
   lowerOutOfBounds: -5.25
-  powerupAudio: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  myCollider: {fileID: 2035260893942581660}
-  shieldToGive: 1
-  damageType: 2
+  pickupSO: {fileID: 11400000, guid: fea0adf1ed11c7c41b8919fb5c44bd71, type: 2}
 --- !u!1 &7156856994674461595
 GameObject:
   m_ObjectHideFlags: 0

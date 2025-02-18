@@ -11,7 +11,6 @@ namespace com.dhcc.core
     public class IntResource
     {
         [Header("Settings")]
-        [SerializeField] private int changeTolerance = 1;
         [field: SerializeField] public int MinValue { get; private set; }
         [field: SerializeField] public int MaxValue { get; private set; }
         [field: SerializeField, ReadOnly] public int CurrentValue { get; private set; }

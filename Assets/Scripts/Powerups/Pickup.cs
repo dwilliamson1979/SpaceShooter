@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Powerup : MonoBehaviour
+public class Pickup : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float speed;
@@ -9,8 +9,7 @@ public abstract class Powerup : MonoBehaviour
     [SerializeField] private float lowerOutOfBounds;
 
     [Header("References")]
-    [SerializeField] private AudioClip powerupAudio;
-    [SerializeField] private Collider2D myCollider;
+    [SerializeField] private PickupSO pickupSO;
 
     void Start()
     {
@@ -36,16 +35,16 @@ public abstract class Powerup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            var player = other.GetComponent<Player>();
-            if (player != null)
-                Pickup(player);
-
-            myCollider.enabled = false;
-            AudioManager.Instance.PlaySoundFx(powerupAudio);
-            gameObject.SetActive(false);
-            Destroy(gameObject, 1f);
+            if (pickupSO != null)
+                pickupSO.TryToPickup(this, other.gameObject);
         }
     }
 
-    protected abstract void Pickup(Player player);
+    protected virtual void TryToPickup(GameObject obj) { }
+    public virtual void PickupComplete()
+    {
+        Destroy(gameObject);
+
+        //TODO Release to pool?
+    }
 }

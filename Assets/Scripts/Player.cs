@@ -259,9 +259,11 @@ public class Player : MonoBehaviour
         UIManager.Instance.UpdateScore(score);
     }
 
-    public void AddAmmo(int amount)
+    public int AddAmmo(int amount)
     {
+        int previousAmmo = currentAmmo;
         currentAmmo = Mathf.Clamp(currentAmmo + amount, 0, startingAmmo);
         UIManager.Instance.UpdateAmmo(currentAmmo);
+        return currentAmmo - previousAmmo;
     }
 }

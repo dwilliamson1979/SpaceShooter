@@ -2620,7 +2620,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1802689012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2913,7 +2913,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2dfc41aa3c776a489679f6cd2122aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
   wrapHorizontalMovement: 0
   verticalBounds: {x: -3.5, y: 0}
   horizontalBounds: {x: -9, y: 9}
@@ -3023,7 +3022,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d015b4a8436c3ea4e9a5d39de2f7f503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSmoothTime: 0.1
 --- !u!114 &2009745647
 MonoBehaviour:
   m_ObjectHideFlags: 0

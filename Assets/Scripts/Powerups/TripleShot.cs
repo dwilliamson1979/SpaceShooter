@@ -1,10 +1,12 @@
 using com.dhcc.pool;
 using UnityEngine;
 
-public class TripleShot : Powerup
+public class TripleShot : Pickup
 {
-    protected override void Pickup(Player player)
+    protected override void TryToPickup(GameObject obj)
     {
-        player.ActivateTripleShot();
+        var player = obj.GetComponent<Player>();
+        if (player != null)
+            player.ActivateTripleShot();
     }
 }
