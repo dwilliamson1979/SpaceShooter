@@ -4,35 +4,31 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private float moveSmoothTime = 0.2f;
-
     private InputAction moveAction;
 
-    private bool bWantsToMove;
-    private Vector2 moveSmoothVelocity;
-    private Vector2 moveInputVector;
-    private Vector3 moveVector;
-    public Vector3 MoveVector => moveVector;
+    public Vector2 MoveInput { get; private set; }
 
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
-        moveAction.performed += MoveStart;
-        moveAction.canceled += MoveStop;
+        moveAction.performed += OnMoveAction;
+        moveAction.canceled += OnMoveAction;
     }
 
-    private void MoveStart(InputAction.CallbackContext context)
+    private void OnMoveAction(InputAction.CallbackContext context)
     {
-        moveInputVector = context.ReadValue<Vector2>();
-    }
-
-    private void MoveStop(InputAction.CallbackContext context)
-    {
-        moveInputVector = Vector2.zero;
-    }
-
-    private void LateUpdate()
-    {
-        moveVector = Vector2.SmoothDamp(moveVector, moveInputVector, ref moveSmoothVelocity, moveSmoothTime);
+        switch (context.phase)
+        {
+            case InputActionPhase.Performed:
+                {
+                    MoveInput = context.ReadValue<Vector2>();
+                    return;
+                }
+            case InputActionPhase.Canceled:
+                {
+                    MoveInput = Vector2.zero;
+                    return;
+                }
+        }       
     }
 }

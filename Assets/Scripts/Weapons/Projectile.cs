@@ -31,6 +31,8 @@ public class Projectile: MonoBehaviour, IPoolObject
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //TODO Visitor pattern candidate?
+
         if (other.CompareTag("Player"))
         {
             var player = other.GetComponent<Player>();

@@ -2893,6 +2893,7 @@ GameObject:
   - component: {fileID: 2009745649}
   - component: {fileID: 2009745647}
   - component: {fileID: 2009745648}
+  - component: {fileID: 2009745650}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -3057,9 +3058,9 @@ MonoBehaviour:
   <Shield>k__BackingField:
     changeTolerance: 1
     <MinValue>k__BackingField: 0
-    <MaxValue>k__BackingField: 4
+    <MaxValue>k__BackingField: 2
     <CurrentValue>k__BackingField: 0
-  <DamagePriority>k__BackingField: 0
+  <DamagePriority>k__BackingField: 1
   AcceptableDamage: 0000000002000000
 --- !u!114 &2009745649
 MonoBehaviour:
@@ -3073,6 +3074,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb6a20cfb9f3fc84caffd12810741a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2009745650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009745642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5709a31d2f9c535448d4d57f1f93ec4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DefaultSpeed>k__BackingField: 10
+  maxSpeed: 20
+  moveSmoothTime: 0.2
 --- !u!1 &2039639097
 GameObject:
   m_ObjectHideFlags: 0

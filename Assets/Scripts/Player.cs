@@ -15,8 +15,7 @@ public class Player : MonoBehaviour
         public GameObject DamageVisual;
     }
 
-    [Header("Settings")]    
-    [SerializeField] private float speed;
+    [Header("Settings")]
     [SerializeField] private bool wrapHorizontalMovement;
     [SerializeField] private Vector2 verticalBounds;
     [SerializeField] private Vector2 horizontalBounds;
@@ -46,7 +45,6 @@ public class Player : MonoBehaviour
     
     private bool hasSpeedBoost;
     Coroutine speedBoostRoutine;
-    private float currentSpeed;
 
     private int currentAmmo;
 
@@ -56,6 +54,7 @@ public class Player : MonoBehaviour
     private DamageComp damageComp;
     private HealthComp healthComp;
     private ShieldComp shieldComp;
+    private MoveComp moveComp;
 
     private void Awake()
     {
@@ -63,12 +62,12 @@ public class Player : MonoBehaviour
         damageComp = GetComponent<DamageComp>();
         healthComp = GetComponent<HealthComp>();
         shieldComp = GetComponent<ShieldComp>();
+        moveComp = GetComponent<MoveComp>();
     }
 
     void Start()
     {
         transform.position = Vector3.zero;
-        currentSpeed = speed;
         AddAmmo(startingAmmo);
 
         healthComp.OnHealthChanged += OnHealthChanged;
@@ -76,38 +75,25 @@ public class Player : MonoBehaviour
 
         shieldComp.OnShieldChanged += OnShieldChanged;
         shieldComp.TakeDamage(EDamageType.Shield, startingShield);
+
+        moveComp.SetSpeed(moveComp.DefaultSpeed);
     }
 
     void Update()
     {
-        ProcessMovement();
+        //ProcessMovement();
         ProcessFiring();
     }
 
     private void LateUpdate()
     {
         //TODO When should movement be processed? Does it depend on whether the movement is usign manual translation or physics?
-        //ProcessMovement();
+        ProcessMovement();
     }
 
     private void ProcessMovement()
     {
-        ////This method only captures the last axis. It will not capture both left and right at the same time (which creates a stalemate).
-        //horizontalInput = Input.GetAxis("Horizontal");
-        //verticalInput = Input.GetAxis("Vertical");
-        //direction = new Vector3(horizontalInput, verticalInput, 0);
-        //transform.Translate(Time.deltaTime * currentSpeed * direction);
-
-        ////if (Input.GetKey(KeyCode.D))
-        ////    transform.Translate(Vector3.right * Time.deltaTime * speed);
-        ////if (Input.GetKey(KeyCode.A))
-        ////    transform.Translate(-Vector3.right * Time.deltaTime * speed);
-        ////if (Input.GetKey(KeyCode.W))
-        ////    transform.Translate(Vector3.up * Time.deltaTime * speed);
-        ////if (Input.GetKey(KeyCode.S))
-        ////    transform.Translate(-Vector3.up * Time.deltaTime * speed);
-
-        transform.Translate(Time.deltaTime * currentSpeed * playerInput.MoveVector);
+        moveComp.Move(playerInput.MoveInput);
 
         if (!wrapHorizontalMovement)
         {
@@ -170,7 +156,8 @@ public class Player : MonoBehaviour
         UIManager.Instance.UpdateLives(healthComp.Health.CurrentValue);
 
         if (delta < 0)
-        {//Fix a random damage visual.
+        {
+            //Fix a random damage visual.
             List<int> usableIndexes = new();
             for (int i = 0; i < damagePoints.Length; i++)
             {
@@ -250,20 +237,20 @@ public class Player : MonoBehaviour
 
     public void ActivateSpeedBoost()
     {
-        hasSpeedBoost = true;
-        currentSpeed = speedBoostModifier * speed + speed;
+        //hasSpeedBoost = true;
+        //currentSpeed = speedBoostModifier * speed + speed;
 
-        if (speedBoostRoutine != null)
-            StopCoroutine(speedBoostRoutine);
+        //if (speedBoostRoutine != null)
+        //    StopCoroutine(speedBoostRoutine);
 
-        speedBoostRoutine = StartCoroutine(SpeedBoostRoutine());
+        //speedBoostRoutine = StartCoroutine(SpeedBoostRoutine());
     }
 
     private IEnumerator SpeedBoostRoutine()
     {
         yield return new WaitForSeconds(5f);
-        hasSpeedBoost = false;
-        currentSpeed = speed;
+        //hasSpeedBoost = false;
+        //currentSpeed = speed;
     }
 
     public void AddPoints(int amount)
