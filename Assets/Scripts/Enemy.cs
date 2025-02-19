@@ -7,9 +7,6 @@ public class Enemy : MonoBehaviour, IPoolObject
 {
     [Header("Settings")]
     [SerializeField] private float speed;
-    [SerializeField] private Vector2 spawnRangeX;
-    [SerializeField] private Vector2 spawnRangeY;
-    [SerializeField] private float lowerOutOfBounds;
     [SerializeField] private Vector2 fireRateRange;
     [SerializeField] private LayerMask projectileLayer;
 
@@ -39,15 +36,15 @@ public class Enemy : MonoBehaviour, IPoolObject
         animator.SetTrigger("OnReset");
         myCollider.enabled = true;
         isDead = false;
-        MoveToRandomStartPos();
+        SetSpawnPosition();
         StartCoroutine(FireRoutine());
     }
 
-    private void MoveToRandomStartPos()
+    private void SetSpawnPosition()
     {
-        float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
-        float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
-        transform.position = new Vector3(randomX, randomY, transform.position.z);
+        Vector3 spawnPosition = SpawnManager.Instance.GetSpawnPoint();
+        spawnPosition.z = transform.position.z;
+        transform.position = spawnPosition;
     }
 
     void Update()
@@ -59,8 +56,8 @@ public class Enemy : MonoBehaviour, IPoolObject
     {
         transform.Translate(Time.deltaTime * speed * -Vector3.up);
 
-        if(!isDead && transform.position.y < lowerOutOfBounds)
-            MoveToRandomStartPos();
+        if(!isDead && transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
+            SetSpawnPosition();
     }
 
     private IEnumerator FireRoutine()
@@ -108,7 +105,7 @@ public class Enemy : MonoBehaviour, IPoolObject
 
     public void DeathAnimationComplete()
     {
-        MoveToRandomStartPos();
+        SetSpawnPosition();
         OnReleaseToPool?.Invoke();
     }
 

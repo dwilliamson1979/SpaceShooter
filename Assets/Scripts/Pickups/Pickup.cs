@@ -1,34 +1,34 @@
+using com.dhcc.pool;
 using UnityEngine;
 
-public class Pickup : MonoBehaviour
+public class Pickup : MonoBehaviour, IPoolObject
 {
     [Header("Settings")]
     [SerializeField] private float speed;
-    [SerializeField] private Vector2 spawnRangeX;
-    [SerializeField] private Vector2 spawnRangeY;
-    [SerializeField] private float lowerOutOfBounds;
 
     [Header("References")]
     [SerializeField] private PickupSO pickupSO;
 
+    public event System.Action OnReleaseToPool;
+
     void Start()
     {
-        MoveToRandomStartPos();
+        SetSpawnPosition();
     }
 
     void Update()
     {
         transform.Translate(Time.deltaTime * speed * -Vector3.up);
 
-        if (transform.position.y < lowerOutOfBounds)
-            MoveToRandomStartPos();
+        if (transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
+            SetSpawnPosition();
     }
 
-    private void MoveToRandomStartPos()
+    private void SetSpawnPosition()
     {
-        float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
-        float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
-        transform.position = new Vector3(randomX, randomY, transform.position.z);
+        Vector3 spawnPosition = SpawnManager.Instance.GetSpawnPoint();
+        spawnPosition.z = transform.position.z;
+        transform.position = spawnPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -42,8 +42,28 @@ public class Pickup : MonoBehaviour
 
     public virtual void PickupComplete()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        OnReleaseToPool?.Invoke();
+    }
 
-        //TODO Release to pool?
+    public void PoolCreate()
+    {
+
+    }
+
+    public void PoolGet()
+    {
+        //TODO Do we need to reposition the object offscreen to prevent the possibility of it being reactviated at its last know position (possibly onscreen)?
+        gameObject.SetActive(true);
+    }
+
+    public void PoolRelease()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void PoolDestroy()
+    {
+
     }
 }

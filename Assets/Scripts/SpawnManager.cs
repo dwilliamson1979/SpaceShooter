@@ -68,4 +68,11 @@ public class SpawnManager : MonoBehaviour
     {
         StopSpawning();
     }
+
+    public Vector3 GetSpawnPoint()
+    {
+        float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
+        float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
+        return new Vector3(randomX, randomY, transform.position.z);
+    }
 }
