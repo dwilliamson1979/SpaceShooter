@@ -76,7 +76,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        //ProcessMovement();
         ProcessFiring();
     }
 
