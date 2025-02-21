@@ -12,7 +12,7 @@ public class SpeedPickupSO : PickupSO
     public override void TryToPickup(Pickup pickup, GameObject obj)
     {
         //TODO Need to develop a system for extending a pickup. Ex. If the speed pickup is in effect and it is picked up again, it should add more time.
-        var moveComp = obj.GetComponent<MoveComp>();
+        var moveComp = obj.GetComponent<MovementComp>();
         if (moveComp != null)
         {
             moveComp.SetSpeed(moveComp.DefaultSpeed  * (1 + speedMultiplier));

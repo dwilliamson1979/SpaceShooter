@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text ammoText;
+    [SerializeField] private Slider thrusterSlider;
     [SerializeField] private Sprite[] livesSprites;
     [SerializeField] private Image livesImage;
     [SerializeField] private GameObject gameOverMenu;
@@ -61,6 +62,11 @@ public class UIManager : MonoBehaviour
 
             ammoText.gameObject.SetActive(true);
         }
+    }
+
+    public void UpdateThruster(float val)
+    {
+        thrusterSlider.value = Mathf.Clamp(val, 0f, 1f);
     }
 
     private IEnumerator FlashAmmoRoutine()

@@ -21,5 +21,6 @@ namespace com.dhcc.core
         public void SetMax(int value) => MaxValue = value;
 
         public void SetValue(int value) => CurrentValue = Mathf.Clamp(value, MinValue, MaxValue);
+        public void Add(int value) => CurrentValue = Mathf.Clamp(CurrentValue + value, MinValue, MaxValue);
     }
 }

@@ -49,7 +49,8 @@ public class Player : MonoBehaviour
     private DamageComp damageComp;
     private HealthComp healthComp;
     private ShieldComp shieldComp;
-    private MoveComp moveComp;
+    private MovementComp moveComp;
+    private ThrusterComp thrusterComp;
 
     private void Awake()
     {
@@ -57,7 +58,8 @@ public class Player : MonoBehaviour
         damageComp = GetComponent<DamageComp>();
         healthComp = GetComponent<HealthComp>();
         shieldComp = GetComponent<ShieldComp>();
-        moveComp = GetComponent<MoveComp>();
+        moveComp = GetComponent<MovementComp>();
+        thrusterComp = GetComponent<ThrusterComp>();
     }
 
     void Start()
@@ -72,6 +74,23 @@ public class Player : MonoBehaviour
         shieldComp.TakeDamage(EDamageType.Shield, startingShield);
 
         moveComp.SetSpeed(moveComp.DefaultSpeed);
+
+        thrusterComp.OnThrusterChanged += OnThrusterChanged;
+
+        inputComp.OnSprint += OnThrust;
+    }
+
+    private void OnThrust(bool thrust)
+    {
+        if (thrust)
+            thrusterComp.Activate();
+        else
+            thrusterComp.Deactivate();
+    }
+
+    private void OnThrusterChanged(ThrusterComp comp)
+    {
+        UIManager.Instance.UpdateThruster(comp.Fuel.Percentage);
     }
 
     void Update()

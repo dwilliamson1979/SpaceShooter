@@ -5,18 +5,29 @@ using UnityEngine.InputSystem;
 public class InputComp : MonoBehaviour
 {
     private InputAction moveAction;
+    private InputAction sprintAction;
 
     public Vector2 MoveInput { get; private set; }
+
+    public event Action<bool> OnSprint = delegate { };
+    public bool WantsToSprint { get; private set; }
 
     void Start()
     {
         moveAction = InputSystem.actions.FindAction("Move");
         moveAction.performed += OnMoveAction;
         moveAction.canceled += OnMoveAction;
+
+        sprintAction = InputSystem.actions.FindAction("Sprint");
+        sprintAction.performed += OnSprintAction;
+        sprintAction.canceled += OnSprintAction;
     }
 
     private void OnMoveAction(InputAction.CallbackContext context)
     {
+        //TODO Is the switch statement even needed?
+        //MoveInput = context.ReadValue<Vector2>();
+
         switch (context.phase)
         {
             case InputActionPhase.Performed:
@@ -30,5 +41,24 @@ public class InputComp : MonoBehaviour
                     return;
                 }
         }       
+    }
+
+    private void OnSprintAction(InputAction.CallbackContext context)
+    {
+        switch (context.phase)
+        {
+            case InputActionPhase.Performed:
+                {
+                    WantsToSprint = true;
+                    OnSprint(WantsToSprint);
+                    return;
+                }
+            case InputActionPhase.Canceled:
+                {
+                    WantsToSprint = false;
+                    OnSprint(WantsToSprint);
+                    return;
+                }
+        }
     }
 }

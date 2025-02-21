@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace com.dhcc.components
 {
-    public class MoveComp : MonoBehaviour
+    public class MovementComp : MonoBehaviour
     {
         [Header("Settings")]
         [field: SerializeField] public float DefaultSpeed { get; private set; }
