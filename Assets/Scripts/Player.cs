@@ -77,15 +77,12 @@ public class Player : MonoBehaviour
 
         thrusterComp.OnThrusterChanged += OnThrusterChanged;
 
-        inputComp.OnSprint += OnThrust;
+        inputComp.OnSprintInput += OnThrustInput;
     }
 
-    private void OnThrust(bool thrust)
+    private void OnThrustInput(bool thrust)
     {
-        if (thrust)
-            thrusterComp.Activate();
-        else
-            thrusterComp.Deactivate();
+        thrusterComp.Thrust(thrust);
     }
 
     private void OnThrusterChanged(ThrusterComp comp)

@@ -9,7 +9,7 @@ public class InputComp : MonoBehaviour
 
     public Vector2 MoveInput { get; private set; }
 
-    public event Action<bool> OnSprint = delegate { };
+    public event Action<bool> OnSprintInput;
     public bool WantsToSprint { get; private set; }
 
     void Start()
@@ -50,13 +50,13 @@ public class InputComp : MonoBehaviour
             case InputActionPhase.Performed:
                 {
                     WantsToSprint = true;
-                    OnSprint(WantsToSprint);
+                    OnSprintInput?.Invoke(WantsToSprint);
                     return;
                 }
             case InputActionPhase.Canceled:
                 {
                     WantsToSprint = false;
-                    OnSprint(WantsToSprint);
+                    OnSprintInput?.Invoke(WantsToSprint);
                     return;
                 }
         }

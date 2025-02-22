@@ -16,7 +16,7 @@ namespace com.dhcc.components
         [SerializeField] public float burnoutRecoveryTime = 2f;        
         [SerializeField] public float speedModifier = 0.25f;
 
-        public event Action<ThrusterComp> OnThrusterChanged = delegate { };
+        public event Action<ThrusterComp> OnThrusterChanged;
 
         private bool wantsToThrust;
         private bool isThrusting;
@@ -30,23 +30,22 @@ namespace com.dhcc.components
 
         private void Update()
         {
+            //TODO This class is a good candidate for a state machine {Idle, Thrusting, Recovering, Refueling, Burnout}?
+
             if(!isInRecoveryMode)
             {
-                if (Fuel.CurrentValue > 0f)
+                if (wantsToThrust && Fuel.CurrentValue > 0f)
                 {
-                    if (wantsToThrust)
-                    {
-                        if (!isThrusting)
-                            InternalActivate();
+                    if (!isThrusting)
+                        Activate();
 
-                        Fuel.Add(-burnRate * Time.deltaTime);
-                        OnThrusterChanged(this);
+                    Fuel.Add(-burnRate * Time.deltaTime);
+                    OnThrusterChanged?.Invoke(this);
 
-                        if (Fuel.CurrentValue <= 0f)
-                            StartCoroutine(BurnoutRecoveryRoutine());
+                    if (Fuel.CurrentValue <= 0f)
+                        StartCoroutine(BurnoutRecoveryRoutine());
 
-                        return;
-                    }
+                    return;
                 }
                 
                 //Refuel if we are out of fuel or not thrusting.
@@ -54,23 +53,18 @@ namespace com.dhcc.components
             }
         }
 
-        public void Activate()
+        public void Thrust(bool thrust)
         {
-            wantsToThrust = true;
+            wantsToThrust = thrust;
         }
 
-        private void InternalActivate()
+        private void Activate()
         {
             isThrusting = true;
             movementComp.SetSpeed(movementComp.DefaultSpeed * (1f + speedModifier));
         }
 
-        public void Deactivate()
-        {
-            wantsToThrust = false;
-        }
-
-        private void InternalDeactivate()
+        private void Deactivate()
         {
             isThrusting = false;
             movementComp.SetSpeed(movementComp.DefaultSpeed);
@@ -79,16 +73,18 @@ namespace com.dhcc.components
         private void Refuel()
         {
             if (isThrusting)
-                InternalDeactivate();
+                Deactivate();
+
+            if (Fuel.IsAtMax) return;
 
             Fuel.Add(recoveryRate * Time.deltaTime);
-            OnThrusterChanged(this);
+            OnThrusterChanged?.Invoke(this);
         }
 
         private IEnumerator BurnoutRecoveryRoutine()
         {
             isInRecoveryMode = true;
-            InternalDeactivate();
+            Deactivate();
 
             yield return new WaitForSeconds(burnoutRecoveryTime);
             isInRecoveryMode = false;
