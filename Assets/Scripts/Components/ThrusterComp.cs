@@ -9,28 +9,7 @@ namespace com.dhcc.components
     public class ThrusterComp : MonoBehaviour
     {
         #region State Machine Definitions
-        private enum EThrusterState { Idle, Thrusting, Recovering, Refueling, Burnout } //Recovering may go away...
-
-        private class ThrusterFSM : FSM<EThrusterState>
-        {
-            [SerializeField] private Dictionary<EThrusterState, IState<EThrusterState>> states = new();
-
-            public override void AddState(IState<EThrusterState> state)
-            {
-                if (states.ContainsKey(state.StateID))
-                {
-                    Debug.Log($"(AddState) {this} already contains the {state.StateID} state.");
-                    return;
-                }
-
-                states[state.StateID] = state;
-            }
-
-            protected override IState<EThrusterState> GetState(EThrusterState stateID)
-            {
-                return states.ContainsKey(stateID) ? states[stateID] : null;
-            }
-        }
+        private enum EThrusterState { Idle, Thrusting, Burnout }
 
         private abstract class ThrusterState : IState<EThrusterState>
         {
@@ -130,7 +109,7 @@ namespace com.dhcc.components
         [SerializeField] private float recoveryRate = 0.5f;
         [SerializeField] private float burnoutRecoveryTime = 2f;        
         [field: SerializeField] public float SpeedModifier { get; private set; } = 0.25f;
-        [SerializeField] private ThrusterFSM fsm;
+        [SerializeField] private FSM<EThrusterState> fsm;
 
         public bool IsThrusting { get; private set; }
         public event Action OnThrustChanged;
@@ -140,7 +119,7 @@ namespace com.dhcc.components
 
         private void Start()
         {
-            fsm = new ThrusterFSM();
+            fsm = new FSM<EThrusterState>();
             fsm.AddState(new IdleState(this));
             fsm.AddState(new ThrustingState(this));
             fsm.AddState(new BurnoutState(this));

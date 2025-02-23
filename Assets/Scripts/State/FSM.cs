@@ -27,10 +27,25 @@ namespace com.dhcc.fsm
         public void FixedUpdate() => CurrentState?.FixedUpdate();
     }
 
-    public abstract class FSM<E> : FSM where E : Enum
+    public class FSM<E> : FSM where E : Enum
     {
-        protected abstract IState<E> GetState(E state);
-        public abstract void AddState(IState<E> state);
+        [SerializeField] private Dictionary<E, IState<E>> states = new();
+
+        public void AddState(IState<E> state)
+        {
+            if (states.ContainsKey(state.StateID))
+            {
+                Debug.Log($"(AddState) {this} already contains the {state.StateID} state.");
+                return;
+            }
+
+            states[state.StateID] = state;
+        }
+
+        private IState<E> GetState(E stateID)
+        {
+            return states.ContainsKey(stateID) ? states[stateID] : null;
+        }
 
         public void SetState(E newState)
         {
