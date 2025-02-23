@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using com.dhcc.utility;
 
-namespace com.dhcc.core
+namespace com.dhcc.utility
 {
     /// <summary>
     /// A class meant to be used for resources like health, shield, mana, etc.

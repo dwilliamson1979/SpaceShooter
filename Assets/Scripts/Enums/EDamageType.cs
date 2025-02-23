@@ -1,18 +1,14 @@
-using UnityEngine;
 
-namespace com.dhcc.core
+public enum EDamageType
 {
-    public enum EDamageType
-    {
-        Damage,
-        Health,
-        Shield,
-        Mana,
-        Stamina,
-        Fire,
-        Acid,
-        Ice,
-        Earth,
-        Dark
-    }
+    Damage,
+    Health,
+    Shield,
+    Mana,
+    Stamina,
+    Fire,
+    Acid,
+    Ice,
+    Earth,
+    Dark
 }

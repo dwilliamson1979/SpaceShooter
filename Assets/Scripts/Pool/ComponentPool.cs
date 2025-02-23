@@ -26,7 +26,6 @@ namespace com.dhcc.pool
         protected override void OnDestroyObject(T obj)
         {
             obj.PoolDestroy();
-            //GameObject.Destroy(obj.gameObject);
         }
 
         public void SetContainer(Transform container) => this.container = container;

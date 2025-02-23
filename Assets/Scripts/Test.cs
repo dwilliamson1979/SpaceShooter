@@ -1,6 +1,5 @@
-using com.dhcc.core;
-using com.dhcc.pool;
-using com.dhcc.utility;
+//using com.dhcc.pool;
+//using com.dhcc.utility;
 using UnityEngine;
 
 public class Test : MonoBehaviour, IDamageReceiver

@@ -29,10 +29,8 @@ namespace com.dhcc.fsm
 
     public abstract class FSM<E> : FSM where E : Enum
     {
-        new public IState<E> CurrentState { get; protected set; }
-
         protected abstract IState<E> GetState(E state);
-        protected abstract void AddState(IState<E> state);
+        public abstract void AddState(IState<E> state);
 
         public void SetState(E newState)
         {
@@ -47,20 +45,5 @@ namespace com.dhcc.fsm
             CurrentState = requestedState;
             CurrentState.Enter();
         }
-
-        //Will removing this cause issues? Will the base class of FSM.SetState() work when trying to assign the argument of IState to the "new" CurrentState (IState<E>)?
-        //public void SetState(IState<E> newState)
-        //{
-        //    if (newState == null)
-        //    {
-        //        Debug.LogWarning("StateMachine.SetState received a null argument and will remain in the current state.");
-        //        return;
-        //    }
-
-        //    CurrentState?.Exit();
-
-        //    CurrentState = newState;
-        //    CurrentState.Enter();
-        //}
     }
 }

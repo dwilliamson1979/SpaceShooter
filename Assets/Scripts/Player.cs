@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using com.dhcc.core;
 using com.dhcc.components;
 using UnityEngine;
 
@@ -75,7 +74,8 @@ public class Player : MonoBehaviour
 
         moveComp.SetSpeed(moveComp.DefaultSpeed);
 
-        thrusterComp.OnThrusterChanged += OnThrusterChanged;
+        thrusterComp.OnThrustChanged += OnThrustChanged;
+        thrusterComp.OnFuelChanged += OnFuelChanged;
 
         inputComp.OnSprintInput += OnThrustInput;
     }
@@ -85,9 +85,20 @@ public class Player : MonoBehaviour
         thrusterComp.Thrust(thrust);
     }
 
-    private void OnThrusterChanged(ThrusterComp comp)
+    private void OnThrustChanged()
     {
-        UIManager.Instance.UpdateThruster(comp.Fuel.Percentage);
+        //TODO Start/stop a visual effect? Move this back into the ThrusterComp?
+        //UIManager.Instance.UpdateThruster(thrusterComp.Fuel.Percentage);
+
+        if(thrusterComp.IsThrusting)
+            moveComp.SetSpeed(moveComp.DefaultSpeed * (1f + thrusterComp.SpeedModifier));
+        else
+            moveComp.SetSpeed(moveComp.DefaultSpeed);
+    }
+
+    private void OnFuelChanged()
+    {
+        UIManager.Instance.UpdateThruster(thrusterComp.Fuel.Percentage);
     }
 
     void Update()

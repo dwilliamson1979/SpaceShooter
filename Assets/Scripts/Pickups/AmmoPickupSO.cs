@@ -1,4 +1,3 @@
-using com.dhcc.core;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AmmoPickupSO", menuName = "Pickups/AmmoPickupSO")]
