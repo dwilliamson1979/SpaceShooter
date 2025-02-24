@@ -29,12 +29,12 @@ namespace com.dhcc.pool
             }
         }
 
-        public void Fill(int amount)
+        public void Populate(int quantity)
         {
-            amount = Mathf.Clamp(amount, 0, maxCapacity);
+            quantity = Mathf.Clamp(quantity, 0, maxCapacity);
 
-            T[] tempList = new T[amount];
-            for (int i = 0; i < amount; i++)
+            T[] tempList = new T[quantity];
+            for (int i = 0; i < quantity; i++)
                 tempList[i] = Pool.Get();
 
             for (int i = 0; i < tempList.Length; i++)

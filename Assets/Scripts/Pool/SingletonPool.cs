@@ -8,20 +8,16 @@ namespace com.dhcc.pool
         private static SingletonPool<T> instance;
         public static SingletonPool<T> Instance => SingletonEmulator.Get(instance);
 
-        [Header("Settings")]
+        [Header("Pool Settings")]
         [SerializeField] private ComponentPool<T> pool;
-        [SerializeField] private bool autoCreateContainer = true;
+        [SerializeField] protected int prefill = 0;
 
         private void Awake()
         {
             if (SingletonEmulator.Enforce(this, instance, out instance)) return;
 
-            if(autoCreateContainer)
-            {
-                GameObject container = new GameObject("Container");
-                container.transform.SetParent(transform);
-                pool.SetContainer(container.transform);
-            }
+            //pool.SetContainer(transform);
+            pool.Populate(prefill);
         }
 
         public static T Get() => Instance.pool.Get();

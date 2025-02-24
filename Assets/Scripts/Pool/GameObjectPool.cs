@@ -16,6 +16,7 @@ namespace com.dhcc.pool
         [SerializeField] private int DefaultCapacity = 10;
         [SerializeField] private int maxCapacity = 1000;
         [SerializeField] private EPoolType poolType;
+        [SerializeField] private bool defaultActiveStatus = false;
 
         private IObjectPool<GameObject> pool;
         public IObjectPool<GameObject> Pool
@@ -34,12 +35,12 @@ namespace com.dhcc.pool
             }
         }
 
-        public void Fill(int amount)
+        public void Populate(int quantity)
         {
-            amount = Mathf.Clamp(amount, 0, maxCapacity);
+            quantity = Mathf.Clamp(quantity, 0, maxCapacity);
 
-            GameObject[] tempList = new GameObject[amount];
-            for (int i = 0; i < amount; i++)
+            GameObject[] tempList = new GameObject[quantity];
+            for (int i = 0; i < quantity; i++)
                 tempList[i] = Pool.Get();
 
             for (int i = 0; i < tempList.Length; i++)
@@ -58,6 +59,8 @@ namespace com.dhcc.pool
                 po.PoolOnCreate();
                 po.ReleaseToPool += () => Pool.Release(go);
             }
+
+            go.SetActive(defaultActiveStatus);
 
             return go;
         }

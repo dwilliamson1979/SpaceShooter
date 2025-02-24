@@ -829,6 +829,7 @@ MonoBehaviour:
     DefaultCapacity: 10
     maxCapacity: 1000
     poolType: 0
+    defaultActiveStatus: 0
     prefab: {fileID: -3285484151445173464, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
     container: {fileID: 1206496761}
 --- !u!4 &762310954
@@ -1292,12 +1293,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pool:
     collectionChecks: 1
-    DefaultCapacity: 10
+    DefaultCapacity: 3
     maxCapacity: 1000
     poolType: 0
+    defaultActiveStatus: 0
     prefab: {fileID: -617643715837456479, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
-    container: {fileID: 0}
-  autoCreateContainer: 1
+    container: {fileID: 976886052}
+  prefill: 8
 --- !u!1 &979967659
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,7 +3111,7 @@ MonoBehaviour:
     m_Bits: 1024
   startingAmmo: 50
   startinghealth: 3
-  startingShield: 4
+  startingShield: 0
   primaryMuzzlePoint: {fileID: 1168458226}
   leftMuzzlePoint: {fileID: 1030919771}
   rightMuzzlePoint: {fileID: 590493154}
@@ -3289,7 +3291,7 @@ MonoBehaviour:
   burnRate: 0.5
   recoveryRate: 0.5
   burnoutRecoveryTime: 2
-  speedModifier: 0.25
+  <SpeedModifier>k__BackingField: 0.25
 --- !u!1 &2039639097
 GameObject:
   m_ObjectHideFlags: 0
