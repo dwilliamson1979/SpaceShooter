@@ -9,17 +9,12 @@ namespace com.dhcc.components
     public class ThrusterComp : MonoBehaviour
     {
         #region State Machine Definitions
-        private enum EThrusterState { Idle, Thrusting, Burnout }
 
-        private abstract class ThrusterState : IState<EThrusterState>
+        private abstract class ThrusterState : IState
         {
-            public EThrusterState StateID { get; protected set; }
-            protected ThrusterComp thruster;
+            protected ThrusterComp obj;
 
-            public ThrusterState(ThrusterComp thrusterComp)
-            {
-                this.thruster = thrusterComp;
-            }
+            public ThrusterState(ThrusterComp thrusterComp) => obj = thrusterComp;
 
             public virtual void Enter() { }
             public virtual void Exit() { }
@@ -29,20 +24,20 @@ namespace com.dhcc.components
 
         private class IdleState : ThrusterState
         {
-            public IdleState(ThrusterComp thrusterComp) : base(thrusterComp) { StateID = EThrusterState.Idle; }
+            public IdleState(ThrusterComp thrusterComp) : base(thrusterComp) { }
 
             public override void Update()
             {
-                if (thruster.wantsToThrust && !thruster.Fuel.IsAtMin)
+                if (obj.wantsToThrust && !obj.Fuel.IsAtMin)
                 {
-                    thruster.fsm.SetState(EThrusterState.Thrusting);
+                    obj.fsm.SetState(obj.thrustingState);
                     return;
                 }
 
-                if (!thruster.Fuel.IsAtMax)
+                if (!obj.Fuel.IsAtMax)
                 {
-                    thruster.Fuel.Add(thruster.recoveryRate * Time.deltaTime);
-                    thruster.OnFuelChanged?.Invoke();
+                    obj.Fuel.Add(obj.recoveryRate * Time.deltaTime);
+                    obj.OnFuelChanged?.Invoke();
                     return;
                 }
             }
@@ -50,37 +45,37 @@ namespace com.dhcc.components
 
         private class ThrustingState : ThrusterState
         {
-            public ThrustingState(ThrusterComp thrusterComp) : base(thrusterComp) { StateID = EThrusterState.Thrusting; }
+            public ThrustingState(ThrusterComp thrusterComp) : base(thrusterComp) { }
 
             public override void Enter()
             {
-                thruster.IsThrusting = true;
-                thruster.OnThrustChanged?.Invoke();
+                obj.IsThrusting = true;
+                obj.OnThrustChanged?.Invoke();
             }
 
             public override void Update()
             {
-                if (!thruster.wantsToThrust)
-                    thruster.fsm.SetState(EThrusterState.Idle);
+                if (!obj.wantsToThrust)
+                    obj.fsm.SetState(obj.idleState);
 
-                thruster.Fuel.Add(-thruster.burnRate * Time.deltaTime);
-                thruster.OnFuelChanged?.Invoke();
+                obj.Fuel.Add(-obj.burnRate * Time.deltaTime);
+                obj.OnFuelChanged?.Invoke();
 
-                if (thruster.Fuel.CurrentValue <= 0f)
-                    thruster.fsm.SetState(EThrusterState.Burnout);
+                if (obj.Fuel.CurrentValue <= 0f)
+                    obj.fsm.SetState(obj.burnoutState);
             }
 
             public override void Exit()
             {
-                thruster.IsThrusting = false;
-                thruster.OnThrustChanged?.Invoke();
+                obj.IsThrusting = false;
+                obj.OnThrustChanged?.Invoke();
             }
         }
 
         private class BurnoutState : ThrusterState
         {
             private float elapsedRecoveryTime;
-            public BurnoutState(ThrusterComp thrusterComp) : base(thrusterComp) { StateID = EThrusterState.Burnout; }
+            public BurnoutState(ThrusterComp thrusterComp) : base(thrusterComp) { }
 
             public override void Enter()
             {
@@ -89,15 +84,15 @@ namespace com.dhcc.components
 
             public override void Update()
             {
-                if(thruster.wantsToThrust)
+                if(obj.wantsToThrust)
                 {
                     elapsedRecoveryTime = 0f;
                     return;
                 }
 
                 elapsedRecoveryTime += Time.deltaTime;
-                if (elapsedRecoveryTime >= thruster.burnoutRecoveryTime)
-                    thruster.fsm.SetState(EThrusterState.Idle);
+                if (elapsedRecoveryTime >= obj.burnoutRecoveryTime)
+                    obj.fsm.SetState(obj.idleState);
             }
         }
         #endregion
@@ -109,7 +104,11 @@ namespace com.dhcc.components
         [SerializeField] private float recoveryRate = 0.5f;
         [SerializeField] private float burnoutRecoveryTime = 2f;        
         [field: SerializeField] public float SpeedModifier { get; private set; } = 0.25f;
-        [SerializeField] private FSM<EThrusterState> fsm;
+        
+        private FSM fsm;
+        private IState idleState;
+        private IState thrustingState;
+        private IState burnoutState;
 
         public bool IsThrusting { get; private set; }
         public event Action OnThrustChanged;
@@ -119,12 +118,11 @@ namespace com.dhcc.components
 
         private void Start()
         {
-            fsm = new FSM<EThrusterState>();
-            fsm.AddState(new IdleState(this));
-            fsm.AddState(new ThrustingState(this));
-            fsm.AddState(new BurnoutState(this));
-
-            fsm.SetState(EThrusterState.Idle);
+            fsm = new FSM();
+            idleState = new IdleState(this);
+            thrustingState = new ThrustingState(this);
+            burnoutState = new BurnoutState(this);
+            fsm.SetState(idleState);
         }
 
         private void Update()
