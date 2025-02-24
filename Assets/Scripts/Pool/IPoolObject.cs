@@ -4,11 +4,11 @@ namespace com.dhcc.pool
 {
     public interface IPoolObject
     {
-        event Action OnReleaseToPool;
+        event Action ReleaseToPool;
 
-        void PoolCreate();
-        void PoolGet();
-        void PoolRelease();
-        void PoolDestroy();
+        void PoolOnCreate();
+        void PoolOnGet();
+        void PoolOnRelease();
+        void PoolOnDestroy();
     }
 }

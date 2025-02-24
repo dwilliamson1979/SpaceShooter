@@ -17,15 +17,10 @@ namespace com.dhcc.pool
         protected override T OnCreateObject()
         {
             T obj = GameObject.Instantiate(prefab, container);
-            obj.PoolCreate();
-            obj.OnReleaseToPool += () => Pool.Release(obj);
+            obj.PoolOnCreate();
+            obj.ReleaseToPool += () => Pool.Release(obj);
 
             return obj;
-        }
-
-        protected override void OnDestroyObject(T obj)
-        {
-            obj.PoolDestroy();
         }
 
         public void SetContainer(Transform container) => this.container = container;

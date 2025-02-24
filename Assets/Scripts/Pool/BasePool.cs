@@ -44,9 +44,9 @@ namespace com.dhcc.pool
         }
 
         protected abstract T OnCreateObject();
-        protected virtual void OnGetObject(T obj) => obj.PoolGet();
-        protected virtual void OnReleaseObject(T obj) => obj.PoolRelease();
-        protected virtual void OnDestroyObject(T obj) => obj.PoolDestroy();
+        protected virtual void OnGetObject(T obj) => obj.PoolOnGet();
+        protected virtual void OnReleaseObject(T obj) => obj.PoolOnRelease();
+        protected virtual void OnDestroyObject(T obj) => obj.PoolOnDestroy();
 
         public T Get() => Pool.Get();
 

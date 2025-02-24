@@ -1,5 +1,3 @@
-using UnityEngine;
-using UnityEngine.Pool;
 
 namespace com.dhcc.pool
 {
@@ -13,8 +11,8 @@ namespace com.dhcc.pool
         protected override T OnCreateObject()
         {
             var obj = new T();
-            obj.PoolCreate();
-            obj.OnReleaseToPool += () => Pool.Release(obj);
+            obj.PoolOnCreate();
+            obj.ReleaseToPool += () => Pool.Release(obj);
             return obj;
         }
     }

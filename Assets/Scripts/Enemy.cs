@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour, IPoolObject
     private Player player;
     private bool isDead;
 
-    public event System.Action OnReleaseToPool;
+    public event System.Action ReleaseToPool;
 
     void Start()
     {
@@ -105,21 +105,21 @@ public class Enemy : MonoBehaviour, IPoolObject
     public void DeathAnimationComplete()
     {
         SetSpawnPosition();
-        OnReleaseToPool?.Invoke();
+        ReleaseToPool?.Invoke();
     }
 
-    public void PoolCreate() { }
+    public void PoolOnCreate() { }
 
-    public void PoolGet()
+    public void PoolOnGet()
     {
         gameObject.SetActive(true);
         Reset();
     }
 
-    public void PoolRelease()
+    public void PoolOnRelease()
     {
         gameObject.SetActive(false);
     }
 
-    public void PoolDestroy() { }
+    public void PoolOnDestroy() { }
 }

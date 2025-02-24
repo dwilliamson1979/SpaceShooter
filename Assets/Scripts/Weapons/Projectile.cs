@@ -11,7 +11,7 @@ public class Projectile: MonoBehaviour, IPoolObject
 
     protected Player player;
 
-    public event Action OnReleaseToPool;
+    public event Action ReleaseToPool;
 
     private void Start()
     {
@@ -85,7 +85,7 @@ public class Projectile: MonoBehaviour, IPoolObject
 
     protected void Kill()
     {
-        OnReleaseToPool?.Invoke();
+        ReleaseToPool?.Invoke();
     }
 
     public void SetLayerMask(LayerMask layerMask)
@@ -106,17 +106,17 @@ public class Projectile: MonoBehaviour, IPoolObject
         }
     }
 
-    public void PoolCreate() { }
+    public void PoolOnCreate() { }
 
-    public void PoolGet()
+    public void PoolOnGet()
     {
         gameObject.SetActive(true);
     }
 
-    public void PoolRelease()
+    public void PoolOnRelease()
     {
         gameObject.SetActive(false);
     }
 
-    public void PoolDestroy() { }
+    public void PoolOnDestroy() { }
 }

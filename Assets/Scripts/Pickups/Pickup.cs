@@ -9,7 +9,7 @@ public class Pickup : MonoBehaviour, IPoolObject
     [Header("References")]
     [SerializeField] private PickupSO pickupSO;
 
-    public event System.Action OnReleaseToPool;
+    public event System.Action ReleaseToPool;
 
     void Start()
     {
@@ -43,26 +43,26 @@ public class Pickup : MonoBehaviour, IPoolObject
     public virtual void PickupComplete()
     {
         gameObject.SetActive(false);
-        OnReleaseToPool?.Invoke();
+        ReleaseToPool?.Invoke();
     }
 
-    public void PoolCreate()
+    public void PoolOnCreate()
     {
 
     }
 
-    public void PoolGet()
+    public void PoolOnGet()
     {
         //TODO Do we need to reposition the object offscreen to prevent the possibility of it being reactviated at its last know position (possibly onscreen)?
         gameObject.SetActive(true);
     }
 
-    public void PoolRelease()
+    public void PoolOnRelease()
     {
         gameObject.SetActive(false);
     }
 
-    public void PoolDestroy()
+    public void PoolOnDestroy()
     {
 
     }

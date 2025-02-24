@@ -9,7 +9,7 @@ namespace com.dhcc.pool
     {
         [Header("References")]
         [SerializeField] private GameObject prefab;
-        [SerializeField] private Transform parent;
+        [SerializeField] private Transform container;
 
         [Header("Settings")]
         [SerializeField] private bool collectionChecks = true;
@@ -50,13 +50,13 @@ namespace com.dhcc.pool
 
         private GameObject OnCreateObject()
         {
-            GameObject go = GameObject.Instantiate(prefab, parent);
+            GameObject go = GameObject.Instantiate(prefab, container);
 
             IPoolObject po = go.GetComponent<IPoolObject>();
             if (po != null)
             {
-                po.PoolCreate();
-                po.OnReleaseToPool += () => Pool.Release(go);
+                po.PoolOnCreate();
+                po.ReleaseToPool += () => Pool.Release(go);
             }
 
             return go;
@@ -66,21 +66,21 @@ namespace com.dhcc.pool
         {
             IPoolObject po = go.GetComponent<IPoolObject>();
             if (po != null)
-                po.PoolGet();
+                po.PoolOnGet();
         }
 
         private void OnReleaseObject(GameObject go)
         {
             IPoolObject po = go.GetComponent<IPoolObject>();
             if (po != null)
-                po.PoolRelease();
+                po.PoolOnRelease();
         }
 
         private void OnDestroyObject(GameObject go)
         {
             IPoolObject po = go.GetComponent<IPoolObject>();
             if (po != null)
-                po.PoolDestroy();
+                po.PoolOnDestroy();
         }
 
         public GameObject Get() => Pool.Get();
