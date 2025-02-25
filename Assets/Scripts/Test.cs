@@ -10,7 +10,6 @@ public class TestEvent1 : IEvent
 
 public class TestEvent2 : IEvent
 {
-    public int a;
 }
 
 public class Test : MonoBehaviour//, IDamageReceiver
@@ -27,9 +26,10 @@ public class Test : MonoBehaviour//, IDamageReceiver
     {
         var eventSystem = gameObject.GetOrAdd<EventSystem>();
         eventSystem.Subscribe<TestEvent1>(DoThis);
-        eventSystem.Subscribe<TestEvent2>(DoThis);
+        eventSystem.Subscribe<TestEvent2>(DoThis2);
         eventSystem.Raise(new TestEvent1() { a = 335566 });
-        eventSystem.Raise(new TestEvent2() { a = 777777 });
+        eventSystem.Raise<TestEvent1>();
+        eventSystem.Raise<TestEvent2>();
     }
 
     public void DoThis(TestEvent1 te)
@@ -37,9 +37,9 @@ public class Test : MonoBehaviour//, IDamageReceiver
         Debug.Log($"Test.DoThis: {te.a}");
     }
 
-    public void DoThis(TestEvent2 te)
+    public void DoThis2()
     {
-        Debug.Log($"Test.DoThis: {te.a}");
+        Debug.Log($"Test.DoThis2");
     }
 
 
