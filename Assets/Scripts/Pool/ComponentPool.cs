@@ -27,6 +27,6 @@ namespace com.dhcc.pool
             return obj;
         }
 
-        public void SetContainer(Transform container) => this.container = container;
+        //public void SetContainer(Transform container) => this.container = container;
     }
 }
