@@ -30,6 +30,9 @@ public class Test : MonoBehaviour//, IDamageReceiver
         eventSystem.Raise(new TestEvent1() { a = 335566 });
         eventSystem.Raise<TestEvent1>();
         eventSystem.Raise<TestEvent2>();
+
+        GameEvents.StartGame.Subscribe(StartGame);
+        GameEvents.StartGame.Raise();
     }
 
     public void DoThis(TestEvent1 te)
@@ -40,6 +43,11 @@ public class Test : MonoBehaviour//, IDamageReceiver
     public void DoThis2()
     {
         Debug.Log($"Test.DoThis2");
+    }
+
+    public void StartGame()
+    {
+        Debug.Log($"Test.StartGame");
     }
 
 
