@@ -3,7 +3,12 @@
 using com.dhcc.eventsystem;
 using UnityEngine;
 
-public class TestEvent : IEvent
+public class TestEvent1 : IEvent
+{
+    public int a;
+}
+
+public class TestEvent2 : IEvent
 {
     public int a;
 }
@@ -20,12 +25,19 @@ public class Test : MonoBehaviour//, IDamageReceiver
 
     void Start()
     {
-        var bus = gameObject.GetOrAdd<LocalEventBus>();
-        bus.EventSystem.Subscribe<TestEvent>(DoThis);
-        bus.EventSystem.Raise(new TestEvent() { a = 335566 });
+        var eventSystem = gameObject.GetOrAdd<EventSystem>();
+        eventSystem.Subscribe<TestEvent1>(DoThis);
+        eventSystem.Subscribe<TestEvent2>(DoThis);
+        eventSystem.Raise(new TestEvent1() { a = 335566 });
+        eventSystem.Raise(new TestEvent2() { a = 777777 });
     }
 
-    public void DoThis(TestEvent te)
+    public void DoThis(TestEvent1 te)
+    {
+        Debug.Log($"Test.DoThis: {te.a}");
+    }
+
+    public void DoThis(TestEvent2 te)
     {
         Debug.Log($"Test.DoThis: {te.a}");
     }

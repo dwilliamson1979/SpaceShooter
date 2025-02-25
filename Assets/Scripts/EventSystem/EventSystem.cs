@@ -1,37 +1,21 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using static com.dhcc.eventsystem.EventSystem;
-using UnityEngine.UIElements;
 
 namespace com.dhcc.eventsystem
 {
-    public interface IEventBus { }
-    public interface IEventBus<T> : IEventBus where T : IEvent
-    {
-        void Subscribe(Action<T> action);
-        void Unsubscribe(Action<T> action);
-
-        void Raise(T @event);
-    }
-
     public class EventBus<T> : IEventBus<T> where T : IEvent
     {
-        private readonly HashSet<Action<T>> bindings = new();
+        private Action<T> onEvent;
 
-        public void Subscribe(Action<T> binding) => bindings.Add(binding);
-        public void Unsubscribe(Action<T> binding) => bindings.Remove(binding);
-
-        public void Raise(T @event)
-        {
-            foreach (var binding in bindings)
-                binding.Invoke(@event);
-        }
+        public void Subscribe(Action<T> listener) => onEvent += listener;
+        public void Unsubscribe(Action<T> listener) => onEvent -= listener;
+        public void Raise(T args) => onEvent.Invoke(args);
     }
 
     public interface IEvent { }
 
-    public class EventSystem
+    public class EventSystem : MonoBehaviour
     {
         private readonly Dictionary<Type, IEventBus> eventBuses = new();
 

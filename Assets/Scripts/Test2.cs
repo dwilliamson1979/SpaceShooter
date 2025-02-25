@@ -5,11 +5,11 @@ public class Test2 : MonoBehaviour
 {
     void Start()
     {
-        var bus = gameObject.GetOrAdd<LocalEventBus>();
-        bus.EventSystem.Subscribe<TestEvent>(DoThis);
+        var eventSystem = gameObject.GetOrAdd<EventSystem>();
+        eventSystem.Subscribe<TestEvent1>(DoThis);
     }
 
-    public void DoThis(TestEvent te)
+    public void DoThis(TestEvent1 te)
     {
         Debug.Log($"Test2.DoThis: {te.a}");
     }
