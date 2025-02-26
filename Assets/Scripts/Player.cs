@@ -41,6 +41,9 @@ public class Player : MonoBehaviour
     private bool hasTripleShot;
     Coroutine tripleShotRoutine;
 
+    private bool hasAngleShot;
+    Coroutine angleShotRoutine;
+
     private int currentAmmo;
 
     private List<GameObject> damageInstances = new();
@@ -144,7 +147,19 @@ public class Player : MonoBehaviour
 
         nextAllowedFireTime = Time.time + fireRate;
 
-        if(hasTripleShot)
+        if (hasAngleShot)
+        {
+            var laser1 = LaserPool.Get();
+            laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+            laser1.SetLayerMask(projectileLayer);
+            var laser2 = LaserPool.Get();
+            laser2.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation * Quaternion.Euler(0f, 0f, 45f));
+            laser2.SetLayerMask(projectileLayer);
+            var laser3 = LaserPool.Get();
+            laser3.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation * Quaternion.Euler(0f, 0f, -45f));
+            laser3.SetLayerMask(projectileLayer);
+        }
+        else if (hasTripleShot)
         {
             var laser1 = LaserPool.Get();
             laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
@@ -244,23 +259,36 @@ public class Player : MonoBehaviour
 
     public void ActivateTripleShot()
     {
+        hasAngleShot = false;
         hasTripleShot = true;
 
-        //if(tripleShotRoutine != null)
-        //    StopCoroutine(tripleShotRoutine);
+        if (tripleShotRoutine != null)
+            StopCoroutine(tripleShotRoutine);
 
-        //tripleShotRoutine = StartCoroutine(TripleShotStopRoutine());
-    }
-
-    public void DeactivateTripleShot()
-    {
-        hasTripleShot = false;
+        tripleShotRoutine = StartCoroutine(TripleShotStopRoutine());
     }
 
     private IEnumerator TripleShotStopRoutine()
     {
         yield return new WaitForSeconds(5f);
         hasTripleShot = false;
+    }
+
+    public void ActivateAngleShot()
+    {
+        hasTripleShot = false;
+        hasAngleShot = true;
+
+        if (angleShotRoutine != null)
+            StopCoroutine(angleShotRoutine);
+
+        angleShotRoutine = StartCoroutine(AngleShotStopRoutine());
+    }
+
+    private IEnumerator AngleShotStopRoutine()
+    {
+        yield return new WaitForSeconds(5f);
+        hasAngleShot = false;
     }
 
     public void AddPoints(int amount)
