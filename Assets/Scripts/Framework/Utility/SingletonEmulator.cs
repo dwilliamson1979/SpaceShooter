@@ -14,8 +14,6 @@ namespace com.dhcc.framework
         /// <returns></returns>
         public static T Get<T>(T instance) where T : Component
         {
-            if (instance != null) return instance;
-
             lock (lockObject)
             {
                 if (instance == null)

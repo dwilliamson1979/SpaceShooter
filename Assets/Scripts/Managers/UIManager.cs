@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using com.dhcc.framework;
 
 namespace com.dhcc.spaceshooter
 {
     public class UIManager : MonoBehaviour
     {
-        public static UIManager Instance;
+        private static UIManager instance;
+        public static UIManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
 
         [Header("References")]
         [SerializeField] private TMP_Text scoreText;
@@ -21,13 +23,7 @@ namespace com.dhcc.spaceshooter
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            SingletonEmulator.Enforce(this, instance, out instance);
         }
 
         private void OnEnable()

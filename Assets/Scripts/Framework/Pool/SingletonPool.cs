@@ -5,7 +5,7 @@ namespace com.dhcc.framework
     public abstract class SingletonPool<T> : MonoBehaviour where T : Component, IPoolObject
     {
         private static SingletonPool<T> instance;
-        public static SingletonPool<T> Instance => SingletonEmulator.Get(instance);
+        public static SingletonPool<T> Instance => instance != null ? instance : SingletonEmulator.Get(instance);
 
         [Header("Pool Settings")]
         [SerializeField] private ComponentPool<T> pool;

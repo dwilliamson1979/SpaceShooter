@@ -1,10 +1,12 @@
+using com.dhcc.framework;
 using UnityEngine;
 
 namespace com.dhcc.spaceshooter
 {
     public class AudioManager : MonoBehaviour
     {
-        public static AudioManager Instance;
+        private static AudioManager instance;
+        public static AudioManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
 
         [Header("References")]
         [SerializeField] private AudioSource musicAudioSource;
@@ -12,13 +14,7 @@ namespace com.dhcc.spaceshooter
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            SingletonEmulator.Enforce(this, instance, out instance);
         }
 
         public void PlayMusic(AudioClip clip, float volume = 1f, bool loop = true, ulong delay = 0)

@@ -6,7 +6,8 @@ namespace com.dhcc.spaceshooter
 {
     public class SpawnManager : MonoBehaviour
     {
-        public static SpawnManager Instance;
+        private static SpawnManager instance;
+        public static SpawnManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
 
         [Header("References")]
         [SerializeField] private Transform[] powerupPrefabs;
@@ -20,13 +21,7 @@ namespace com.dhcc.spaceshooter
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            SingletonEmulator.Enforce(this, instance, out instance);
         }
 
         private IEnumerator SpawnEnemyRoutine()

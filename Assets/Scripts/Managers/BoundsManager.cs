@@ -1,10 +1,12 @@
+using com.dhcc.framework;
 using UnityEngine;
 
 namespace com.dhcc.spaceshooter
 {
     public class BoundsManager : MonoBehaviour
     {
-        public static BoundsManager Instance;
+        private static BoundsManager instance;
+        public static BoundsManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
 
         [Header("Settings")]
         [field: SerializeField] public Vector2 HorizontalBoundary { get; private set; }
@@ -12,13 +14,7 @@ namespace com.dhcc.spaceshooter
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            SingletonEmulator.Enforce(this, instance, out instance);
         }
 
         public bool IsOutOfBounds(Transform transform)

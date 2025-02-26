@@ -1,3 +1,4 @@
+using com.dhcc.framework;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -7,20 +8,15 @@ namespace com.dhcc.spaceshooter
 {
     public class GameManager : MonoBehaviour
     {
-        public static GameManager Instance;
+        private static GameManager instance;
+        public static GameManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
         public static bool ApplicationIsQuitting { get; private set; }
 
         private bool isGameOver;
 
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
+            SingletonEmulator.Enforce(this, instance, out instance);
         }
 
         private void Update()
