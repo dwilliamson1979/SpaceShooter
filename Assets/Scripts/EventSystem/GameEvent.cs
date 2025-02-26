@@ -9,99 +9,67 @@ namespace com.dhcc.eventsystem
     public class GameEvent
     {
 
-#if UNITY_EDITOR
-        public static PlayModeStateChange PlayModeState { get; set; }
+//#if UNITY_EDITOR
+//        private static PlayModeStateChange PlayModeState { get; set; }
 
-        [InitializeOnLoadMethod]
-        public static void InitializeEditor()
+//        [InitializeOnLoadMethod]
+//        public static void InitializeEditor()
+//        {
+//            EditorApplication.playModeStateChanged -= OnPlayStateModeChanged;
+//            EditorApplication.playModeStateChanged += OnPlayStateModeChanged;
+//        }
+
+//        static void OnPlayStateModeChanged(PlayModeStateChange state)
+//        {
+//            PlayModeState = state;
+//            if (state == PlayModeStateChange.ExitingPlayMode)
+//                Reset?.Invoke();
+//        }
+//#endif
+
+        private event Action onEvent = null;
+        public event Action OnEvent
         {
-            EditorApplication.playModeStateChanged -= OnPlayStateModeChanged;
-            EditorApplication.playModeStateChanged += OnPlayStateModeChanged;
+            add 
+            {
+                onEvent -= value;
+                onEvent += value; 
+            }
+            remove 
+            { 
+                onEvent -= value;
+            }
         }
 
-        static void OnPlayStateModeChanged(PlayModeStateChange state)
-        {
-            PlayModeState = state;
-            if (state == PlayModeStateChange.ExitingPlayMode)
-                Reset?.Invoke();
-        }
-#endif
+        public void Subscribe(Action subscriber) => OnEvent += subscriber;
+        public void Unsubscribe(Action subscriber) => OnEvent -= subscriber;
 
-        private static Action Reset;
+        public void Raise() => onEvent?.Invoke();
 
-        internal List<Delegate> listeners = null;
-
-        public GameEvent() => Reset += HandleReset;
-
-        private void HandleReset()
-        {
-            if (listeners != null)
-                listeners.Clear();
-
-            listeners = null;
-        }
-
-        internal void Init()
-        {
-            if (listeners == null)
-                listeners = new List<Delegate>();
-        }
-
-        public void Subscribe(Action subscriber)
-        {
-            Init(); //Lazily initialize
-
-            if (!listeners.Contains(subscriber))
-                listeners.Add(subscriber);
-        }
-
-        public void Unsubscribe(Action subscriber)
-        {
-            if (listeners == null) return;
-
-            if (listeners.Contains(subscriber))
-                listeners.Remove(subscriber);
-        }
-
-        public void Raise()
-        {
-            if (listeners == null) return;
-
-            for (int i = 0; i < listeners.Count; i++)
-                listeners[i].DynamicInvoke();
-        }
-
-        ~GameEvent()
-        {
-            listeners = null;
-            Reset -= HandleReset;
-        }
+        ~GameEvent() => onEvent = null;
     }
 
-    public class GameEvent<T> : GameEvent where T : class, new()
+    public class GameEvent<T> where T : class, new()
     {
-        public void Subscribe(Action<T> subscriber)
+        private event Action<T> onEvent = null;
+        public event Action<T> OnEvent
         {
-            Init(); //Lazily initialize
-
-            if (!listeners.Contains(subscriber))
-                listeners.Add(subscriber);
+            add
+            {
+                onEvent -= value;
+                onEvent += value;
+            }
+            remove
+            {
+                onEvent -= value;
+            }
         }
 
-        public void Unsubscribe(Action<T> subscriber)
-        {
-            if (listeners == null) return;
+        public void Subscribe(Action<T> subscriber) => OnEvent += subscriber;
+        public void Unsubscribe(Action<T> subscriber) => OnEvent -= subscriber;
 
-            if (listeners.Contains(subscriber))
-                listeners.Remove(subscriber);
-        }
+        public void Raise(T args) => onEvent?.Invoke(args);
 
-        public void Raise(T args)
-        {
-            if (listeners == null) return;
-
-            for (int i = 0; i < listeners.Count; i++)
-                listeners[i].DynamicInvoke(args);
-        }
+        ~GameEvent() => onEvent = null;
     }
 }

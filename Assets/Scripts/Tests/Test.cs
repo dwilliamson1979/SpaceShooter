@@ -24,15 +24,20 @@ public class Test : MonoBehaviour//, IDamageReceiver
 
     void Start()
     {
-        var eventSystem = gameObject.GetOrAdd<EventSystem>();
-        eventSystem.Subscribe<TestEvent1>(DoThis);
-        eventSystem.Subscribe<TestEvent2>(DoThis2);
-        eventSystem.Raise(new TestEvent1() { a = 335566 });
-        eventSystem.Raise<TestEvent1>();
-        eventSystem.Raise<TestEvent2>();
+        //var eventSystem = gameObject.GetOrAdd<EventSystem>();
+        //eventSystem.Subscribe<TestEvent1>(DoThis);
+        //eventSystem.Subscribe<TestEvent2>(DoThis2);
+        //eventSystem.Raise(new TestEvent1() { a = 335566 });
+        //eventSystem.Raise<TestEvent1>();
+        //eventSystem.Raise<TestEvent2>();
 
-        GameEvents.StartGame.Subscribe(StartGame);
-        GameEvents.StartGame.Raise();
+        //GameEvents.StartGame.Subscribe(StartGame1);
+        //GameEvents.StartGame.Subscribe(StartGame1);
+        //GameEvents.StartGame.Subscribe(StartGame2);
+        //GameEvents.StartGame.Raise();
+
+        //GameEvents.SomeEvent.Subscribe((x) => { Debug.Log(x.a); });
+        //GameEvents.SomeEvent.Raise(new TestEvent1() { a = 12345 });
     }
 
     public void DoThis(TestEvent1 te)
@@ -45,9 +50,14 @@ public class Test : MonoBehaviour//, IDamageReceiver
         Debug.Log($"Test.DoThis2");
     }
 
-    public void StartGame()
+    public void StartGame1()
     {
-        Debug.Log($"Test.StartGame");
+        Debug.Log($"Test.StartGame1");
+    }
+
+    public void StartGame2()
+    {
+        Debug.Log($"Test.StartGame2");
     }
 
 
