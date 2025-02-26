@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using com.dhcc.spaceshooter;
 
 public class UIManager : MonoBehaviour
 {
@@ -28,20 +29,24 @@ public class UIManager : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        GameEvents.PlayerHealthChanged.Subscribe(HandlePlayerHealthChanged);
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.PlayerHealthChanged.Unsubscribe(HandlePlayerHealthChanged);
+    }
+
     void Start()
     {
         UpdateScore(0);
-        UpdateLives(0);
     }
 
     public void UpdateScore(int score)
     {
         scoreText.text = $"Score: {score}";
-    }
-
-    public void UpdateLives(int lives)
-    {
-        livesImage.sprite = livesSprites[lives];
     }
 
     public void UpdateAmmo(int ammo)
@@ -82,5 +87,10 @@ public class UIManager : MonoBehaviour
     public void GameOver()
     {
         gameOverMenu.SetActive(true);
+    }
+
+    private void HandlePlayerHealthChanged(int delta, HealthComp healthComp)
+    {
+        livesImage.sprite = livesSprites[healthComp.Health.CurrentValue];
     }
 }

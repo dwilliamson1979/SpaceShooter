@@ -15,8 +15,8 @@ namespace com.dhcc.utility
         [field: SerializeField, ReadOnly] public float CurrentValue { get; private set; }
 
         public float Percentage => CurrentValue / MaxValue;
-        public bool IsAtMin => Mathf.Abs(CurrentValue - MinValue) < 0.00001f;
-        public bool IsAtMax => Mathf.Abs(CurrentValue - MaxValue) < 0.00001f;
+        public bool IsAtMin => CurrentValue.IsEqual(MinValue);
+        public bool IsAtMax => CurrentValue.IsEqual(MaxValue);
 
         public void SetMin(float value) => MinValue = value;
         public void SetMax(float value) => MaxValue = value;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using com.dhcc.components;
+using com.dhcc.spaceshooter;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -174,9 +175,10 @@ public class Player : MonoBehaviour
 
     private void OnHealthChanged(int delta, HealthComp healthComp)
     {
-        UIManager.Instance.UpdateLives(healthComp.Health.CurrentValue);
+        if(delta != 0)
+            GameEvents.PlayerHealthChanged.Raise(delta, healthComp);
 
-        if (delta < 0)
+        if (delta > 0)
         {
             //Fix a random damage visual.
             List<int> usableIndexes = new();

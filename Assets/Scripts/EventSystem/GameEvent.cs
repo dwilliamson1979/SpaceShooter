@@ -1,8 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 
 namespace com.dhcc.eventsystem
 {
@@ -49,7 +45,7 @@ namespace com.dhcc.eventsystem
         ~GameEvent() => onEvent = null;
     }
 
-    public class GameEvent<T> where T : class, new()
+    public class GameEvent<T>
     {
         private event Action<T> onEvent = null;
         public event Action<T> OnEvent
@@ -69,6 +65,30 @@ namespace com.dhcc.eventsystem
         public void Unsubscribe(Action<T> subscriber) => OnEvent -= subscriber;
 
         public void Raise(T args) => onEvent?.Invoke(args);
+
+        ~GameEvent() => onEvent = null;
+    }
+
+    public class GameEvent<T1, T2>
+    {
+        private event Action<T1, T2> onEvent = null;
+        public event Action<T1, T2> OnEvent
+        {
+            add
+            {
+                onEvent -= value;
+                onEvent += value;
+            }
+            remove
+            {
+                onEvent -= value;
+            }
+        }
+
+        public void Subscribe(Action<T1, T2> subscriber) => OnEvent += subscriber;
+        public void Unsubscribe(Action<T1, T2> subscriber) => OnEvent -= subscriber;
+
+        public void Raise(T1 arg1, T2 arg2) => onEvent?.Invoke(arg1, arg2);
 
         ~GameEvent() => onEvent = null;
     }
