@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace com.dhcc.components
+namespace com.dhcc.spaceshooter
 {
     public class MovementComp : MonoBehaviour
     {

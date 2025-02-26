@@ -1,30 +1,33 @@
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+namespace com.dhcc.spaceshooter
 {
-    [Header("References")]
-    [SerializeField] private AudioClip explosionAudio;
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator animator;
-
-    public void AnimationComplete()
+    public class Explosion : MonoBehaviour
     {
-        Destroy(gameObject);
-    }
+        [Header("References")]
+        [SerializeField] private AudioClip explosionAudio;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private Animator animator;
 
-    public void Explode()
-    {
-        animator.SetTrigger("OnExplode");
-        AudioManager.Instance.PlaySoundFx(explosionAudio);
-    }
+        public void AnimationComplete()
+        {
+            Destroy(gameObject);
+        }
 
-    public void SetColor(Color color)
-    {
-        spriteRenderer.color = color;
-    }
+        public void Explode()
+        {
+            animator.SetTrigger("OnExplode");
+            AudioManager.Instance.PlaySoundFx(explosionAudio);
+        }
 
-    public void SetScale(float scale)
-    {
-        transform.localScale = new Vector3(scale, scale, transform.localScale.z);
+        public void SetColor(Color color)
+        {
+            spriteRenderer.color = color;
+        }
+
+        public void SetScale(float scale)
+        {
+            transform.localScale = new Vector3(scale, scale, transform.localScale.z);
+        }
     }
 }

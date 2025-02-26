@@ -1,6 +1,9 @@
 
-public interface IDamageReceiver
+namespace com.dhcc.spaceshooter
 {
-    int DamagePriority { get; }
-    int TakeDamage(EDamageType damageType, int amount);
+    public interface IDamageReceiver
+    {
+        int DamagePriority { get; }
+        int TakeDamage(EDamageType damageType, int amount);
+    }
 }

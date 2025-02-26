@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public abstract class PickupSO : ScriptableObject
+namespace com.dhcc.spaceshooter
 {
-    [Header("References")]
-    [SerializeField] protected AudioClip pickupSound;
+    public abstract class PickupSO : ScriptableObject
+    {
+        [Header("References")]
+        [SerializeField] protected AudioClip pickupSound;
 
-    public abstract void TryToPickup(Pickup pickup, GameObject obj);
+        public abstract void TryToPickup(Pickup pickup, GameObject obj);
+    }
 }

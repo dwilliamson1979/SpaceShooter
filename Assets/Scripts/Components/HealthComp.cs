@@ -1,53 +1,56 @@
-using com.dhcc.utility;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using com.dhcc.framework;
 
-public class HealthComp : MonoBehaviour, IDamageReceiver
+namespace com.dhcc.spaceshooter
 {
-    [Header("Settings")]
-    [field: SerializeField] public IntResource Health { get; private set; }
-    [field: SerializeField] public int DamagePriority { get; private set; } = 0;
-    [SerializeField] protected List<EDamageType> AcceptableDamage = new();
-
-    public event Action<int, HealthComp> OnHealthChanged = delegate { };
-
-    private void Awake()
+    public class HealthComp : MonoBehaviour, IDamageReceiver
     {
-        //Maybe create an event system local to the gameobject and call RegisterDamageReceiver?
-        var damageComp = GetComponent<DamageComp>();
-        if (damageComp is not null)
-            damageComp.Register(this);
-    }
+        [Header("Settings")]
+        [field: SerializeField] public IntResource Health { get; private set; }
+        [field: SerializeField] public int DamagePriority { get; private set; } = 0;
+        [SerializeField] protected List<EDamageType> AcceptableDamage = new();
 
-    protected virtual void Start()
-    {
+        public event Action<int, HealthComp> OnHealthChanged = delegate { };
 
-    }
+        private void Awake()
+        {
+            //Maybe create an event system local to the gameobject and call RegisterDamageReceiver?
+            var damageComp = GetComponent<DamageComp>();
+            if (damageComp is not null)
+                damageComp.Register(this);
+        }
 
-    public virtual int TakeDamage(EDamageType damageType, int amount)
-    {
-        if (!AcceptsDamage(damageType)) return 0;
+        protected virtual void Start()
+        {
 
-        if (damageType == EDamageType.Health)
-            amount *= -1;
+        }
 
-        int previousValue = Health.CurrentValue;
-        Health.SetValue(Health.CurrentValue - amount);
+        public virtual int TakeDamage(EDamageType damageType, int amount)
+        {
+            if (!AcceptsDamage(damageType)) return 0;
 
-        int delta = Health.CurrentValue - previousValue;
-        if (Math.Abs(delta) > 0)
-            OnHealthChanged(delta, this);
+            if (damageType == EDamageType.Health)
+                amount *= -1;
 
-        //A float example:
-        //if (Math.Abs(previousValue - CurrentValue) > changeTolerance)
-        //OnHealthChanged(this);
+            int previousValue = Health.CurrentValue;
+            Health.SetValue(Health.CurrentValue - amount);
 
-        return delta;
-    }
+            int delta = Health.CurrentValue - previousValue;
+            if (Math.Abs(delta) > 0)
+                OnHealthChanged(delta, this);
 
-    protected bool AcceptsDamage(EDamageType damageType)
-    {
-        return AcceptableDamage.Contains(damageType);
+            //A float example:
+            //if (Math.Abs(previousValue - CurrentValue) > changeTolerance)
+            //OnHealthChanged(this);
+
+            return delta;
+        }
+
+        protected bool AcceptsDamage(EDamageType damageType)
+        {
+            return AcceptableDamage.Contains(damageType);
+        }
     }
 }

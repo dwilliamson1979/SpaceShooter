@@ -1,9 +1,9 @@
-using com.dhcc.utility;
+using com.dhcc.framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace com.dhcc.components
+namespace com.dhcc.spaceshooter
 {
     public class ShieldComp : MonoBehaviour, IDamageReceiver
     {

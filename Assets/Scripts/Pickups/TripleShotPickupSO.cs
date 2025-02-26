@@ -1,26 +1,29 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TripleShotPickupSO", menuName = "Pickups/TripleShotPickupSO")]
-public class TripleShotPickupSO : PickupSO
+namespace com.dhcc.spaceshooter
 {
-    //[Header("Settings")]
-    //[SerializeField] private float duration;
-
-    public override void TryToPickup(Pickup pickup, GameObject obj)
+    [CreateAssetMenu(fileName = "TripleShotPickupSO", menuName = "Pickups/TripleShotPickupSO")]
+    public class TripleShotPickupSO : PickupSO
     {
-        //TODO Need to develop a system for extending a pickup. Ex. If the speed pickup is in effect and it is picked up again, it should add more time.
-        var player = obj.GetComponent<Player>();
-        if (player != null)
+        //[Header("Settings")]
+        //[SerializeField] private float duration;
+
+        public override void TryToPickup(Pickup pickup, GameObject obj)
         {
-            player.ActivateTripleShot();
-            AudioManager.Instance.PlaySoundFx(pickupSound);
-            //TimerManager.SetTimer(() =>
-            //{
-            //    if (player != null)
-            //        player.DeactivateTripleShot();
-            //}
-            //, duration);
-            pickup.PickupComplete();
+            //TODO Need to develop a system for extending a pickup. Ex. If the speed pickup is in effect and it is picked up again, it should add more time.
+            var player = obj.GetComponent<Player>();
+            if (player != null)
+            {
+                player.ActivateTripleShot();
+                AudioManager.Instance.PlaySoundFx(pickupSound);
+                //TimerManager.SetTimer(() =>
+                //{
+                //    if (player != null)
+                //        player.DeactivateTripleShot();
+                //}
+                //, duration);
+                pickup.PickupComplete();
+            }
         }
     }
 }

@@ -1,10 +1,8 @@
-using com.dhcc.utility;
-using com.dhcc.fsm;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
+using com.dhcc.framework;
 
-namespace com.dhcc.components
+namespace com.dhcc.spaceshooter
 {
     public class ThrusterComp : MonoBehaviour
     {

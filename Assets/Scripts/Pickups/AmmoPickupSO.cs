@@ -1,21 +1,24 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AmmoPickupSO", menuName = "Pickups/AmmoPickupSO")]
-public class AmmoPickupSO : PickupSO
+namespace com.dhcc.spaceshooter
 {
-    [Header("Settings")]
-    [SerializeField] private int amount;
-    //[SerializeField] private EAmmoType ammoType;
-
-    public override void TryToPickup(Pickup pickup, GameObject obj)
+    [CreateAssetMenu(fileName = "AmmoPickupSO", menuName = "Pickups/AmmoPickupSO")]
+    public class AmmoPickupSO : PickupSO
     {
-        var player = obj.GetComponent<Player>();
-        if (player != null)
+        [Header("Settings")]
+        [SerializeField] private int amount;
+        //[SerializeField] private EAmmoType ammoType;
+
+        public override void TryToPickup(Pickup pickup, GameObject obj)
         {
-            if (player.AddAmmo(amount) != 0)
+            var player = obj.GetComponent<Player>();
+            if (player != null)
             {
-                AudioManager.Instance.PlaySoundFx(pickupSound);
-                pickup.PickupComplete();
+                if (player.AddAmmo(amount) != 0)
+                {
+                    AudioManager.Instance.PlaySoundFx(pickupSound);
+                    pickup.PickupComplete();
+                }
             }
         }
     }

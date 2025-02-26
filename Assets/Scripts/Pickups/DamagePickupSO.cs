@@ -1,21 +1,24 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DamagePickupSO", menuName = "Pickups/DamagePickupSO")]
-public class DamagePickupSO : PickupSO
+namespace com.dhcc.spaceshooter
 {
-    [Header("Settings")]
-    [SerializeField] private int amount;
-    [SerializeField] private EDamageType damageType;
-
-    public override void TryToPickup(Pickup pickup, GameObject obj)
+    [CreateAssetMenu(fileName = "DamagePickupSO", menuName = "Pickups/DamagePickupSO")]
+    public class DamagePickupSO : PickupSO
     {
-        var player = obj.GetComponent<Player>();
-        if (player != null)
+        [Header("Settings")]
+        [SerializeField] private int amount;
+        [SerializeField] private EDamageType damageType;
+
+        public override void TryToPickup(Pickup pickup, GameObject obj)
         {
-            if (player.TakeDamage(damageType, amount) != 0)
+            var player = obj.GetComponent<Player>();
+            if (player != null)
             {
-                AudioManager.Instance.PlaySoundFx(pickupSound);
-                pickup.PickupComplete();
+                if (player.TakeDamage(damageType, amount) != 0)
+                {
+                    AudioManager.Instance.PlaySoundFx(pickupSound);
+                    pickup.PickupComplete();
+                }
             }
         }
     }

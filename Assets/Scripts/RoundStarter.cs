@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class RoundStarter : MonoBehaviour
+namespace com.dhcc.spaceshooter
 {
-    private void OnDestroy()
+    public class RoundStarter : MonoBehaviour
     {
-        if(!GameManager.ApplicationIsQuitting)
-            SpawnManager.Instance.StartSpawning();
+        private void OnDestroy()
+        {
+            if (!GameManager.ApplicationIsQuitting)
+                SpawnManager.Instance.StartSpawning();
+        }
     }
 }

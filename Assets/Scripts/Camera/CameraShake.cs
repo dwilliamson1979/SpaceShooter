@@ -1,58 +1,55 @@
-using com.dhcc.spaceshooter;
-using System.Collections;
 using UnityEngine;
+using com.dhcc.framework;
 
-public class CameraShake : MonoBehaviour
+namespace com.dhcc.spaceshooter
 {
-    [Header("Settings")]
-    [SerializeField] private float duration;
-    [SerializeField] private float amount;
-    [SerializeField] private float decreaseFactor;
-
-    private Camera m_camera;
-    private Vector3 m_originalPosition;
-    private float currentDuration;
-
-    private void Awake()
+    public class CameraShake : MonoBehaviour
     {
-        m_camera = GetComponent<Camera>();
-        m_originalPosition = m_camera.transform.position;
+        [Header("Settings")]
+        [SerializeField] private float duration;
+        [SerializeField] private float amount;
+        [SerializeField] private float decreaseFactor;
 
-        enabled = false;
+        private Camera m_camera;
+        private Vector3 m_originalPosition;
+        private float currentDuration;
 
-        GameEvents.PlayerHealthChanged.Subscribe(HandlePlayerHealthChanged);
-    }
-
-    private void Start()
-    {
-        
-    }
-
-    private void Update()
-    {
-        if (currentDuration.IsGreaterThanZero())
+        private void Awake()
         {
-            m_camera.transform.localPosition = m_originalPosition + Random.insideUnitSphere * amount;
-            currentDuration -= Time.deltaTime * decreaseFactor;
-        }
-        else
-        {
-            currentDuration = 0f;
-            m_camera.transform.localPosition = m_originalPosition;
+            m_camera = GetComponent<Camera>();
+            m_originalPosition = m_camera.transform.position;
+
             enabled = false;
+
+            GameEvents.PlayerHealthChanged.Subscribe(HandlePlayerHealthChanged);
         }
-    }
 
-    private void HandlePlayerHealthChanged(int delta, HealthComp healthComp)
-    {
-        if (enabled || delta > 0) return;
+        private void Update()
+        {
+            if (currentDuration.IsGreaterThanZero())
+            {
+                m_camera.transform.localPosition = m_originalPosition + Random.insideUnitSphere * amount;
+                currentDuration -= Time.deltaTime * decreaseFactor;
+            }
+            else
+            {
+                currentDuration = 0f;
+                m_camera.transform.localPosition = m_originalPosition;
+                enabled = false;
+            }
+        }
 
-        enabled = true;
-        currentDuration = duration;
-    }
+        private void HandlePlayerHealthChanged(int delta, HealthComp healthComp)
+        {
+            if (enabled || delta > 0) return;
 
-    private void OnDestroy()
-    {
-        GameEvents.PlayerHealthChanged.Unsubscribe(HandlePlayerHealthChanged);
+            enabled = true;
+            currentDuration = duration;
+        }
+
+        private void OnDestroy()
+        {
+            GameEvents.PlayerHealthChanged.Unsubscribe(HandlePlayerHealthChanged);
+        }
     }
 }
