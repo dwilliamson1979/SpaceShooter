@@ -4,7 +4,7 @@ namespace com.dhcc.spaceshooter
 {
     public static class GameEvents
     {
-        public static GameEvent StartGame = new();
+        public static GameEvent StartRound = new();
         //public static GameEvent PlayerDied = new();
         public static GameEvent GameOver = new();
 

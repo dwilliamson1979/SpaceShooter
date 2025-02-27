@@ -7,7 +7,7 @@ namespace com.dhcc.spaceshooter
         private void OnDestroy()
         {
             if (!GameManager.ApplicationIsQuitting)
-                SpawnManager.Instance.StartSpawning();
+                GameEvents.StartRound.Raise();
         }
     }
 }

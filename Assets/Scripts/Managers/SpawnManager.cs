@@ -26,11 +26,13 @@ namespace com.dhcc.spaceshooter
 
         private void OnEnable()
         {
+            GameEvents.StartRound.Subscribe(HandleStartRound);
             GameEvents.GameOver.Subscribe(HandleGameOver);
         }
 
         private void OnDisable()
         {
+            GameEvents.StartRound.Unsubscribe(HandleStartRound);
             GameEvents.GameOver.Unsubscribe(HandleGameOver);
         }
 
@@ -81,6 +83,11 @@ namespace com.dhcc.spaceshooter
             float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
             float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
             return new Vector3(randomX, randomY, transform.position.z);
+        }
+
+        private void HandleStartRound()
+        {
+            StartSpawning();
         }
 
         private void HandleGameOver()
