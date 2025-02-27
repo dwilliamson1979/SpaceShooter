@@ -1,5 +1,5 @@
+using com.dhcc.framework;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,10 +38,9 @@ namespace com.dhcc.spaceshooter
         private float nextAllowedFireTime;        
 
         private bool hasTripleShot;
-        Coroutine tripleShotRoutine;
-
+        private AsyncTimer tripleShotTimer;
         private bool hasAngleShot;
-        Coroutine angleShotRoutine;
+        private AsyncTimer angleShotTimer;
 
         private int currentAmmo;
 
@@ -52,7 +51,7 @@ namespace com.dhcc.spaceshooter
         private HealthComp healthComp;
         private ShieldComp shieldComp;
         private MovementComp moveComp;
-        private ThrusterComp thrusterComp;
+        private ThrusterComp thrusterComp;        
 
         private void Awake()
         {
@@ -81,6 +80,9 @@ namespace com.dhcc.spaceshooter
             thrusterComp.OnFuelChanged += OnFuelChanged;
 
             inputComp.OnSprintInput += OnThrustInput;
+
+            angleShotTimer = new(() => hasAngleShot = false, 5f);
+            tripleShotTimer = new(() => hasTripleShot = false, 5f);
         }
 
         private void OnThrustInput(bool thrust)
@@ -258,35 +260,19 @@ namespace com.dhcc.spaceshooter
         public void ActivateTripleShot()
         {
             hasAngleShot = false;
+            angleShotTimer.Stop();
+
             hasTripleShot = true;
-
-            if (tripleShotRoutine != null)
-                StopCoroutine(tripleShotRoutine);
-
-            tripleShotRoutine = StartCoroutine(TripleShotStopRoutine());
-        }
-
-        private IEnumerator TripleShotStopRoutine()
-        {
-            yield return new WaitForSeconds(5f);
-            hasTripleShot = false;
+            tripleShotTimer.Start();
         }
 
         public void ActivateAngleShot()
         {
             hasTripleShot = false;
+            tripleShotTimer.Stop();
+
             hasAngleShot = true;
-
-            if (angleShotRoutine != null)
-                StopCoroutine(angleShotRoutine);
-
-            angleShotRoutine = StartCoroutine(AngleShotStopRoutine());
-        }
-
-        private IEnumerator AngleShotStopRoutine()
-        {
-            yield return new WaitForSeconds(5f);
-            hasAngleShot = false;
+            angleShotTimer.Start();
         }
 
         public int AddAmmo(int amount)
