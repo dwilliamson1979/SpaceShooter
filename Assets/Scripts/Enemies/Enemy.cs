@@ -7,6 +7,7 @@ namespace com.dhcc.spaceshooter
     public class Enemy : MonoBehaviour, IPoolObject
     {
         [Header("Settings")]
+        [SerializeField] private int pointValue;
         [SerializeField] private float speed;
         [SerializeField] private Vector2 fireRateRange;
         [SerializeField] private LayerMask projectileLayer;
@@ -92,6 +93,7 @@ namespace com.dhcc.spaceshooter
 
         public void Damage()
         {
+            GameEvents.AddPoints.Raise(pointValue);
             Die();
         }
 

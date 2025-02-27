@@ -35,8 +35,7 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private AudioClip laserAudio;
         [SerializeField] private DamageLocation[] damagePoints;
 
-        private float nextAllowedFireTime;
-        private int score;
+        private float nextAllowedFireTime;        
 
         private bool hasTripleShot;
         Coroutine tripleShotRoutine;
@@ -236,9 +235,8 @@ namespace com.dhcc.spaceshooter
 
         private void Die()
         {
-            UIManager.Instance.GameOver();
-            SpawnManager.Instance.StopSpawning();
-            GameManager.Instance.GameOver();
+            GameEvents.GameOver.Raise();
+
             Destroy(gameObject);
         }
 
@@ -289,12 +287,6 @@ namespace com.dhcc.spaceshooter
         {
             yield return new WaitForSeconds(5f);
             hasAngleShot = false;
-        }
-
-        public void AddPoints(int amount)
-        {
-            score += amount;
-            UIManager.Instance.UpdateScore(score);
         }
 
         public int AddAmmo(int amount)

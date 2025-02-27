@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using com.dhcc.framework;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace com.dhcc.spaceshooter
 {
@@ -20,6 +21,7 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private GameObject gameOverMenu;
 
         private Coroutine flashAmmoRoutine;
+        private int score;
 
         private void Awake()
         {
@@ -29,21 +31,20 @@ namespace com.dhcc.spaceshooter
         private void OnEnable()
         {
             GameEvents.PlayerHealthChanged.Subscribe(HandlePlayerHealthChanged);
+            GameEvents.AddPoints.Subscribe(HandleAddPoints);
+            GameEvents.GameOver.Subscribe(HandleGameOver);
         }
 
         private void OnDisable()
         {
             GameEvents.PlayerHealthChanged.Unsubscribe(HandlePlayerHealthChanged);
+            GameEvents.AddPoints.Unsubscribe(HandleAddPoints);
+            GameEvents.GameOver.Unsubscribe(HandleGameOver);
         }
 
         void Start()
         {
-            UpdateScore(0);
-        }
-
-        public void UpdateScore(int score)
-        {
-            scoreText.text = $"Score: {score}";
+            HandleAddPoints(0);
         }
 
         public void UpdateAmmo(int ammo)
@@ -81,14 +82,20 @@ namespace com.dhcc.spaceshooter
             }
         }
 
-        public void GameOver()
-        {
-            gameOverMenu.SetActive(true);
-        }
-
         private void HandlePlayerHealthChanged(int delta, HealthComp healthComp)
         {
             livesImage.sprite = livesSprites[healthComp.Health.CurrentValue];
+        }
+
+        private void HandleAddPoints(int amount)
+        {
+            score += amount;
+            scoreText.text = $"Score: {score}";
+        }
+
+        private void HandleGameOver()
+        {
+            gameOverMenu.SetActive(true);
         }
     }
 }

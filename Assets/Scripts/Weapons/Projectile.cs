@@ -64,18 +64,12 @@ namespace com.dhcc.spaceshooter
         {
             enemy.Damage();
 
-            if (player != null)
-                player.AddPoints(10);
-
             Kill();
         }
 
         protected virtual void AsteroidHit(Asteroid asteroid)
         {
             asteroid.Damage();
-
-            if (player != null)
-                player.AddPoints(5);
 
             Kill();
         }

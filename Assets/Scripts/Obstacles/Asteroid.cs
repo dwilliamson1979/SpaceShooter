@@ -5,6 +5,7 @@ namespace com.dhcc.spaceshooter
     public class Asteroid : MonoBehaviour
     {
         [Header("Settings")]
+        [SerializeField] private int pointValue;
         [SerializeField] private float rotationSpeed;
         [SerializeField] private Color explosionColor;
 
@@ -30,6 +31,7 @@ namespace com.dhcc.spaceshooter
 
         public void Damage()
         {
+            GameEvents.AddPoints.Raise(pointValue);
             Kill();
         }
 

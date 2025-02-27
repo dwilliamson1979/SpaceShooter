@@ -24,6 +24,16 @@ namespace com.dhcc.spaceshooter
             SingletonEmulator.Enforce(this, instance, out instance);
         }
 
+        private void OnEnable()
+        {
+            GameEvents.GameOver.Subscribe(HandleGameOver);
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.GameOver.Unsubscribe(HandleGameOver);
+        }
+
         private IEnumerator SpawnEnemyRoutine()
         {
             WaitForSeconds wfs = new WaitForSeconds(spawnInterval);
@@ -71,6 +81,11 @@ namespace com.dhcc.spaceshooter
             float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
             float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
             return new Vector3(randomX, randomY, transform.position.z);
+        }
+
+        private void HandleGameOver()
+        {
+            StopSpawning();
         }
     }
 }

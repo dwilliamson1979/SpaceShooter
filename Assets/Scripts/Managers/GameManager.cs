@@ -12,11 +12,21 @@ namespace com.dhcc.spaceshooter
         public static GameManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
         public static bool ApplicationIsQuitting { get; private set; }
 
-        private bool isGameOver;
+        private bool isGameOver;        
 
         private void Awake()
         {
             SingletonEmulator.Enforce(this, instance, out instance);
+        }
+
+        private void OnEnable()
+        {
+            GameEvents.GameOver.Subscribe(HandleGameOver);
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.GameOver.Unsubscribe(HandleGameOver);
         }
 
         private void Update()
@@ -36,7 +46,7 @@ namespace com.dhcc.spaceshooter
             }
         }
 
-        public void GameOver()
+        private void HandleGameOver()
         {
             isGameOver = true;
         }
