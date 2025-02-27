@@ -82,9 +82,9 @@ namespace com.dhcc.spaceshooter
             }
         }
 
-        private void HandlePlayerHealthChanged(int delta, HealthComp healthComp)
+        private void HandlePlayerHealthChanged(int delta, int health)
         {
-            livesImage.sprite = livesSprites[healthComp.Health.CurrentValue];
+            livesImage.sprite = livesSprites[health];
         }
 
         private void HandleAddPoints(int amount)

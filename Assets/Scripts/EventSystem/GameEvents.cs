@@ -8,7 +8,7 @@ namespace com.dhcc.spaceshooter
         //public static GameEvent PlayerDied = new();
         public static GameEvent GameOver = new();
 
-        public static GameEvent<int, HealthComp> PlayerHealthChanged = new();
+        public static GameEvent<int, int> PlayerHealthChanged = new(); //Delta, New Health
         public static GameEvent<int> AddPoints = new();
         public static GameEvent<int> AddAmmo = new();
     }

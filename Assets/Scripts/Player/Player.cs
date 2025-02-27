@@ -190,7 +190,7 @@ namespace com.dhcc.spaceshooter
         private void OnHealthChanged(int delta, HealthComp healthComp)
         {
             if (delta != 0)
-                GameEvents.PlayerHealthChanged.Raise(delta, healthComp);
+                GameEvents.PlayerHealthChanged.Raise(delta, healthComp.Health.CurrentValue);
 
             if (delta > 0)
             {

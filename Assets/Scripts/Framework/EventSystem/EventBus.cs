@@ -4,7 +4,7 @@ namespace com.dhcc.framework
 {
     internal class EventBus : IEventBus
     {
-        private Action onEvent;
+        private event Action onEvent;
 
         public void Subscribe(Action listener) => onEvent += listener;
         public void Unsubscribe(Action listener) => onEvent -= listener;
@@ -13,7 +13,7 @@ namespace com.dhcc.framework
 
     internal class EventBus<T> : IEventBus where T : IEvent
     {
-        private Action<T> onEvent;
+        private event Action<T> onEvent;
 
         public void Subscribe(Action<T> listener) => onEvent += listener;
         public void Unsubscribe(Action<T> listener) => onEvent -= listener;

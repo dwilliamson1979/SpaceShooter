@@ -40,10 +40,7 @@ namespace com.dhcc.framework
             states[state.StateID] = state;
         }
 
-        private IState<E> GetState(E stateID)
-        {
-            return states.ContainsKey(stateID) ? states[stateID] : null;
-        }
+        private IState<E> GetState(E stateID) => states.ContainsKey(stateID) ? states[stateID] : null;
 
         public void SetState(E newState)
         {

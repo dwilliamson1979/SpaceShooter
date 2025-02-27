@@ -10,14 +10,14 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private float amount;
         [SerializeField] private float decreaseFactor;
 
-        private Camera m_camera;
-        private Vector3 m_originalPosition;
+        private Camera _camera;
+        private Vector3 originalPosition;
         private float currentDuration;
 
         private void Awake()
         {
-            m_camera = GetComponent<Camera>();
-            m_originalPosition = m_camera.transform.position;
+            _camera = GetComponent<Camera>();
+            originalPosition = _camera.transform.position;
 
             enabled = false;
 
@@ -28,18 +28,18 @@ namespace com.dhcc.spaceshooter
         {
             if (currentDuration.IsGreaterThanZero())
             {
-                m_camera.transform.localPosition = m_originalPosition + Random.insideUnitSphere * amount;
+                _camera.transform.localPosition = originalPosition + Random.insideUnitSphere * amount;
                 currentDuration -= Time.deltaTime * decreaseFactor;
             }
             else
             {
                 currentDuration = 0f;
-                m_camera.transform.localPosition = m_originalPosition;
+                _camera.transform.localPosition = originalPosition;
                 enabled = false;
             }
         }
 
-        private void HandlePlayerHealthChanged(int delta, HealthComp healthComp)
+        private void HandlePlayerHealthChanged(int delta, int health)
         {
             if (enabled || delta > 0) return;
 

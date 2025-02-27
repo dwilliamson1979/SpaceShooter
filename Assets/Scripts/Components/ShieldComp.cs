@@ -12,7 +12,7 @@ namespace com.dhcc.spaceshooter
         [field: SerializeField] public int DamagePriority { get; private set; } = 0;
         [SerializeField] protected List<EDamageType> AcceptableDamage = new();
 
-        public event Action<int, ShieldComp> OnShieldChanged = delegate { };
+        public event Action<int, ShieldComp> OnShieldChanged;
 
         private void Awake()
         {
@@ -34,7 +34,7 @@ namespace com.dhcc.spaceshooter
 
             int delta = previousValue - Shield.CurrentValue;
             if (Math.Abs(delta) > 0)
-                OnShieldChanged(delta, this);
+                OnShieldChanged?.Invoke(delta, this);
 
             //A float example:
             //if (Math.Abs(previousValue - CurrentValue) > changeTolerance)

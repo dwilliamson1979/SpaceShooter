@@ -12,7 +12,7 @@ namespace com.dhcc.spaceshooter
         [field: SerializeField] public int DamagePriority { get; private set; } = 0;
         [SerializeField] protected List<EDamageType> AcceptableDamage = new();
 
-        public event Action<int, HealthComp> OnHealthChanged = delegate { };
+        public event Action<int, HealthComp> OnHealthChanged;
 
         private void Awake()
         {
@@ -20,11 +20,6 @@ namespace com.dhcc.spaceshooter
             var damageComp = GetComponent<DamageComp>();
             if (damageComp is not null)
                 damageComp.Register(this);
-        }
-
-        protected virtual void Start()
-        {
-
         }
 
         public virtual int TakeDamage(EDamageType damageType, int amount)
@@ -39,7 +34,7 @@ namespace com.dhcc.spaceshooter
 
             int delta = Health.CurrentValue - previousValue;
             if (Math.Abs(delta) > 0)
-                OnHealthChanged(delta, this);
+                OnHealthChanged?.Invoke(delta, this);
 
             //A float example:
             //if (Math.Abs(previousValue - CurrentValue) > changeTolerance)

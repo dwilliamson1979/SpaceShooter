@@ -7,9 +7,10 @@ namespace com.dhcc.framework
     public class TimerManager : MonoBehaviour
     {
         private static TimerManager instance;
-        public static TimerManager Instance => SingletonEmulator.Get(instance);
+        public static TimerManager Instance => instance != null? instance : SingletonEmulator.Get(instance);
 
         private event Action<float> onTick = delegate { };
+
         /// <summary>
         /// Any object that needs to be able to tick can subscribe to this event.
         /// </summary>

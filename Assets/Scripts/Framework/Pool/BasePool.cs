@@ -49,7 +49,6 @@ namespace com.dhcc.framework
         protected virtual void OnDestroyObject(T obj) => obj.PoolOnDestroy();
 
         public T Get() => Pool.Get();
-
         //public void Release(IPoolObject obj) => Pool.Release(obj as T);
     }
 }
