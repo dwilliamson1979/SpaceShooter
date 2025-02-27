@@ -210,10 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70c347c2f130e3f4d92a126d5712ee39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointValue: 8
   speed: 4
-  spawnRangeX: {x: -7.75, y: 7.75}
-  spawnRangeY: {x: 6.75, y: 9}
-  lowerOutOfBounds: -5.25
   fireRateRange: {x: 3, y: 7}
   projectileLayer:
     serializedVersion: 2

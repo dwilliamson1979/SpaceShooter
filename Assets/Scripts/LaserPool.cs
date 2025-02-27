@@ -1,4 +1,6 @@
-using com.dhcc.pool;
-using UnityEngine;
+using com.dhcc.framework;
 
-public class LaserPool : SingletonPool<Projectile> { }
+namespace com.dhcc.spaceshooter
+{
+    public class LaserPool : SingletonPool<Projectile> { }
+}
