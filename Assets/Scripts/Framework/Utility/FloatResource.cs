@@ -12,16 +12,16 @@ namespace com.dhcc.framework
         [Header("Settings")]
         [field: SerializeField] public float MinValue { get; private set; }
         [field: SerializeField] public float MaxValue { get; private set; }
-        [field: SerializeField, ReadOnly] public float CurrentValue { get; private set; }
+
+        private float currentValue;
+        public float CurrentValue
+        {
+            get => currentValue;
+            set => currentValue = Mathf.Clamp(value, MinValue, MaxValue);
+        }
 
         public float Percentage => CurrentValue / MaxValue;
-        public bool IsAtMin => CurrentValue.IsEqual(MinValue);
-        public bool IsAtMax => CurrentValue.IsEqual(MaxValue);
-
-        public void SetMin(float value) => MinValue = value;
-        public void SetMax(float value) => MaxValue = value;
-
-        public void SetValue(float value) => CurrentValue = Mathf.Clamp(value, MinValue, MaxValue);
-        public void Add(float value) => CurrentValue = Mathf.Clamp(CurrentValue + value, MinValue, MaxValue);
+        public bool IsMin => CurrentValue.IsEqual(MinValue);
+        public bool IsMax => CurrentValue.IsEqual(MaxValue);
     }
 }

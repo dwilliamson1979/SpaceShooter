@@ -30,7 +30,7 @@ namespace com.dhcc.spaceshooter
                 amount *= -1;
 
             int previousValue = Shield.CurrentValue;
-            Shield.SetValue(Shield.CurrentValue - amount);
+            Shield.CurrentValue -= amount;
 
             int delta = previousValue - Shield.CurrentValue;
             if (Math.Abs(delta) > 0)

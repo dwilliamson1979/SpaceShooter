@@ -42,10 +42,7 @@ namespace com.dhcc.framework
             isRunning = false;
         }
 
-        public void Stop()
-        {
-            isRunning = false;
-        }
+        public void Stop() => isRunning = false;
     }
 
     public class AsyncTimer<T>

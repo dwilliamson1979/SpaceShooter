@@ -30,7 +30,7 @@ namespace com.dhcc.spaceshooter
                 amount *= -1;
 
             int previousValue = Health.CurrentValue;
-            Health.SetValue(Health.CurrentValue - amount);
+            Health.CurrentValue -= amount;
 
             int delta = Health.CurrentValue - previousValue;
             if (Math.Abs(delta) > 0)

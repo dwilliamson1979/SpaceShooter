@@ -26,15 +26,15 @@ namespace com.dhcc.spaceshooter
 
             public override void Update()
             {
-                if (obj.wantsToThrust && !obj.Fuel.IsAtMin)
+                if (obj.wantsToThrust && !obj.Fuel.IsMin)
                 {
                     obj.fsm.SetState(obj.thrustingState);
                     return;
                 }
 
-                if (!obj.Fuel.IsAtMax)
+                if (!obj.Fuel.IsMax)
                 {
-                    obj.Fuel.Add(obj.recoveryRate * Time.deltaTime);
+                    obj.Fuel.CurrentValue += obj.recoveryRate * Time.deltaTime;
                     obj.OnFuelChanged?.Invoke();
                     return;
                 }
@@ -56,7 +56,7 @@ namespace com.dhcc.spaceshooter
                 if (!obj.wantsToThrust)
                     obj.fsm.SetState(obj.idleState);
 
-                obj.Fuel.Add(-obj.burnRate * Time.deltaTime);
+                obj.Fuel.CurrentValue -= obj.burnRate * Time.deltaTime;
                 obj.OnFuelChanged?.Invoke();
 
                 if (obj.Fuel.CurrentValue <= 0f)
