@@ -43,6 +43,8 @@ namespace com.dhcc.framework
         }
 
         public void Stop() => isRunning = false;
+
+        public void SetInterval(float interval) => this.interval = interval;
     }
 
     public class AsyncTimer<T>
