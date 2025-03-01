@@ -45,7 +45,7 @@ namespace com.dhcc.framework
         ~GameEvent() => onEvent = null;
     }
 
-    public class GameEvent<T>
+    public class GameEvent<T> : IGameEvent
     {
         private event Action<T> onEvent = null;
         public event Action<T> OnEvent

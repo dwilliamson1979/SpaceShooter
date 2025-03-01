@@ -4,64 +4,68 @@ using UnityEngine;
 
 namespace com.dhcc.framework
 {
+    /// <summary>
+    /// This event system uses T as a strongly name event (ex. public class PlayerDied : IGameEvent {}) while using the GameEvent class as the actual backend event.
+    /// It is meant to be used locally on a GameObject. Not sure if this class will remain (maybe replaced).
+    /// </summary>
     public class EventSystem : MonoBehaviour
     {
-        // NOTE: By allowing a single Type to have an EventBus(T) or an EventBus, am I potentially creating confusion?
-        private readonly Dictionary<Type, IEventBus> paramEventBuses = new();
-        private readonly Dictionary<Type, IEventBus> noParamEventBuses = new();
+        // NOTE: By allowing a single Type to have a GameEvent(T) or a GameEvent, am I potentially creating confusion?
+        private readonly Dictionary<Type, IGameEvent> paramEvents = new();
+        private readonly Dictionary<Type, GameEvent> noParamEvents = new();
 
-        public void Subscribe<T>(Action listener) where T : IEvent
+        public void Subscribe<T>(Action listener) where T : IGameEvent
         {
-            EventBus eventBus;
+            GameEvent gameEvent;
 
-            if (!noParamEventBuses.ContainsKey(typeof(T)))
+            if (!noParamEvents.ContainsKey(typeof(T)))
             {
-                eventBus = new EventBus();
-                noParamEventBuses[typeof(T)] = eventBus;
+                gameEvent = new();
+                noParamEvents[typeof(T)] = gameEvent;
             }
             else
-                eventBus = noParamEventBuses[typeof(T)] as EventBus;
+                gameEvent = noParamEvents[typeof(T)];
 
-            eventBus.Subscribe(listener);
+            gameEvent.Subscribe(listener);
         }
 
-        public void Unsubscribe<T>(Action listener) where T : IEvent
+        public void Unsubscribe<T>(Action listener) where T : IGameEvent
         {
-            if (noParamEventBuses.ContainsKey(typeof(T)))
-                (noParamEventBuses[typeof(T)] as EventBus).Unsubscribe(listener);
+            if (noParamEvents.ContainsKey(typeof(T)))
+                noParamEvents[typeof(T)].Unsubscribe(listener);
         }
 
-        public void Raise<T>() where T : IEvent
+        public void Raise<T>() where T : IGameEvent
         {
-            if (noParamEventBuses.ContainsKey(typeof(T)))
-                (noParamEventBuses[typeof(T)] as EventBus).Raise();
+            if (noParamEvents.ContainsKey(typeof(T)))
+                noParamEvents[typeof(T)].Raise();
         }
 
-        public void Subscribe<T>(Action<T> binding) where T : IEvent
+        public void Subscribe<T>(Action<T> binding) where T : IGameEvent
         {
-            EventBus<T> eventBus;
+            GameEvent<T> gameEvent;
 
-            if (!paramEventBuses.ContainsKey(typeof(T)))
+            if (!paramEvents.ContainsKey(typeof(T)))
             {
-                eventBus = new EventBus<T>();
-                paramEventBuses[typeof(T)] = eventBus;
+                gameEvent = new GameEvent<T>();
+                paramEvents[typeof(T)] = gameEvent;
             }
             else
-                eventBus = paramEventBuses[typeof(T)] as EventBus<T>;
+                gameEvent = paramEvents[typeof(T)] as GameEvent<T>;
 
-            eventBus.Subscribe(binding);
+            gameEvent.Subscribe(binding);
         }
 
-        public void Unsubscribe<T>(Action<T> binding) where T : IEvent
+        public void Unsubscribe<T>(Action<T> binding) where T : IGameEvent
         {
-            if (paramEventBuses.ContainsKey(typeof(T)))
-                (paramEventBuses[typeof(T)] as EventBus<T>).Unsubscribe(binding);
+            if (paramEvents.ContainsKey(typeof(T)))
+                (paramEvents[typeof(T)] as GameEvent<T>).Unsubscribe(binding);
         }
 
-        public void Raise<T>(T @event) where T : IEvent
+        public void Raise<T>(T @event) where T : IGameEvent
         {
-            if (paramEventBuses.ContainsKey(typeof(T)))
-                (paramEventBuses[typeof(T)] as EventBus<T>).Raise(@event);
+            if (paramEvents.ContainsKey(typeof(T)))
+                (paramEvents[typeof(T)] as GameEvent<T>).Raise(@event);
         }
     }
 }
