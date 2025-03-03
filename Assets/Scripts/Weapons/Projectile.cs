@@ -62,7 +62,7 @@ namespace com.dhcc.spaceshooter
 
         protected virtual void EnemyHit(Enemy enemy)
         {
-            enemy.Damage();
+            enemy.TakeDamage(EDamageType.Damage, 1);
 
             Kill();
         }

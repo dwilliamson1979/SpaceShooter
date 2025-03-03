@@ -8,12 +8,17 @@ namespace com.dhcc.spaceshooter
     {
         [Header("Settings")]
         [SerializeField] private int pointValue;
-        [SerializeField] private float speed;
+        [SerializeField] private float baseSpeed;
         [SerializeField] private Vector2 fireRateRange;
         [SerializeField] private LayerMask projectileLayer;
         [SerializeField] private bool hasSineMovement;
         [SerializeField] private float sineMovementAmplitude;
         [SerializeField] private float sineMovementFrequency;
+        [SerializeField] private int startinghealth;
+        [SerializeField] private int startingShield;
+        [SerializeField] private bool isAggressive;
+        [SerializeField] private float aggressionSpeedModifier;
+        [SerializeField] private float aggressionDistance;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -23,16 +28,29 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private Transform leftMuzzlePoint;
         [SerializeField] private Transform rightMuzzlePoint;
         [SerializeField] private AudioClip explosionAudio;
+        [SerializeField] private GameObject shieldSprite;
 
         private Player player;
         private bool isDead;
         private AsyncTimer fireTimer;
 
         private float sineCenterX;
+        private float currentSpeed;
 
         private bool isInitialized;
 
         public event System.Action ReleaseToPool;
+
+        private DamageComp damageComp;
+        private HealthComp healthComp;
+        private ShieldComp shieldComp;
+
+        private void Awake()
+        {
+            damageComp = GetComponent<DamageComp>();
+            healthComp = GetComponent<HealthComp>();
+            shieldComp = GetComponent<ShieldComp>();
+        }
 
         void Start()
         {
@@ -46,6 +64,9 @@ namespace com.dhcc.spaceshooter
             isInitialized = true;
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
             fireTimer = new(Fire, Random.Range(fireRateRange.x, fireRateRange.y), true);
+
+            healthComp.OnHealthChanged += OnHealthChanged;
+            shieldComp.OnShieldChanged += OnShieldChanged;
         }
 
         private void Reset()
@@ -55,6 +76,9 @@ namespace com.dhcc.spaceshooter
             isDead = false;
             SetSpawnPosition();
             fireTimer.Start();
+
+            healthComp.TakeDamage(EDamageType.Health, startinghealth);
+            shieldComp.TakeDamage(EDamageType.Shield, startingShield);
         }
 
         private void SetSpawnPosition()
@@ -72,20 +96,31 @@ namespace com.dhcc.spaceshooter
 
         private void ProcessMovement()
         {
+            Vector3 movementDirection = -Vector3.up;
+
             if (hasSineMovement)
-            {
-                Vector3 movement = new()
-                {
-                    x = sineMovementAmplitude * Mathf.Sin(Time.time * sineMovementFrequency),
-                    y = -1f,
-                    z = 0f
-                };
-                
-                transform.Translate(Time.deltaTime * speed * movement);
-                //transform.Translate(Time.deltaTime * speed * -Vector3.up);
-            }
+                movementDirection.x = sineMovementAmplitude * Mathf.Sin(Time.time * sineMovementFrequency);
+
+            if (isAggressive && (player.transform.position - transform.position).magnitude <= aggressionDistance)
+                currentSpeed = baseSpeed * (1f + aggressionSpeedModifier);
             else
-                transform.Translate(Time.deltaTime * speed * -Vector3.up);
+                currentSpeed = baseSpeed;
+
+            transform.Translate(Time.deltaTime * currentSpeed * movementDirection);
+
+            //{
+            //    Vector3 movement = new()
+            //    {
+            //        x = sineMovementAmplitude * Mathf.Sin(Time.time * sineMovementFrequency),
+            //        y = -1f,
+            //        z = 0f
+            //    };
+
+            //    transform.Translate(Time.deltaTime * speed * movement);
+            //    //transform.Translate(Time.deltaTime * speed * -Vector3.up);
+            //}
+            //else
+            //    transform.Translate(Time.deltaTime * speed * -Vector3.up);
 
             if (!isDead && transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
                 SetSpawnPosition();
@@ -117,10 +152,18 @@ namespace com.dhcc.spaceshooter
             }
         }
 
-        public void Damage()
+        public int TakeDamage(EDamageType damageType, int amount)
         {
-            GameEvents.AddPoints.Raise(pointValue);
-            Die();
+            return damageComp.TakeDamage(damageType, amount);
+        }
+
+        private void OnHealthChanged(int delta, HealthComp healthComp)
+        {
+            if (healthComp.Health.CurrentValue <= 0)
+            {
+                GameEvents.AddPoints.Raise(pointValue);
+                Die();
+            }
         }
 
         private void Die()
@@ -136,6 +179,21 @@ namespace com.dhcc.spaceshooter
         {
             SetSpawnPosition();
             ReleaseToPool?.Invoke();
+        }
+
+        private void OnShieldChanged(int delta, ShieldComp shieldComp)
+        {
+            if (shieldComp.Shield.CurrentValue > 0)
+            {
+                shieldSprite.SetActive(true);
+
+                var sr = shieldSprite.GetComponent<SpriteRenderer>();
+                Color color = sr.color;
+                color.a = shieldComp.Shield.Percentage;
+                sr.color = color;
+            }
+            else
+                shieldSprite.SetActive(false);
         }
 
         public void PoolOnCreate() 
