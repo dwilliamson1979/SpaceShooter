@@ -1,4 +1,5 @@
 using com.dhcc.framework;
+using UnityEngine;
 
 namespace com.dhcc.spaceshooter
 {
@@ -11,5 +12,7 @@ namespace com.dhcc.spaceshooter
         public static GameEvent<int, int> PlayerHealthChanged = new(); //Delta, New Health
         public static GameEvent<int> AddPoints = new();
         public static GameEvent<int> AddAmmo = new();
+
+        public static GameEvent<Transform> AutomaticPickupCheat = new();
     }
 }

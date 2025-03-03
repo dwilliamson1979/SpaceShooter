@@ -108,20 +108,6 @@ namespace com.dhcc.spaceshooter
 
             transform.Translate(Time.deltaTime * currentSpeed * movementDirection);
 
-            //{
-            //    Vector3 movement = new()
-            //    {
-            //        x = sineMovementAmplitude * Mathf.Sin(Time.time * sineMovementFrequency),
-            //        y = -1f,
-            //        z = 0f
-            //    };
-
-            //    transform.Translate(Time.deltaTime * speed * movement);
-            //    //transform.Translate(Time.deltaTime * speed * -Vector3.up);
-            //}
-            //else
-            //    transform.Translate(Time.deltaTime * speed * -Vector3.up);
-
             if (!isDead && transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
                 SetSpawnPosition();
         }

@@ -1,4 +1,5 @@
 using com.dhcc.framework;
+using System;
 using UnityEngine;
 
 namespace com.dhcc.spaceshooter
@@ -13,6 +14,19 @@ namespace com.dhcc.spaceshooter
 
         public event System.Action ReleaseToPool;
 
+        private bool isAutoPickup;
+        private Transform playerTransform;
+
+        private void OnEnable()
+        {
+            GameEvents.AutomaticPickupCheat.Subscribe(HandleAutomaticPickupCheat);
+        }        
+
+        private void OnDisable()
+        {
+            GameEvents.AutomaticPickupCheat.Unsubscribe(HandleAutomaticPickupCheat);
+        }
+
         void Start()
         {
             SetSpawnPosition();
@@ -20,7 +34,14 @@ namespace com.dhcc.spaceshooter
 
         void Update()
         {
-            transform.Translate(Time.deltaTime * speed * -Vector3.up);
+            if (isAutoPickup)
+            {
+                Vector3 moveDirection = playerTransform.position - transform.position;
+                moveDirection.Normalize();
+                transform.Translate(Time.deltaTime * (speed * 4f) * moveDirection);
+            }
+            else
+                transform.Translate(Time.deltaTime * speed * -Vector3.up);
 
             if (transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
                 SetSpawnPosition();
@@ -44,6 +65,7 @@ namespace com.dhcc.spaceshooter
 
         public virtual void PickupComplete()
         {
+            isAutoPickup = false;
             gameObject.SetActive(false);
             ReleaseToPool?.Invoke();
         }
@@ -67,6 +89,12 @@ namespace com.dhcc.spaceshooter
         public void PoolOnDestroy()
         {
 
+        }
+
+        private void HandleAutomaticPickupCheat(Transform transform)
+        {
+            isAutoPickup = true;
+            playerTransform = transform;
         }
     }
 }

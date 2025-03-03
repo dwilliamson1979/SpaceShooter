@@ -109,6 +109,9 @@ namespace com.dhcc.spaceshooter
         void Update()
         {
             ProcessFiring();
+
+            if (Input.GetKeyDown(KeyCode.C))
+                GameEvents.AutomaticPickupCheat.Raise(transform);
         }
 
         private void LateUpdate()
