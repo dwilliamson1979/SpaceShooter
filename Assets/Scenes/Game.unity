@@ -3497,13 +3497,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wrapHorizontalMovement: 0
-  verticalBounds: {x: -3.5, y: 0}
+  verticalBounds: {x: -3.5, y: 4}
   horizontalBounds: {x: -9, y: 9}
   horizontalWrapBounds: {x: -11.5, y: 11.5}
   fireRate: 0.4
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1024
+  isGodModeOn: 1
   startingAmmo: 50
   startinghealth: 3
   startingShield: 0

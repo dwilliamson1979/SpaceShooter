@@ -1,5 +1,4 @@
 using com.dhcc.framework;
-using System.Collections;
 using UnityEngine;
 
 namespace com.dhcc.spaceshooter
@@ -19,6 +18,7 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private bool isAggressive;
         [SerializeField] private float aggressionSpeedModifier;
         [SerializeField] private float aggressionDistance;
+        [SerializeField] private bool hasRearLaser;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -27,6 +27,7 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private Projectile laserPrefab;
         [SerializeField] private Transform leftMuzzlePoint;
         [SerializeField] private Transform rightMuzzlePoint;
+        [SerializeField] private Transform rearMuzzlePoint;
         [SerializeField] private AudioClip explosionAudio;
         [SerializeField] private GameObject shieldSprite;
 
@@ -63,7 +64,7 @@ namespace com.dhcc.spaceshooter
 
             isInitialized = true;
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
-            fireTimer = new(Fire, Random.Range(fireRateRange.x, fireRateRange.y), true);
+            fireTimer = new(Fire, Random.Range(fireRateRange.x * 1000f, fireRateRange.y * 1000f), true, 1f);
 
             healthComp.OnHealthChanged += OnHealthChanged;
             shieldComp.OnShieldChanged += OnShieldChanged;
@@ -114,12 +115,22 @@ namespace com.dhcc.spaceshooter
 
         private void Fire()
         {
-            var laser1 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
-            laser1.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
-            laser1.SetLayerMask(projectileLayer);
-            var laser2 = LaserPool.Get();
-            laser2.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
-            laser2.SetLayerMask(projectileLayer);
+            if (hasRearLaser && player.transform.position.y > transform.position.y)
+            {
+                var laser1 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                laser1.transform.SetPositionAndRotation(rearMuzzlePoint.position, rearMuzzlePoint.rotation);
+                laser1.SetLayerMask(projectileLayer);
+            }
+            else
+            {
+                var laser1 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                laser1.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                laser1.SetLayerMask(projectileLayer);
+                var laser2 = LaserPool.Get();
+                laser2.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
+                laser2.SetLayerMask(projectileLayer);
+            }
+
             AudioManager.Instance.PlaySoundFx(laserAudio);
 
             //fireTimer.SetInterval(Random.Range(fireRateRange.x, fireRateRange.y));
@@ -155,10 +166,12 @@ namespace com.dhcc.spaceshooter
         private void Die()
         {
             isDead = true;
+            fireTimer.Stop();
             myCollider.enabled = false;
             animator.SetTrigger("OnDeath");
             AudioManager.Instance.PlaySoundFx(explosionAudio);
-            StopAllCoroutines();
+            
+            //StopAllCoroutines();
         }
 
         public void DeathAnimationComplete()

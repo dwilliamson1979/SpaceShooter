@@ -21,6 +21,7 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private Vector2 horizontalWrapBounds;
         [SerializeField] private float fireRate;
         [SerializeField] private LayerMask projectileLayer;
+        [SerializeField] private bool isGodModeOn;
 
         [SerializeField] private int startingAmmo;
         [SerializeField] private int startinghealth;
@@ -189,7 +190,7 @@ namespace com.dhcc.spaceshooter
 
         public int TakeDamage(EDamageType damageType, int amount)
         {
-            return damageComp.TakeDamage(damageType, amount);
+            return isGodModeOn ? 0 : damageComp.TakeDamage(damageType, amount);
         }
 
         private void OnHealthChanged(int delta, HealthComp healthComp)
