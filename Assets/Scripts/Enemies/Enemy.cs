@@ -11,6 +11,9 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private float speed;
         [SerializeField] private Vector2 fireRateRange;
         [SerializeField] private LayerMask projectileLayer;
+        [SerializeField] private bool hasSineMovement;
+        [SerializeField] private float sineMovementAmplitude;
+        [SerializeField] private float sineMovementFrequency;
 
         [Header("References")]
         [SerializeField] private Animator animator;
@@ -24,6 +27,8 @@ namespace com.dhcc.spaceshooter
         private Player player;
         private bool isDead;
         private AsyncTimer fireTimer;
+
+        private float sineCenterX;
 
         private bool isInitialized;
 
@@ -57,6 +62,7 @@ namespace com.dhcc.spaceshooter
             Vector3 spawnPosition = SpawnManager.Instance.GetSpawnPoint();
             spawnPosition.z = transform.position.z;
             transform.position = spawnPosition;
+            sineCenterX = spawnPosition.x;
         }
 
         void Update()
@@ -66,7 +72,20 @@ namespace com.dhcc.spaceshooter
 
         private void ProcessMovement()
         {
-            transform.Translate(Time.deltaTime * speed * -Vector3.up);
+            if (hasSineMovement)
+            {
+                Vector3 movement = new()
+                {
+                    x = sineMovementAmplitude * Mathf.Sin(Time.time * sineMovementFrequency),
+                    y = -1f,
+                    z = 0f
+                };
+                
+                transform.Translate(Time.deltaTime * speed * movement);
+                //transform.Translate(Time.deltaTime * speed * -Vector3.up);
+            }
+            else
+                transform.Translate(Time.deltaTime * speed * -Vector3.up);
 
             if (!isDead && transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
                 SetSpawnPosition();

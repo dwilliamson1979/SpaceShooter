@@ -216,6 +216,9 @@ MonoBehaviour:
   projectileLayer:
     serializedVersion: 2
     m_Bits: 512
+  hasSineMovement: 1
+  sineMovementAmplitude: 0.5
+  sineMovementFrequency: 2
   animator: {fileID: 3254649446435567448}
   myCollider: {fileID: 2596223090765272266}
   laserAudio: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
