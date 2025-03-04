@@ -19,13 +19,14 @@ namespace com.dhcc.framework
         protected override T OnCreateObject()
         {
             T obj = GameObject.Instantiate(prefab, container);
-            obj.PoolOnCreate();
             obj.ReleaseToPool += () => Pool.Release(obj);
+            obj.PoolOnCreate();            
             obj.gameObject.SetActive(defaultActiveStatus);
-
             return obj;
         }
 
-        //public void SetContainer(Transform container) => this.container = container;
+        protected override void OnGetObject(T obj) => obj.PoolOnGet();
+        protected override void OnReleaseObject(T obj) => obj.PoolOnRelease();
+        protected override void OnDestroyObject(T obj) => obj.PoolOnDestroy();
     }
 }

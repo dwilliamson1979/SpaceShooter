@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 namespace com.dhcc.framework
 {
     [System.Serializable]
-    public abstract class BasePool<T> where T : class, IPoolObject
+    public abstract class BasePool<T> where T : class
     {
         [Header("Settings")]
         [SerializeField] private bool collectionChecks = true;
@@ -44,11 +44,9 @@ namespace com.dhcc.framework
         }
 
         protected abstract T OnCreateObject();
-        protected virtual void OnGetObject(T obj) => obj.PoolOnGet();
-        protected virtual void OnReleaseObject(T obj) => obj.PoolOnRelease();
-        protected virtual void OnDestroyObject(T obj) => obj.PoolOnDestroy();
-
+        protected abstract void OnGetObject(T obj);
+        protected abstract void OnReleaseObject(T obj);
+        protected abstract void OnDestroyObject(T obj);
         public T Get() => Pool.Get();
-        //public void Release(IPoolObject obj) => Pool.Release(obj as T);
     }
 }
