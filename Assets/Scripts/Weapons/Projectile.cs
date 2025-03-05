@@ -7,8 +7,9 @@ namespace com.dhcc.spaceshooter
     public class Projectile : MonoBehaviour, IPoolObject
     {
         [Header("Settings")]
+        [SerializeField] private EDamageType damageType;
+        [SerializeField] private int baseDamage;
         [SerializeField] private float speed;
-        [SerializeField] private Vector2 outOfBounds;
         [SerializeField] private LayerMask layerMask;
         [SerializeField] private bool isHoming;
         [SerializeField] private float homingTTL;
@@ -26,13 +27,11 @@ namespace com.dhcc.spaceshooter
             if (playerGO != null)
                 player = playerGO.GetComponent<Player>();
 
-            homingTTLTimer = new(Dummy, homingTTL);
+            homingTTLTimer = new(SelfDetonate, homingTTL);
         }
 
-        void Dummy()
+        void SelfDetonate()
         {
-            Debug.Log("Dummy");
-
             if(gameObject.activeInHierarchy)
                 Kill();
         }
@@ -48,37 +47,16 @@ namespace com.dhcc.spaceshooter
             else
                 transform.Translate(Time.deltaTime * speed * Vector3.up);
 
-            if (transform.position.y > outOfBounds.y || transform.position.y < outOfBounds.x)
-                Kill();
+            if (BoundsManager.Instance.IsOutOfBounds(transform))
+                OutOfBounds();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            //TODO Visitor pattern candidate?
+            var damageable = other.GetComponent<IDamageable>();
+            if (damageable != null)
+                damageable.TakeDamage(damageType, baseDamage);
 
-            if (other.CompareTag("Player"))
-            {
-                var player = other.GetComponent<Player>();
-                if (player != null)
-                    PlayerHit(player);
-            }
-            else if (other.CompareTag("Enemy"))
-            {
-                var enemy = other.GetComponent<Enemy>();
-                if (enemy != null)
-                    EnemyHit(enemy);
-            }
-            else if (other.CompareTag("Asteroid"))
-            {
-                var asteroid = other.GetComponent<Asteroid>();
-                if (asteroid != null)
-                    AsteroidHit(asteroid);
-            }
-        }
-
-        protected virtual void PlayerHit(Player player)
-        {
-            player.TakeDamage(EDamageType.Damage, 1);
             Kill();
         }
 
@@ -89,19 +67,14 @@ namespace com.dhcc.spaceshooter
             Kill();
         }
 
-        protected virtual void AsteroidHit(Asteroid asteroid)
-        {
-            asteroid.Damage();
-
-            Kill();
-        }
-
-        public void Damage()
-        {
-            Kill();
-        }
-
         protected void Kill()
+        {
+            homingTTLTimer.Stop();
+            EnableHoming(false);
+            ReleaseToPool?.Invoke();
+        }
+
+        protected void OutOfBounds()
         {
             homingTTLTimer.Stop();
             EnableHoming(false);
@@ -166,10 +139,6 @@ namespace com.dhcc.spaceshooter
                     homingTarget = hit.transform;
                 }
             }
-
-            //var hits = Physics2D.CircleCastAll(transform.position, 10f, Vector2.up);
-            //foreach(var hit in hits)
-            //    Debug.Log(hit.collider.gameObject.ToString());
         }
 
         public void PoolOnCreate() { }

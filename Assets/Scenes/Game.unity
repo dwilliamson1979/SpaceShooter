@@ -1025,14 +1025,6 @@ MonoBehaviour:
   spawnRangeX: {x: -7.75, y: 7.75}
   spawnRangeY: {x: 6.75, y: 9}
   spawnInterval: 2
-  enemyPool:
-    collectionChecks: 1
-    defaultCapacity: 10
-    maxCapacity: 1000
-    poolType: 0
-    defaultActiveStatus: 0
-    prefab: {fileID: -3285484151445173464, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
-    container: {fileID: 1206496761}
 --- !u!4 &762310954
 Transform:
   m_ObjectHideFlags: 0
@@ -3484,7 +3476,7 @@ MonoBehaviour:
   projectileLayer:
     serializedVersion: 2
     m_Bits: 1024
-  isGodModeOn: 1
+  isGodModeOn: 0
   startingAmmo: 50
   startinghealth: 3
   startingShield: 0
@@ -3872,6 +3864,10 @@ PrefabInstance:
     - target: {fileID: 657071839293975287, guid: 4b0938b285dcf064184fef8fbae88f88, type: 3}
       propertyPath: m_Name
       value: Asteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 4242513886357307863, guid: 4b0938b285dcf064184fef8fbae88f88, type: 3}
+      propertyPath: startinghealth
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7642430183285119591, guid: 4b0938b285dcf064184fef8fbae88f88, type: 3}
       propertyPath: m_LocalPosition.x

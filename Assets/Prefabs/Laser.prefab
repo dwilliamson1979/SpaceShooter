@@ -111,8 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67e414df5b5fa354c982561e901a837f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageType: 0
+  baseDamage: 1
   speed: 10
-  outOfBounds: {x: -5.25, y: 6.75}
   layerMask:
     serializedVersion: 2
     m_Bits: 0

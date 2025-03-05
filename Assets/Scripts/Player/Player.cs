@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace com.dhcc.spaceshooter
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IDamageable
     {
         [Serializable]
         struct DamageLocation

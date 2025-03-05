@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3839758512286976297}
   - component: {fileID: 4242513886357307863}
   - component: {fileID: 2831967798919156468}
+  - component: {fileID: 6415149074754654273}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Asteroid
@@ -111,6 +112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8886e4be6f4e34284e2d76265fa232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startinghealth: 0
   pointValue: 3
   rotationSpeed: 20
   explosionColor: {r: 1, g: 1, b: 1, a: 1}
@@ -127,6 +129,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4530bdc30b8e2884483a25f563df6cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6415149074754654273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657071839293975287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73b7da35b15ed2d4eaa7d7d6d61d89a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Health>k__BackingField:
+    <MinValue>k__BackingField: 0
+    <MaxValue>k__BackingField: 3
+  <DamagePriority>k__BackingField: 0
+  AcceptableDamage: 00000000
 --- !u!1 &6110575388822998855
 GameObject:
   m_ObjectHideFlags: 0

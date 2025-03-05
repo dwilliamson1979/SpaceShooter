@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace com.dhcc.spaceshooter
 {
-    public class Enemy : MonoBehaviour, IPoolObject
+    public class Enemy : MonoBehaviour, IPoolObject, IDamageable
     {
         [Header("Settings")]
         [SerializeField] private int pointValue;
