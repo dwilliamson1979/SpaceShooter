@@ -32,10 +32,8 @@ namespace com.dhcc.spaceshooter
             for (int i = 0; i < damageReceivers.Count; i++)
             {
                 damageTaken += Mathf.Abs(damageReceivers[i].TakeDamage(damageType, amount));
-
                 amount -= damageTaken;
-
-                if (amount < 0) break;
+                if (amount <= 0) break;
 
                 //Ex.float based system
                 //if (Mathf.Approximately(amount, 0)) break;

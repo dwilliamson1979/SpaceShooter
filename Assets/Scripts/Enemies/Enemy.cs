@@ -24,7 +24,6 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private Animator animator;
         [SerializeField] private Collider2D myCollider;
         [SerializeField] private AudioClip laserAudio;
-        [SerializeField] private Projectile laserPrefab;
         [SerializeField] private Transform leftMuzzlePoint;
         [SerializeField] private Transform rightMuzzlePoint;
         [SerializeField] private Transform rearMuzzlePoint;
