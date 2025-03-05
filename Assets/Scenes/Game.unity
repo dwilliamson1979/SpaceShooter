@@ -313,6 +313,16 @@ MonoBehaviour:
     prefab: {fileID: 1213977296161221856, guid: 19da5d4e4f3b6814c98982349db1daad, type: 3}
     prefillAmount: 6
     autoCreateContainer: 1
+  - poolIdentifier: 1
+    collectionChecks: 1
+    defaultCapacity: 10
+    maxCapacity: 200
+    poolType: 0
+    defaultActiveStatus: 0
+    usePoolObjectIfAvailable: 1
+    prefab: {fileID: 6040767012478974112, guid: 15815d63140ac4c46b11d4c273a76619, type: 3}
+    prefillAmount: 0
+    autoCreateContainer: 1
 --- !u!4 &252830080
 Transform:
   m_ObjectHideFlags: 0

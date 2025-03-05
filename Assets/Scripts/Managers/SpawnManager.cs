@@ -17,7 +17,9 @@ namespace com.dhcc.spaceshooter
         [SerializeField] private Vector2 spawnRangeX;
         [SerializeField] private Vector2 spawnRangeY;
         [SerializeField] private float spawnInterval;
-        [SerializeField] private ComponentPool<Enemy> enemyPool;
+
+        private AsyncTimer enemySpawnTimer;
+        private AsyncTimer powerupSpawnTimer;
 
         private void Awake()
         {
@@ -36,41 +38,37 @@ namespace com.dhcc.spaceshooter
             GameEvents.GameOver.Unsubscribe(HandleGameOver);
         }
 
-        private IEnumerator SpawnEnemyRoutine()
+        private void Start()
         {
-            WaitForSeconds wfs = new WaitForSeconds(spawnInterval);
-            while (true)
-            {
-                yield return wfs;
-
-                float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
-                float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
-                var enemy = enemyPool.Get();
-                enemy.transform.SetPositionAndRotation(new Vector3(randomX, randomY, 0f), Quaternion.identity);
-            }
+            enemySpawnTimer = new(SpawnEnemy, spawnInterval, true, spawnInterval);
+            powerupSpawnTimer = new(SpawnPowerup, Random.Range(3f, 8f), true, 3f);
         }
 
-        private IEnumerator SpawnPowerupRoutine()
+        private void SpawnEnemy()
         {
-            while (true)
-            {
-                yield return new WaitForSeconds(Random.Range(3f, 8f));
+            float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
+            float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
+            var enemy = PoolManager.Get<Enemy>(EPoolIdentifier.Enemy);
+            enemy.transform.SetPositionAndRotation(new Vector3(randomX, randomY, 0f), Quaternion.identity);
+        }
 
-                float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
-                float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
-                Instantiate(powerupPrefabs[Random.Range(0, powerupPrefabs.Length)], new Vector3(randomX, randomY, 0f), Quaternion.identity, container);
-            }
+        private void SpawnPowerup()
+        {
+            float randomX = Random.Range(spawnRangeX.x, spawnRangeX.y);
+            float randomY = Random.Range(spawnRangeY.x, spawnRangeY.y);
+            Instantiate(powerupPrefabs[Random.Range(0, powerupPrefabs.Length)], new Vector3(randomX, randomY, 0f), Quaternion.identity, container);
         }
 
         public void StartSpawning()
         {
-            StartCoroutine(SpawnEnemyRoutine());
-            StartCoroutine(SpawnPowerupRoutine());
+            enemySpawnTimer.Start();
+            powerupSpawnTimer.Start();
         }
 
         public void StopSpawning()
         {
-            StopAllCoroutines();
+            enemySpawnTimer.Stop();
+            powerupSpawnTimer.Start();
         }
 
         private void OnDestroy()

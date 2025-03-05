@@ -62,7 +62,7 @@ namespace com.dhcc.framework
             }
             catch(OperationCanceledException ex)
             {
-                Debug.Log($"AsyncTimer cancelled: {ex.Message}");
+                //Debug.Log($"AsyncTimer cancelled: {ex.Message}");
             }
             finally
             {
@@ -137,7 +137,7 @@ namespace com.dhcc.framework
             }
             catch (OperationCanceledException ex)
             {
-                Debug.Log($"AsyncTimer cancelled: {ex.Message}");
+                //Debug.Log($"AsyncTimer cancelled: {ex.Message}");
             }
             finally
             {
