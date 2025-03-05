@@ -42,6 +42,7 @@ namespace com.dhcc.spaceshooter
         private AsyncTimer tripleShotTimer;
         private bool hasAngleShot;
         private AsyncTimer angleShotTimer;
+        private bool hasHomingShot;
 
         private int currentAmmo;
 
@@ -154,31 +155,39 @@ namespace com.dhcc.spaceshooter
 
             if (hasAngleShot)
             {
-                var laser1 = LaserPool.Get();
+                var laser1 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
                 laser1.SetLayerMask(projectileLayer);
-                var laser2 = LaserPool.Get();
+                var laser2 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser2.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation * Quaternion.Euler(0f, 0f, 45f));
                 laser2.SetLayerMask(projectileLayer);
-                var laser3 = LaserPool.Get();
+                var laser3 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser3.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation * Quaternion.Euler(0f, 0f, -45f));
                 laser3.SetLayerMask(projectileLayer);
             }
             else if (hasTripleShot)
             {
-                var laser1 = LaserPool.Get();
+                var laser1 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser1.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
                 laser1.SetLayerMask(projectileLayer);
-                var laser2 = LaserPool.Get();
+                var laser2 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser2.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
                 laser2.SetLayerMask(projectileLayer);
-                var laser3 = LaserPool.Get();
+                var laser3 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser3.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
                 laser3.SetLayerMask(projectileLayer);
             }
+            else if (hasHomingShot)
+            {
+                var laser = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
+                laser.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                laser.SetLayerMask(projectileLayer);
+                laser.EnableHoming(true);
+                hasHomingShot = false;
+            }
             else
             {
-                var laser = LaserPool.Get();
+                var laser = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
                 laser.SetLayerMask(projectileLayer);
             }
@@ -263,6 +272,7 @@ namespace com.dhcc.spaceshooter
 
         public void ActivateTripleShot()
         {
+            hasHomingShot = false;
             hasAngleShot = false;
             angleShotTimer.Stop();
 
@@ -272,11 +282,22 @@ namespace com.dhcc.spaceshooter
 
         public void ActivateAngleShot()
         {
+            hasHomingShot = false;
             hasTripleShot = false;
             tripleShotTimer.Stop();
 
             hasAngleShot = true;
             angleShotTimer.Start();
+        }
+
+        public void ActivateHomingMissile()
+        {
+            hasAngleShot = false;
+            angleShotTimer.Stop();
+            hasTripleShot = false;
+            tripleShotTimer.Stop();
+
+            hasHomingShot = true;
         }
 
         public int AddAmmo(int amount)

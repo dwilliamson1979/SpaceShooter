@@ -8,8 +8,8 @@ namespace com.dhcc.framework
     {
         [Header("Settings")]
         [SerializeField] private bool collectionChecks = true;
-        [SerializeField] private int DefaultCapacity = 10;
-        [SerializeField] private int maxCapacity = 1000;
+        [SerializeField] private int defaultCapacity = 10;
+        [SerializeField] private int maxCapacity = 200;
         [SerializeField] private EPoolType poolType;
 
         private IObjectPool<T> pool;
@@ -20,7 +20,7 @@ namespace com.dhcc.framework
                 if (pool == null)
                 {
                     if (poolType == EPoolType.Stack)
-                        pool = new UnityEngine.Pool.ObjectPool<T>(OnCreateObject, OnGetObject, OnReleaseObject, OnDestroyObject, collectionChecks, DefaultCapacity, maxCapacity);
+                        pool = new UnityEngine.Pool.ObjectPool<T>(OnCreateObject, OnGetObject, OnReleaseObject, OnDestroyObject, collectionChecks, defaultCapacity, maxCapacity);
                     else
                         pool = new UnityEngine.Pool.LinkedPool<T>(OnCreateObject, OnGetObject, OnReleaseObject, OnDestroyObject, collectionChecks, maxCapacity);
                 }
@@ -29,9 +29,18 @@ namespace com.dhcc.framework
             }
         }
 
+        public BasePool(bool collectionChecks = true, int defaultCapacity = 10, int maxCapacity = 200, EPoolType poolType = EPoolType.Stack)
+        {
+            this.collectionChecks = collectionChecks;
+            this.defaultCapacity = defaultCapacity;
+            this.maxCapacity = maxCapacity;
+            this.poolType = poolType;
+        }
+
         public void Populate(int quantity)
         {
             quantity = Mathf.Clamp(quantity, 0, maxCapacity);
+            if (quantity == 0) return;
 
             T[] tempList = new T[quantity];
             for (int i = 0; i < quantity; i++)
@@ -42,7 +51,6 @@ namespace com.dhcc.framework
 
             tempList = null;
         }
-
         protected abstract T OnCreateObject();
         protected abstract void OnGetObject(T obj);
         protected abstract void OnReleaseObject(T obj);

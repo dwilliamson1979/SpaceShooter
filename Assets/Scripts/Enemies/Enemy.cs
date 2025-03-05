@@ -117,16 +117,16 @@ namespace com.dhcc.spaceshooter
         {
             if (hasRearLaser && player.transform.position.y > transform.position.y)
             {
-                var laser1 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                var laser1 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser1.transform.SetPositionAndRotation(rearMuzzlePoint.position, rearMuzzlePoint.rotation);
                 laser1.SetLayerMask(projectileLayer);
             }
             else
             {
-                var laser1 = LaserPool.Get();// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
+                var laser1 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);// Instantiate(laserPrefab, leftMuzzlePoint.position, leftMuzzlePoint.rotation);
                 laser1.transform.SetPositionAndRotation(leftMuzzlePoint.position, leftMuzzlePoint.rotation);
                 laser1.SetLayerMask(projectileLayer);
-                var laser2 = LaserPool.Get();
+                var laser2 = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
                 laser2.transform.SetPositionAndRotation(rightMuzzlePoint.position, rightMuzzlePoint.rotation);
                 laser2.SetLayerMask(projectileLayer);
             }
