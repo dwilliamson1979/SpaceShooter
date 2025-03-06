@@ -4,7 +4,7 @@ namespace com.dhcc.framework
 {
     public interface IPoolObject
     {
-        event Action ReleaseToPool;
+        event Action PoolRelease;
 
         void PoolOnCreate();
         void PoolOnGet();

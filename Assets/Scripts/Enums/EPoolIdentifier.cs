@@ -6,6 +6,7 @@ namespace com.dhcc.spaceshooter
     public enum EPoolIdentifier
     {
         Laser,
+        HomingMissile,
         Enemy
     }
 }

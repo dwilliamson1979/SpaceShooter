@@ -179,10 +179,9 @@ namespace com.dhcc.spaceshooter
             }
             else if (hasHomingShot)
             {
-                var laser = PoolManager.Get<Projectile>(EPoolIdentifier.Laser);
-                laser.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
-                laser.SetLayerMask(projectileLayer);
-                laser.EnableHoming(true);
+                var homingMissile = PoolManager.Get<HomingMissle>(EPoolIdentifier.HomingMissile);
+                homingMissile.transform.SetPositionAndRotation(primaryMuzzlePoint.position, primaryMuzzlePoint.rotation);
+                homingMissile.SetLayerMask(projectileLayer);
                 hasHomingShot = false;
             }
             else

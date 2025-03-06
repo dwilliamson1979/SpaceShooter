@@ -7,78 +7,38 @@ namespace com.dhcc.spaceshooter
     public class Projectile : MonoBehaviour, IPoolObject
     {
         [Header("Settings")]
-        [SerializeField] private EDamageType damageType;
-        [SerializeField] private int baseDamage;
-        [SerializeField] private float speed;
-        [SerializeField] private LayerMask layerMask;
-        [SerializeField] private bool isHoming;
-        [SerializeField] private float homingTTL;
+        [SerializeField] protected EDamageType damageType;
+        [SerializeField] protected int baseDamage;
+        [SerializeField] protected float speed;
+        [SerializeField] protected LayerMask layerMask;
 
-        protected Player player;
-
-        private Transform homingTarget;
-        private AsyncTimer homingTTLTimer;
-
-        public event Action ReleaseToPool;
-
-        private void Start()
-        {
-            GameObject playerGO = GameObject.FindWithTag("Player");
-            if (playerGO != null)
-                player = playerGO.GetComponent<Player>();
-
-            homingTTLTimer = new(SelfDetonate, homingTTL);
-        }
-
-        void SelfDetonate()
-        {
-            if(gameObject.activeInHierarchy)
-                Kill();
-        }
+        public event Action PoolRelease;        
 
         void Update()
         {
-            if(isHoming && homingTarget != null)
-            {
-                Vector3 moveDirection = homingTarget.position - transform.position;
-                moveDirection.Normalize();
-                transform.Translate(Time.deltaTime * speed * moveDirection);
-            }
-            else
-                transform.Translate(Time.deltaTime * speed * Vector3.up);
-
-            if (BoundsManager.Instance.IsOutOfBounds(transform))
-                OutOfBounds();
+            ProcessMovement();
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        protected virtual void ProcessMovement()
+        {
+            transform.Translate(Time.deltaTime * speed * Vector3.up);
+
+            if (BoundsManager.Instance.IsOutOfBounds(transform))
+                ProcessOutOfBounds();
+        }
+
+        protected virtual void OnTriggerEnter2D(Collider2D other)
         {
             var damageable = other.GetComponent<IDamageable>();
             if (damageable != null)
                 damageable.TakeDamage(damageType, baseDamage);
 
-            Kill();
+            PoolRelease?.Invoke();
         }
 
-        protected virtual void EnemyHit(Enemy enemy)
+        protected virtual void ProcessOutOfBounds()
         {
-            enemy.TakeDamage(EDamageType.Damage, 1);
-
-            Kill();
-        }
-
-        protected void Kill()
-        {
-            homingTTLTimer.Stop();
-            EnableHoming(false);
-            ReleaseToPool?.Invoke();
-        }
-
-        protected void OutOfBounds()
-        {
-            homingTTLTimer.Stop();
-            EnableHoming(false);
-            ReleaseToPool?.Invoke();
+            PoolRelease?.Invoke();
         }
 
         public void SetLayerMask(LayerMask layerMask)
@@ -91,7 +51,7 @@ namespace com.dhcc.spaceshooter
 
             for (int i = 0; i <= 31; i++)
             {
-                if ((1 << i) == layerMask.value)
+                if ((1 << i) == layerMask.value) //Am I missing something? Binary comparison to capture all set bits?
                 {
                     gameObject.layer = i;
                     return;
@@ -99,60 +59,10 @@ namespace com.dhcc.spaceshooter
             }
         }
 
-        public void EnableHoming(bool enabled)
-        {
-            isHoming = enabled;
-
-            if (isHoming)
-            {
-                homingTTLTimer.Start();
-                FindNearestEnemy();
-            }
-            else
-            {
-                homingTTLTimer.Stop();
-            }
-        }
-
-        private void FindNearestEnemy()
-        {
-            //float nearestDistance = float.MaxValue;
-            //for (int i = 0; i < SpawnManager.Instance.EnemyPool.Container.childCount; i++)
-            //{
-            //    Transform enemyTransform = SpawnManager.Instance.EnemyPool.Container.GetChild(i);
-            //    float distance = MathF.Abs((enemyTransform.position - transform.position).magnitude);
-            //    if (enemyTransform.gameObject.activeInHierarchy && nearestDistance > distance)
-            //    {
-            //        nearestDistance = distance;
-            //        homingTarget = enemyTransform;
-            //    }
-            //}
-
-            float nearestDistance = float.MaxValue;
-            var hits = Physics2D.CircleCastAll(transform.position, 10f, Vector2.up);
-            foreach (var hit in hits)
-            {
-                float distance = Mathf.Abs(hit.distance);
-                if (distance < nearestDistance && hit.collider.CompareTag("Enemy"))
-                {
-                    nearestDistance = distance;
-                    homingTarget = hit.transform;
-                }
-            }
-        }
-
-        public void PoolOnCreate() { }
-
-        public void PoolOnGet()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void PoolOnRelease()
-        {
-            gameObject.SetActive(false);
-        }
-
-        public void PoolOnDestroy() { }
+        public virtual void PoolOnCreate() { }
+        public virtual void PoolOnGet() => gameObject.SetActive(true);
+        public virtual void PoolOnRelease() => gameObject.SetActive(false);
+        protected void ReleaseToPool() => PoolRelease?.Invoke();
+        public virtual void PoolOnDestroy() { }
     }
 }

@@ -39,7 +39,7 @@ namespace com.dhcc.spaceshooter
 
         private bool isInitialized;
 
-        public event System.Action ReleaseToPool;
+        public event System.Action PoolRelease;
 
         private DamageComp damageComp;
         private HealthComp healthComp;
@@ -176,7 +176,7 @@ namespace com.dhcc.spaceshooter
         public void DeathAnimationComplete()
         {
             SetSpawnPosition();
-            ReleaseToPool?.Invoke();
+            PoolRelease?.Invoke();
         }
 
         private void OnShieldChanged(int delta, ShieldComp shieldComp)

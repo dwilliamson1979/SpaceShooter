@@ -11,7 +11,7 @@ namespace com.dhcc.framework
         protected override T OnCreateObject()
         {
             var obj = new T();            
-            obj.ReleaseToPool += () => Pool.Release(obj);
+            obj.PoolRelease += () => Pool.Release(obj);
             obj.PoolOnCreate();
             return obj;
         }

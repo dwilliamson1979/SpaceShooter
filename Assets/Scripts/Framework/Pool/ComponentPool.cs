@@ -19,7 +19,7 @@ namespace com.dhcc.framework
         protected override T OnCreateObject()
         {
             T obj = GameObject.Instantiate(prefab, container);
-            obj.ReleaseToPool += () => Pool.Release(obj);
+            obj.PoolRelease += () => Pool.Release(obj);
             obj.PoolOnCreate();            
             obj.gameObject.SetActive(defaultActiveStatus);
             return obj;

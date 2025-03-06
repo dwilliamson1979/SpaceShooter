@@ -12,7 +12,7 @@ namespace com.dhcc.spaceshooter
         [Header("References")]
         [SerializeField] private PickupSO pickupSO;
 
-        public event System.Action ReleaseToPool;
+        public event System.Action PoolRelease;
 
         private bool isAutoPickup;
         private Transform playerTransform;
@@ -67,7 +67,7 @@ namespace com.dhcc.spaceshooter
         {
             isAutoPickup = false;
             gameObject.SetActive(false);
-            ReleaseToPool?.Invoke();
+            PoolRelease?.Invoke();
         }
 
         public void PoolOnCreate()

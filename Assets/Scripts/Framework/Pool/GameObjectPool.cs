@@ -38,7 +38,7 @@ namespace com.dhcc.framework
                 if (po != null)
                 {
                     po.PoolOnCreate();
-                    po.ReleaseToPool += () => Pool.Release(go);
+                    po.PoolRelease += () => Pool.Release(go);
                 }
             }
 
