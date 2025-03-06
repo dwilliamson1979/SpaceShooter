@@ -108,7 +108,7 @@ namespace com.dhcc.spaceshooter
 
             transform.Translate(Time.deltaTime * currentSpeed * movementDirection);
 
-            if (!isDead && transform.position.y < BoundsManager.Instance.VerticalBoundary.x)
+            if (!isDead && BoundsManager.Instance.IsOutOfBottomBounds(transform.position.y))
                 SetSpawnPosition();
         }
 

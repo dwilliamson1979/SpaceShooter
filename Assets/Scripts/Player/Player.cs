@@ -15,9 +15,8 @@ namespace com.dhcc.spaceshooter
         }
 
         [Header("Settings")]
+        [SerializeField] private Boundary boundary;
         [SerializeField] private bool wrapHorizontalMovement;
-        [SerializeField] private Vector2 verticalBounds;
-        [SerializeField] private Vector2 horizontalBounds;
         [SerializeField] private Vector2 horizontalWrapBounds;
         [SerializeField] private float fireRate;
         [SerializeField] private LayerMask projectileLayer;
@@ -126,25 +125,26 @@ namespace com.dhcc.spaceshooter
         {
             moveComp.Move(inputComp.MoveInput);
 
-            if (!wrapHorizontalMovement)
+            if (wrapHorizontalMovement)
             {
+                float x = transform.position.x;
+                if (x < horizontalWrapBounds.x)
+                    x = horizontalWrapBounds.y;
+                else if (x > horizontalWrapBounds.y)
+                    x = horizontalWrapBounds.x;
+
                 transform.position = new Vector3(
-                    Mathf.Clamp(transform.position.x, horizontalBounds.x, horizontalBounds.y),
-                    transform.position.y,
+                    x,
+                    Mathf.Clamp(transform.position.y, boundary.Bottom, boundary.Top),
                     0.0f);
             }
             else
             {
-                if (transform.position.x < horizontalWrapBounds.x)
-                    transform.position = new Vector3(horizontalWrapBounds.y, transform.position.y);
-                else if (transform.position.x > horizontalWrapBounds.y)
-                    transform.position = new Vector3(horizontalWrapBounds.x, transform.position.y);
+                transform.position = new Vector3(
+                    Mathf.Clamp(transform.position.x, boundary.Left, boundary.Right),
+                    Mathf.Clamp(transform.position.y, boundary.Bottom, boundary.Top),
+                    0.0f);
             }
-
-            transform.position = new Vector3(
-                transform.position.x,
-                Mathf.Clamp(transform.position.y, verticalBounds.x, verticalBounds.y),
-                0.0f);
         }
 
         private void ProcessFiring()

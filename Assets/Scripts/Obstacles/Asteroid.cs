@@ -31,18 +31,6 @@ namespace com.dhcc.spaceshooter
             transform.Rotate(rotationSpeed * Time.deltaTime * Vector3.forward);
         }
 
-        //private void OnTriggerEnter2D(Collider2D other)
-        //{
-        //    if (other.CompareTag("Laser"))
-        //    {
-        //        var laser = other.GetComponent<Projectile>();
-        //        if (laser != null)
-        //            laser.Damage();
-
-
-        //    }
-        //}
-
         public int TakeDamage(EDamageType damageType, int amount)
         {
             return healthComp.TakeDamage(damageType, amount);
@@ -53,11 +41,11 @@ namespace com.dhcc.spaceshooter
             if (healthComp.Health.CurrentValue <= 0)
             {
                 GameEvents.AddPoints.Raise(pointValue);
-                Kill();
+                Explode();
             }
         }
 
-        public void Kill()
+        public void Explode()
         {
             var explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
             explosion.SetColor(explosionColor);

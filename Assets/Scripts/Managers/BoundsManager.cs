@@ -9,20 +9,18 @@ namespace com.dhcc.spaceshooter
         public static BoundsManager Instance => instance != null ? instance : SingletonEmulator.Get(instance);
 
         [Header("Settings")]
-        [field: SerializeField] public Vector2 HorizontalBoundary { get; private set; }
-        [field: SerializeField] public Vector2 VerticalBoundary { get; private set; }
+        [SerializeField] private Boundary arenaBoundary;
 
         private void Awake()
         {
             SingletonEmulator.Enforce(this, instance, out instance);
         }
 
-        public bool IsOutOfBounds(Transform transform)
-        {
-            return transform.position.x < HorizontalBoundary.x
-                || transform.position.x > HorizontalBoundary.y
-                || transform.position.y < VerticalBoundary.x
-                || transform.position.y > HorizontalBoundary.y;
-        }
+        //Wrappers to avoid copying the struct.
+        public bool IsOutOfBounds(Transform transform) => arenaBoundary.IsOutOfBounds(transform);
+        public bool IsOutOfLeftBounds(float val) => arenaBoundary.IsOutOfLeftBounds(val);
+        public bool IsOutOfRightBounds(float val) => arenaBoundary.IsOutOfRightBounds(val);
+        public bool IsOutOfBottomBounds(float val) => arenaBoundary.IsOutOfBottomBounds(val);
+        public bool IsOutOfTopBounds(float val) => arenaBoundary.IsOutOfTopBounds(val);
     }
 }

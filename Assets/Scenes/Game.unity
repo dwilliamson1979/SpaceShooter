@@ -2582,8 +2582,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b42a55e686ef842ad228ba6a8959d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <HorizontalBoundary>k__BackingField: {x: -10, y: 10}
-  <VerticalBoundary>k__BackingField: {x: -5.25, y: 6.75}
+  arenaBoundary:
+    Left: -10
+    Right: 10
+    Top: 6.75
+    Bottom: -5.25
 --- !u!4 &1468233077
 Transform:
   m_ObjectHideFlags: 0
@@ -3478,6 +3481,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2dfc41aa3c776a489679f6cd2122aff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boundary:
+    Left: -9
+    Right: 9
+    Top: 4
+    Bottom: -3.5
   wrapHorizontalMovement: 0
   verticalBounds: {x: -3.5, y: 4}
   horizontalBounds: {x: -9, y: 9}
